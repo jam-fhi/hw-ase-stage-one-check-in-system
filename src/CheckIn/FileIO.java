@@ -37,7 +37,11 @@ public class FileIO {
 	            	writer.write(fileContentsIt.next() + "\n");
 	            }
 	        } finally {
-	        	writer.close();
+	        	try {
+	        		writer.close();
+	        	} catch(NullPointerException e) {
+	        		System.out.print("Nothing to close. Shhh...");
+	        	}
 	        }
 		} else {
 			throw new IOException("Empty file contents detected");

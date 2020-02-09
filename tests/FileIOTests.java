@@ -56,6 +56,22 @@ public class FileIOTests {
 		FileWrite.writeFile(testWriteFile, fileContent);
 	}
 
-	// TODO
-	// Test for IOException when overwriting a read-only file?
+	@Test(expected = IOException.class)
+	public void testWriteFileReadOnlyFail() throws IOException {
+		try {
+			FileIO FileWrite = new FileIO();
+			ArrayList<String> fileContent = new ArrayList<String>();
+			fileContent.add(lineOne);
+			fileContent.add(lineTwo);
+			fileContent.add(lineThree);
+			FileWrite.writeFile(testWriteFile, fileContent);
+			File file = new File(testWriteFile); 
+			file.setReadOnly();
+			FileWrite.writeFile(testWriteFile, fileContent);
+			fail("The file is still writable");
+		} finally {
+			File file = new File(testWriteFile); 
+			file.delete();
+		}
+	}
 }
