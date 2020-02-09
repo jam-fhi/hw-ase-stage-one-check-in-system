@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Test;
+import org.junit.Before;
 
 import CheckIn.FileIO;
 
@@ -21,6 +22,15 @@ public class FileIOTests {
 	private String lineThree = "Line Three";
 	private int contentTestSize = 3;
 	private int contentLineSize = 5;
+	private ArrayList<String> fileWriteContent = new ArrayList<String>();
+	private ArrayList<String> fileWriteEmptyContent = new ArrayList<String>();
+	
+	@Before
+	public void beforeEach() {
+		fileWriteContent.add(lineOne);
+		fileWriteContent.add(lineTwo);
+		fileWriteContent.add(lineThree);	
+	}
 	
 	@Test
 	public void testFileReadSuccess() throws IOException {
@@ -38,11 +48,7 @@ public class FileIOTests {
 	@Test
 	public void testWriteFileSuccess() throws IOException {
 		FileIO FileWrite = new FileIO();
-		ArrayList<String> fileContent = new ArrayList<String>();
-		fileContent.add(lineOne);
-		fileContent.add(lineTwo);
-		fileContent.add(lineThree);
-		FileWrite.writeFile(testWriteFile, fileContent);
+		FileWrite.writeFile(testWriteFile, fileWriteContent);
 		ArrayList<String> readContents = FileWrite.readFile(testWriteFile);
 		assertEquals(contentTestSize, readContents.size());
 		File file = new File(testWriteFile); 
@@ -52,22 +58,17 @@ public class FileIOTests {
 	@Test(expected = IOException.class)
 	public void testWriteFileNoContent() throws IOException {
 		FileIO FileWrite = new FileIO();
-		ArrayList<String> fileContent = new ArrayList<String>();
-		FileWrite.writeFile(testWriteFile, fileContent);
+		FileWrite.writeFile(testWriteFile, fileWriteEmptyContent);
 	}
 
 	@Test(expected = IOException.class)
 	public void testWriteFileReadOnlyFail() throws IOException {
 		try {
 			FileIO FileWrite = new FileIO();
-			ArrayList<String> fileContent = new ArrayList<String>();
-			fileContent.add(lineOne);
-			fileContent.add(lineTwo);
-			fileContent.add(lineThree);
-			FileWrite.writeFile(testWriteFile, fileContent);
+			FileWrite.writeFile(testWriteFile, fileWriteContent);
 			File file = new File(testWriteFile); 
 			file.setReadOnly();
-			FileWrite.writeFile(testWriteFile, fileContent);
+			FileWrite.writeFile(testWriteFile, fileWriteContent);
 			fail("The file is still writable");
 		} finally {
 			File file = new File(testWriteFile); 
