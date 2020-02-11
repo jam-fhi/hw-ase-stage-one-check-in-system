@@ -23,8 +23,7 @@ public class FileIO {
 		return fileContents;
 	}
 	
-	// TODO
-	// Check line is text characters only and not binary
+	// TODO: Check line is text characters only and not binary
 
 	public void writeFile(String fileName, ArrayList<String> fileContents) throws IOException {
 		if(fileContents.size() > 0) {
