@@ -25,6 +25,9 @@ public class FileIOTests {
 	private ArrayList<String> fileWriteContent = new ArrayList<String>();
 	private ArrayList<String> fileWriteEmptyContent = new ArrayList<String>();
 	
+	// TODO: Test for empty file
+	// TODO: Test for binary file
+	
 	@Before
 	public void beforeEach() {
 		fileWriteContent.add(lineOne);
