@@ -20,4 +20,26 @@ public class CSVProcessor {
 		}
 		return fileLinesColumns;
 	}
+	
+	public void parseStringArrayToCSV(String fileName, ArrayList<String[]> fileLine) throws IOException {
+		ArrayList<String> fileContents = new ArrayList<String>();
+		Iterator<String[]> fileLinesIt = fileLine.iterator();
+		while(fileLinesIt.hasNext()) {
+			String[] aLine = fileLinesIt.next();
+			if(aLine.length > 0) {
+				String lineContent = "";
+				int columns = 0;
+				while(columns < aLine.length) {
+					lineContent += aLine[columns];
+					lineContent += columns < (aLine.length - 1) ? "," : "";
+					columns++;
+				}
+				fileContents.add(lineContent);
+			} else {
+				// TODO: Should test for an empty string?
+				System.out.println("Skipping empty CSV line");
+			}
+		}
+		fileIO.writeFile(fileName, fileContents);
+	}
 }
