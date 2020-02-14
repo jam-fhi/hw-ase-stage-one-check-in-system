@@ -1,6 +1,8 @@
 import static org.junit.Assert.assertEquals;
 
+
 import org.junit.Before;
+
 import org.junit.Test;
 
 import CheckIn.Flight;
@@ -8,6 +10,7 @@ import CheckIn.Flight;
 public class FlightTests {
 
 	private String validFlightCode = "BA123";
+
 	private String validDestinationAirport = "Barcelona";
 	private String validCarrier = "British Airways";
 	private int validMaximumPassengers = 30;
@@ -25,9 +28,12 @@ public class FlightTests {
 
 	@Test
 	public void testFlightCode() {
+
+	
 		String resultFlightCode = myFlight.getFlightCode();
 		assertEquals(resultFlightCode, validFlightCode);
 	}
+
 
 	@Test
 	public void testDestinationAirport() {
@@ -80,3 +86,4 @@ public class FlightTests {
 	}
 
 }
+

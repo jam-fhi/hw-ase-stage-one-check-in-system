@@ -39,7 +39,7 @@ public class FileIO {
 	        	try {
 	        		writer.close();
 	        	} catch(NullPointerException e) {
-	        		System.out.print("Nothing to close. Shhh...");
+	        		System.out.println("Nothing to close. Shhh...");
 	        	}
 	        }
 		} else {

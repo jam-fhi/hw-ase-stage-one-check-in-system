@@ -2,6 +2,7 @@ package CheckIn;
 
 public class Flight {
 	private String flightCode;
+
 	private String destinationAirport;
 	private String carrier;
 	private int maximumPassengers;
@@ -19,11 +20,13 @@ public class Flight {
 		this.maximumBaggageWeight = maximumBaggageWeight;
 		this.maximumBaggageVolume = maximumBaggageVolume;
 		this.excessCharge = excessCharge;
+
 	}
 
 	public String getFlightCode() {
 		return flightCode;
 	}
+
 
 	public String getDestinationAirport() {
 		return destinationAirport;
@@ -56,5 +59,6 @@ public class Flight {
 	public double getAllowedBaggageVolumePerPassenger() {
 		return maximumBaggageVolume / maximumPassengers;
 	}
+
 
 }
