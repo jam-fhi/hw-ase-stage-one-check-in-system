@@ -8,7 +8,7 @@ import java.util.TreeSet;
 
 public class FlightCollection {
 	FlightComparator flightComp = new FlightComparator();
-	TreeSet<Flight> flightCollection = new TreeSet<Flight>(flightComp)
+	TreeSet<Flight> flightCollection = new TreeSet<Flight>(flightComp);
 
 	public void loadFlights(String fileName) throws FileNotFoundException, IOException {
 	
@@ -39,12 +39,14 @@ public class FlightCollection {
 		Iterator<Flight> iterator = flightCollection.iterator();
 		while(iterator.hasNext()) {
 			Flight aFlight = iterator.next();
-			if(aFlight.getFlightCode() == flightCode) {
+			if (aFlight.getFlightCode().compareTo(flightCode) == 0) {
 				return aFlight;
 		}
 
 	}
+
 		throw new Exception("Flight not found");
-}
+
+	}
 
 }
