@@ -45,16 +45,16 @@ public class Passenger {
 		this.checkIn = true;
 	}
 	
-	public void addBaggage(Bag baggage) {
+	public void addBaggage(Bag newbaggage) {
 		
-		Bag = baggage; 	
+		baggage = newbaggage; 	
 	
 	}
 	
 	public double getBaggageWeight() {
-		if(Bag) {
+		if(baggage != null) {
 			
-			return Bag.getBaggageWeight();
+			return baggage.getWeight();
 		   } else {
 			   return 0;
 		   }
@@ -63,9 +63,9 @@ public class Passenger {
 	
 public double getBaggageVolume() {
 	
-	if(Bag) {
+	if(baggage != null) {
 		
-		return Bag.getBaggageVolume();
+		return baggage.getVolume();
 	   } else {
 		   return 0;
 	   }
