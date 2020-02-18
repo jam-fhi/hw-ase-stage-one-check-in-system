@@ -1,5 +1,5 @@
 package CheckIn;
-
+import CheckIn.Bag;
 
 public class Passenger { 
 	private boolean checkIn = false;
@@ -32,8 +32,8 @@ public class Passenger {
 		return lastName;
 	}
 	
-	public Boolean doesLastNameMatch() {
-		if (lastName != lastName) {
+	public Boolean doesLastNameMatch(String checkName) {
+		if (lastName.compareTo(checkName) != 0) {
 			return false;
 			
 		} else 
@@ -47,14 +47,14 @@ public class Passenger {
 	
 	public void addBaggage(Bag baggage) {
 		
-		Bag = baggage; 	
+		this.baggage  = baggage; 	
 	
 	}
 	
 	public double getBaggageWeight() {
-		if(Bag) {
+		if(baggage != null) {
 			
-			return Bag.getBaggageWeight();
+			return baggage.getWeight();
 		   } else {
 			   return 0;
 		   }
@@ -63,9 +63,9 @@ public class Passenger {
 	
 public double getBaggageVolume() {
 	
-	if(Bag) {
+	if(baggage != null) {
 		
-		return Bag.getBaggageVolume();
+		return baggage.getVolume();
 	   } else {
 		   return 0;
 	   }
