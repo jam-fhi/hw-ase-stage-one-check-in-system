@@ -1,8 +1,6 @@
 import static org.junit.Assert.assertEquals;
 
-
 import org.junit.Before;
-
 import org.junit.Test;
 
 import CheckIn.Flight;
@@ -29,7 +27,7 @@ public class FlightTests {
 	@Test
 	public void testFlightCode() {
 
-	
+
 		String resultFlightCode = myFlight.getFlightCode();
 		assertEquals(resultFlightCode, validFlightCode);
 	}
@@ -86,4 +84,3 @@ public class FlightTests {
 	}
 
 }
-
