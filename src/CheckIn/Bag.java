@@ -15,6 +15,18 @@ public class Bag {
 		this.weight = weight;
 	}
 
+	public int getWidth() {
+		return width;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
 	public double getWeight() {
 		return weight;
 	}
