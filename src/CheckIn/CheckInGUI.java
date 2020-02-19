@@ -33,8 +33,10 @@ public class CheckInGUI extends JFrame implements ActionListener {
 			setVisible(true);
 		} catch(BookingException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
+			this.dispose();
 		} catch(CheckInIOException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
+			this.dispose();
 		}
 	}
 
