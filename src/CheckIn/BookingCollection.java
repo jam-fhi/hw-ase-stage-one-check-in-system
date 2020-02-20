@@ -13,7 +13,7 @@ public class BookingCollection {
 		loadBookings(fileName);
 	}
 
-	private void loadBookings(String fileName) throws BookingException, CheckInIOException {
+	public void loadBookings(String fileName) throws BookingException, CheckInIOException {
 		CSVProcessor csv = new CSVProcessor();
 		ArrayList<String[]> fileContents = csv.parseCSVToStringArray(fileName);
 		Iterator<String[]> fileLinesIt = fileContents.iterator();

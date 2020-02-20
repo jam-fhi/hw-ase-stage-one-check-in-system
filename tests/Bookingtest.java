@@ -1,12 +1,12 @@
 
 	
-	import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import CheckIn.Booking;
+import CheckIn.BookingException;
 import CheckIn.Passenger;
 public class Bookingtest {
 		private Booking thebooking ;
@@ -34,20 +34,11 @@ public class Bookingtest {
 		
 		@Test
 		public void testgetGuest() {
-			assertTrue(thebooking.getGuest().getFirstName() == "yesfname");
-			assertFalse(thebooking.getGuest().getLastName() == "notguy");
+			assertTrue(thebooking.getPassenger().getFirstName() == "yesfname");
+			assertFalse(thebooking.getPassenger().getLastName() == "notguy");
 		}
 		
-		
-		@Test
-		public void setCheckedin() {
-		
-			 assertFalse(thebooking.getGuest().isCheckIn());  
-			 thebooking.setCheckedin();
-			 assertTrue(thebooking.getGuest().isCheckIn());    
-			 thebooking.setCheckedin();
-			 assertTrue(thebooking.getGuest().isCheckIn()); 
-		}
+	
 		
 		@Test
 		public  void getFlightCodeTest() {
