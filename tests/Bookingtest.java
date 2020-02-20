@@ -25,7 +25,7 @@ public class Bookingtest {
 		     String actual1 = thebooking.getBookingCode();
 			 assertEquals(message1, expected1, actual1);
 			 try {
-			 Booking thelongbooking = new Booking("AA00000000", "yesfname", "yeslname", "yesfcode");
+			 Booking thelongbooking = new Booking("AA0", "yesfname", "yeslname", "yesfcode");
 			 fail("Invalid code - should throw exception");
 			 }catch(BookingException e){}
 			 // attempt to construct an illegal booking code here
