@@ -34,16 +34,16 @@ public class Bookingtest {
 		
 		@Test
 		public void testgetGuest() {
-			assertTrue(thebooking.getPassenger().getFirstName() == "yesfname");
-			assertFalse(thebooking.getPassenger().getLastName() == "notguy");
+			assertEquals(thebooking.getPassenger().getFirstName(), "yesfname");
+			assertNotEquals(thebooking.getPassenger().getLastName() , "notguy");
 		}
 		
 	
 		
 		@Test
 		public  void getFlightCodeTest() {
-			 assertTrue(thebooking.getFlightCode() == "yesfcode");
-			 assertFalse(thebooking.getFlightCode() == "abcdeefghf");
+			 assertEquals(thebooking.getFlightCode(), "yesfcode");
+			 assertNotEquals(thebooking.getFlightCode(),  "abcdeefghf");
 		}
 		
 	}
