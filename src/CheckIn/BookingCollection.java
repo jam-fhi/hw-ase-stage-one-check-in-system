@@ -1,56 +1,62 @@
 
 package CheckIn;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+
 public class BookingCollection {
-	private HashMap<String, Booking> Bookings;
-	private Booking giveit;
-	private Boolean loaded = false;
-	private String  newbooking[]  = new String[5];
-	private Booking bookingtobeadded;
-	private Flight theflight; // replace flight test and flight collection calls with appropiate functions and names
+	private HashMap<String, Booking> Bookings = new HashMap<String, Booking>();
 	
-	public BookingCollection() {
-		Bookings = new HashMap<String, Booking>();
+	public BookingCollection(String fileName) throws CheckInIOException, BookingException {
+		loadBookings(fileName);
 	}
-	private void loadBookings(String filename) throws FileNotFoundException, IOException, BookingException {
+
+	private void loadBookings(String fileName) throws BookingException, CheckInIOException {
 		CSVProcessor csv = new CSVProcessor();
-		ArrayList<String[]> fileContents = csv.parseCSVToStringArray(filename);
+		ArrayList<String[]> fileContents = csv.parseCSVToStringArray(fileName);
 		Iterator<String[]> fileLinesIt = fileContents.iterator();
 		while(fileLinesIt.hasNext()) {
-			String[] newbooking = fileLinesIt.next();
-			bookingtobeadded = new Booking(
-				(String)newbooking[3], // bookingcode
-				newbooking[1], // guestfname
-				newbooking[2], // guestlname
-				newbooking[0]); // flightcode
-			Bookings.put(newbooking[3], bookingtobeadded);
+			String[] loadBooking = fileLinesIt.next();
+			Booking loadBookingObj = new Booking(
+				loadBooking[3].trim(), 	// booking code
+				loadBooking[1].trim(), 	// guest first name
+				loadBooking[2].trim(), 	// guest last name
+				loadBooking[0].trim()); // flight code
+			Bookings.put(loadBooking[3], loadBookingObj);
 		}
-		loaded = true;
 	}
-	public Booking getBooking(String Bookingid, String lastname) throws BookingException {
-		// needs to throw an exception when booking hasnt been loaded yet and when the booking code doesnt exist
-		if(!loaded) {
-			throw new BookingException();
+
+	public Booking getBooking(String Bookingid, String lastName) throws BookingException {
+		// needs to throw an exception when booking hasn't been loaded yet and when the booking code doesn't exist
+		if(Bookings.isEmpty()) {
+			throw new BookingException("There are no bookings loaded");
 		}
+
+		Booking foundBooking = null;
+		
 		try {
-			giveit = Bookings.get(Bookingid); 
-			}catch(Exception e){
-				throw new BookingException(); // catch nullpointer exception
-			}
+			foundBooking = Bookings.get(Bookingid); 
+		} catch (Exception e) {
+			throw new BookingException("Booking not found");
+		}
 	
-			if (giveit.getGuest().getLastName() == lastname) {// to fix with passenger update
-			return giveit;
-			}else {
-				throw new BookingException();
+		if (foundBooking.getPassenger().doesLastNameMatch(lastName)) {
+			return foundBooking;
+		} else {
+			throw new BookingException("Passenger for '" + lastName + "' does not match booking");
+		}
+	}
+	
+	public ArrayList<Booking> getBookingByFlightCode(String flightCode) {
+		ArrayList<Booking> flightBookings = new ArrayList<Booking>();
+		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+			if(aBooking.getValue().getFlightCode().compareTo(flightCode) == 0) {
+				flightBookings.add(aBooking.getValue());
 			}
-			 //  Block of code to try
-		
-		
+		}
+		return flightBookings;
 	}
 }
 

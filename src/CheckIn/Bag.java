@@ -6,9 +6,9 @@ public class Bag {
 	private int length;
 	private int height;
 	private double weight;
+	private double excessCharge = 0;
 	
 	public Bag(int width, int length, int height, double weight) {
-
 		this.width = width;
 		this.length = length;
 		this.height = height;
@@ -32,8 +32,18 @@ public class Bag {
 	}
 	
 	public double getVolume() {
-		double volume = length*width*height;
+		double volume = length * width * height;
 		return volume;
 	}
+
+	public void setExcessCharge(double allowedWeight, double excessCharge) {
+		double excessWeight = weight - allowedWeight;
+		if(excessWeight >  0) {
+			this.excessCharge = excessWeight * excessCharge;
+		}
+	}
 	
+	public double getExcessCharge() {
+		return excessCharge;
+	}
 }

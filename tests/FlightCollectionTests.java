@@ -3,12 +3,15 @@ import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.TreeSet;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import CheckIn.CheckInIOException;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
+import CheckIn.FlightException;
 
 public class FlightCollectionTests {
 
@@ -16,37 +19,45 @@ public class FlightCollectionTests {
 	private String invalidFlightsCSV = "noFlights.csv";
 	private String validFlightCode = "BA123";
 	private String invalidFlightCode = "PQ154";
-	private String errorMessage = "Flight not found";
-	private FlightCollection flightCollection = null;
-
+	private int validFlightSize = 4;
+	private String errorIOMessage = "The file noFlights.csv was not found";
+	private String errorFindMessage = "Flight not found";
+	private FlightCollection validFlightCollection;
+	
 	@Before
-	public void beforeEach() {
-
-		flightCollection = new FlightCollection();
+	public void beforeEach() throws CheckInIOException {
+		validFlightCollection = new FlightCollection(validFlightsCSV);
+	}
+	
+	@Test
+	public void testSuccessfullyLoadsFlights() throws CheckInIOException, FlightException {
+		TreeSet<Flight> allFlights = validFlightCollection.getFlightCollection();
+		assertEquals(validFlightSize, allFlights.size());
 	}
 
 	@Test
-	public void testSuccessfullyLoadsFlights() throws FileNotFoundException, IOException, Exception {
-
-		flightCollection.loadFlights(validFlightsCSV);
-		Flight aFlight = flightCollection.findFlight(validFlightCode);
-		assertEquals(aFlight.getFlightCode(), validFlightCode);
-	}
-
-	@Test
-	public void testUnsuccessfullyLoadsFlights() throws FileNotFoundException, IOException, Exception {
-
+	public void testUnsuccessfullyLoadsFlights() {
 		try {
-
-			flightCollection.loadFlights(validFlightsCSV);
-			flightCollection.findFlight(invalidFlightCode);
-			fail("didn't throw");
-
+			FlightCollection flightCollection = new FlightCollection(invalidFlightsCSV);
+			fail("Didn't throw");
+		} catch (CheckInIOException myException) {
+			assertEquals(errorIOMessage, myException.getMessage());
 		}
-
-		catch (Exception myException) {
-			assertEquals(myException.getMessage(), errorMessage);
+	}
+	
+	@Test
+	public void testUnsuccessfullyFindFlights() {
+		try {
+			validFlightCollection.findFlight(invalidFlightCode);
+		} catch(FlightException e) {
+			assertEquals(errorFindMessage, e.getMessage());
 		}
+	}
+	
+	@Test
+	public void testSuccessfullyFindFlights() throws FlightException {
+		Flight aFlight = validFlightCollection.findFlight(validFlightCode);
+		assertEquals(validFlightCode, aFlight.getFlightCode());
 	}
 
 }
