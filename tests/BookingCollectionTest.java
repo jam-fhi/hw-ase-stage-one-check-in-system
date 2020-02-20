@@ -64,7 +64,7 @@ public class BookingCollectionTest {
 		 * @throws CheckInIOException 
 		 *
 		 */
-		@Test(expected = IllegalArgumentException.class)
+		@Test(expected = BookingException.class)
 		public  void testwronglastname() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 			BookingCollection TestCollection = new BookingCollection("bookings.csv");
 			try {
