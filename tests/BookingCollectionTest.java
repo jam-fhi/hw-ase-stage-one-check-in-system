@@ -22,7 +22,7 @@ public class BookingCollectionTest {
 		 */
 	
 		@Test
-		public void loadbookings()
+		public void testloadbookings()
 		{ try {
 			 BookingCollection TestCollection = new BookingCollection("bookings.csv");
 			 
@@ -30,7 +30,7 @@ public class BookingCollectionTest {
 		}
 		
 		@Test
-		public void getbooking() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
+		public void testgetbooking() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 			BookingCollection TestCollection = new BookingCollection("bookings.csv");
 
 			Booking test1 = TestCollection.getBooking("BA123", "Hill");
@@ -43,7 +43,7 @@ public class BookingCollectionTest {
 			BookingCollection TestCollection = new BookingCollection("fakefilename");
 	
 			fail("file was found unexpectadly");
-			}catch(Exception e) {}
+			}catch(Exception e) {assertTrue(e.getMessage() == "The file bookings.csv was not found");}
 		}
 		
 		@Test
@@ -65,7 +65,7 @@ public class BookingCollectionTest {
 		 *
 		 */
 		@Test(expected = IllegalArgumentException.class)
-		public  void wronglastnametest() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
+		public  void testwronglastname() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 			BookingCollection TestCollection = new BookingCollection("bookings.csv");
 			try {
 			Booking test1 = TestCollection.getBooking("BA123", "Hillock");
