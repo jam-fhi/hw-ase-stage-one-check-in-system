@@ -79,8 +79,8 @@ public class BookingCollectionTest {
 			BookingCollection TestCollection = new BookingCollection("bookings.csv");
 
 			ArrayList<Booking> testarray = TestCollection.getBookingByFlightCode("BA123");
-			Booking test1 = testarray.get(0);
-			assertEquals(test1.getPassenger().getFirstName() , "Jamie");
+			Booking test1 = testarray.get(1);
+			assertEquals( "Jamie" , test1.getPassenger().getFirstName() );
 			assertEquals(test1.getFlightCode(), "BA123" );
 		}
 		@Test
