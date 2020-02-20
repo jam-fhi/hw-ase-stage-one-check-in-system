@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -73,7 +74,22 @@ public class BookingCollectionTest {
 			fail("Booking Exception not thrown");
 	
 		}
+		@Test
+		public void testgetbookingbyflightcode() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
+			BookingCollection TestCollection = new BookingCollection("bookings.csv");
 
+			ArrayList<Booking> testarray = TestCollection.getBookingByFlightCode("BA123");
+			Booking test1 = testarray.get(0);
+			assertEquals(test1.getPassenger().getFirstName() , "Jamie");
+			assertEquals(test1.getFlightCode(), "BA123" );
+		}
+		@Test
+		public void testgetbookingbyflightcodeinvalid() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
+			BookingCollection TestCollection = new BookingCollection("bookings.csv");
+			ArrayList<Booking> testarray = TestCollection.getBookingByFlightCode("BA1235454654654");
+			assertEquals(testarray.size() , 0);
+			
+		}
 	}
 
 
