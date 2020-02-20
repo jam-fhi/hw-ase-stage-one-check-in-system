@@ -68,10 +68,10 @@ public class BookingCollectionTest {
 		@Test(expected = BookingException.class)
 		public  void testwronglastname() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 			BookingCollection TestCollection = new BookingCollection("bookings.csv");
-			try {
+		
 			Booking test1 = TestCollection.getBooking("BA123-121", "Hillock");
 			fail("Booking Exception not thrown");
-			}catch(BookingException e) {}
+	
 		}
 
 	}

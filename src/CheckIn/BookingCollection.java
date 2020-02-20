@@ -36,12 +36,12 @@ public class BookingCollection {
 
 		Booking foundBooking = null;
 		
-		try {
-			foundBooking = Bookings.get(Bookingid); 
-		} catch (Exception e) {
+		
+		foundBooking = Bookings.get(Bookingid);
+		if(foundBooking == null) {
 			throw new BookingException("Booking not found");
 		}
-	
+		
 		if (foundBooking.getPassenger().doesLastNameMatch(lastName)) {
 			return foundBooking;
 		} else {
