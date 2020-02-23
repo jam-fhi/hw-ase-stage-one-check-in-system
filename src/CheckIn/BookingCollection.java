@@ -13,7 +13,7 @@ public class BookingCollection {
 		loadBookings(fileName);
 	}
 
-	private void loadBookings(String fileName) throws BookingException, CheckInIOException {
+	public void loadBookings(String fileName) throws BookingException, CheckInIOException {
 		CSVProcessor csv = new CSVProcessor();
 		ArrayList<String[]> fileContents = csv.parseCSVToStringArray(fileName);
 		Iterator<String[]> fileLinesIt = fileContents.iterator();
@@ -36,12 +36,12 @@ public class BookingCollection {
 
 		Booking foundBooking = null;
 		
-		try {
-			foundBooking = Bookings.get(Bookingid); 
-		} catch (Exception e) {
+		
+		foundBooking = Bookings.get(Bookingid);
+		if(foundBooking == null) {
 			throw new BookingException("Booking not found");
 		}
-	
+		
 		if (foundBooking.getPassenger().doesLastNameMatch(lastName)) {
 			return foundBooking;
 		} else {
