@@ -12,7 +12,8 @@ public class CheckInGUI extends JFrame implements ActionListener {
 	private FlightCollection flightCollection;
 	private ConfirmGUI confirmGUI;
 
-	JTextField lastName, bookingCode, searchField, result;
+	JTextField lastName, bookingCode, searchField;
+	JLabel result;
 	JButton checkin, close;
 	
 	public CheckInGUI() throws BookingException, CheckInIOException {
@@ -44,6 +45,8 @@ public class CheckInGUI extends JFrame implements ActionListener {
 		searchPanel.add(new JLabel("Enter Booking Reference : "));
 		bookingCode = new JTextField(15);
 		searchPanel.add(bookingCode);
+		result = new JLabel("");
+		searchPanel.add(result);
 		checkin = new JButton("Check In");
 		searchPanel.add(checkin);
 		checkin.addActionListener(this);
@@ -65,8 +68,10 @@ public class CheckInGUI extends JFrame implements ActionListener {
 					confirmGUI.setVisible(true);
 				} catch (BookingException ex) {
 					result.setText(ex.getMessage());
+					result.updateUI();
 				} catch (FlightException ex) {
 					result.setText(ex.getMessage());
+					result.updateUI();
 				}
 			}
 		} else if (e.getSource() == close) {

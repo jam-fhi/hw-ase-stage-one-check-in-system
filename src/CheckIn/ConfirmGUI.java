@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -19,7 +20,7 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 
 	JTextField length, height, width, weight, excessBaggageFee;
 	JButton calculateExcessCharge, close;
-	JTextField result;
+	JLabel result;
 		
 	public ConfirmGUI(Booking aBooking, Flight aFlight, CheckInGUI checkInForm) {
 
@@ -62,9 +63,9 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 		excessBaggageFee = new JTextField(25);
 		excessBaggageFee.setEditable(false);
 		
-		result = new JTextField(25);
-		result.setEditable(false);
-
+		result = new JLabel("");
+		searchPanel.add(result);
+		
 		searchPanel.add(calculateExcessCharge);
 		searchPanel.add(excessBaggageFee);
 		// specify action when button is pressed
@@ -89,11 +90,11 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 				confirmBooking.getPassenger().setCheckIn();
 				double allowedBaggageWeight = confirmFlight.getAllowedBaggageWeightPerPassenger();
 				double excessCharge = confirmFlight.getExcessCharge();
-				double excessWeight = weightSearch - allowedBaggageWeight;
-				if(excessWeight >  0) {
-					this.confirmBooking.getPassenger().getBaggage().setExcessCharge(excessWeight, excessCharge);
-					double charge = this.confirmBooking.getPassenger().getBaggage().getExcessCharge();
-					result.setText("Your excess baggage fee is: " + charge);
+				this.confirmBooking.getPassenger().getBaggage().setExcessCharge(allowedBaggageWeight, excessCharge);
+				double charge = this.confirmBooking.getPassenger().getBaggage().getExcessCharge();
+				System.out.println(charge);
+				if(charge >  0) {
+					JOptionPane.showMessageDialog(null, "Your excess baggage fee is: " + charge);
 				}
 				this.dispose();
 				checkInGUI.setVisible(true);
@@ -102,40 +103,52 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 	}	
 
 	private boolean isBagWidthValid() {
+
+		if(width.getText().trim().compareTo("") == 0) {
+			displayMessage("Invalid entry. Please input a number");
+			return false;			
+		}
+		
 		int widthValue = Integer.parseInt(width.getText().trim());
-
-		if (widthValue < 0 || widthValue > 30) {
-			result.setText("Please enter a valid width value");
-			return false;
-		}
-
-		if (widthValue ==0 || widthValue ==0) {
-			result.setText("Please enter a value");
-			return false;
-		}
-
+		
 		if (widthValue != (int)widthValue) {
-			result.setText("Invalid entry. Please input a number");
+			displayMessage("Invalid entry. Please input a number");
+			return false;
+		}
+		
+		if (widthValue < 0 || widthValue > 100) {
+			displayMessage("Please enter a valid width value");
+			return false;
+		}
+
+		if (widthValue == 0 || widthValue == 0) {
+			displayMessage("Please enter a value");
 			return false;
 		}
 		return true;
 	}
 
 	private boolean isBagLengthValid() {
-		int lengthValue = Integer.parseInt(length.getText().trim());
 
-		if (lengthValue < 0 || lengthValue > 30) {
-			result.setText("Please enter a valid length value");
+		if(length.getText().trim().compareTo("") == 0) {
+			displayMessage("Invalid entry. Please input a number");
+			return false;			
+		}
+		
+		int lengthValue = Integer.parseInt(length.getText().trim());
+		
+		if (lengthValue < 0 || lengthValue > 100) {
+			displayMessage("Please enter a valid length value");
 			return false;
 		}
 	
-		if (lengthValue ==0 || lengthValue ==0) {
-			result.setText("Please enter a value");
+		if (lengthValue == 0 || lengthValue == 0) {
+			displayMessage("Please enter a value");
 			return false;
 		}
 
 		if (lengthValue != (int)lengthValue) {
-			result.setText("Invalid entry. Please input a number");
+			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}
 			
@@ -143,42 +156,57 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 	}
 
 	private boolean isBagHeightValid() {
+		if(height.getText().trim().compareTo("") == 0) {
+			displayMessage("Invalid entry. Please input a number");
+			return false;			
+		}
+		
 		int heightValue = Integer.parseInt(height.getText().trim());
-
-		if (heightValue < 0 || heightValue > 30) {
-			result.setText("Please enter a valid height value");
+		
+		if (heightValue < 0 || heightValue > 100) {
+			displayMessage("Please enter a valid height value");
 			return false;
 		}
 		
-		if (heightValue ==0 || heightValue ==0) {
-			result.setText("Please enter a value");
+		if (heightValue == 0 || heightValue == 0) {
+			displayMessage("Please enter a value");
 			return false;
 		}
 			
 		if (heightValue != (int)heightValue) {
-			result.setText("Invalid entry. Please input a number");
+			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}	
 		return true;
 	}
 
 	private boolean isBagWeightValid() {
+		if(weight.getText().trim().compareTo("") == 0) {
+			displayMessage("Invalid entry. Please input a number");
+			return false;			
+		}
+		
 		int weightValue = Integer.parseInt(weight.getText().trim());
-
-		if (weightValue < 0 || weightValue > 30) {
-			result.setText("Please enter a valid weight value");
+		
+		if (weightValue < 0 || weightValue > 1000) {
+			displayMessage("Please enter a valid weight value");
 			return false;
 		}
 
-		if (weightValue ==0 || weightValue ==0) {
-			result.setText("Please enter a value");
+		if (weightValue == 0 || weightValue == 0) {
+			displayMessage("Please enter a value");
 			return false;
 		}
 
 		if (weightValue != (double)weightValue) {
-			result.setText("Invalid entry. Please input a number");
+			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}
 		return true;
-	}		
+	}	
+	
+	private void displayMessage(String message) {
+		result.setText(message);
+		result.updateUI();
+	}
 }
