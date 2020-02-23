@@ -49,11 +49,15 @@ public class CheckInGUI extends JFrame implements ActionListener {
 		searchPanel.add(result);
 		checkin = new JButton("Check In");
 		searchPanel.add(checkin);
+		close = new JButton("Close");
+		searchPanel.add(close);
 		checkin.addActionListener(this);
+		close.addActionListener(this);
 		this.add(searchPanel, BorderLayout.CENTER);
 	}
 		
 	public void actionPerformed(ActionEvent e) {
+		System.out.println(e.getSource());
 		if (e.getSource() == checkin) {
 			// get search text and search booking list
 			// setting result text if found
