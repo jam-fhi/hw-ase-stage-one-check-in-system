@@ -16,17 +16,15 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Booking confirmBooking;
 	private Flight confirmFlight;
-	private CheckInGUI checkInGUI;
 
-	JTextField length, height, width, weight, excessBaggageFee;
+	JTextField length, height, width, weight;
 	JButton calculateExcessCharge, close;
 	JLabel result;
 		
-	public ConfirmGUI(Booking aBooking, Flight aFlight, CheckInGUI checkInForm) {
+	public ConfirmGUI(Booking aBooking, Flight aFlight) {
 
 		confirmBooking = aBooking;
 		confirmFlight = aFlight;
-		this.checkInGUI = checkInForm;
 
 		setTitle("Baggage Information ");
 		// ensure program ends when window closes
@@ -57,17 +55,17 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 		searchPanel.add(new JLabel("Enter Bag Weight : "));
 		searchPanel.add(weight);
 		
-		calculateExcessCharge = new JButton("Calculate baggage charge");
+		calculateExcessCharge = new JButton("Check In");
 
 		// Set up the area where the results will be displayed.
-		excessBaggageFee = new JTextField(25);
-		excessBaggageFee.setEditable(false);
+		// excessBaggageFee = new JTextField(25);
+		// excessBaggageFee.setEditable(false);
 		
 		result = new JLabel("");
 		searchPanel.add(result);
 		
 		searchPanel.add(calculateExcessCharge);
-		searchPanel.add(excessBaggageFee);
+		// searchPanel.add(excessBaggageFee);
 		// specify action when button is pressed
 		calculateExcessCharge.addActionListener(this);
 		// Set up the area where the results will be displayed.
@@ -96,8 +94,16 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 				if(charge >  0) {
 					JOptionPane.showMessageDialog(null, "Your excess baggage fee is: " + charge);
 				}
+				try {
+					new CheckInGUI();
+				} catch (BookingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (CheckInIOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				this.dispose();
-				checkInGUI.setVisible(true);
 			}
 		}
 	}	

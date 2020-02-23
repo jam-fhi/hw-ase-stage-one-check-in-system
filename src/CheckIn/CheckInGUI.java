@@ -64,7 +64,7 @@ public class CheckInGUI extends JFrame implements ActionListener {
 					Booking booking = bookingCollection.getBooking(bookingCodeSearch, lastNameSearch);
 					Flight flight = flightCollection.findFlight(booking.getFlightCode());
 					this.setVisible(false);
-					confirmGUI = new ConfirmGUI(booking, flight, this);
+					confirmGUI = new ConfirmGUI(booking, flight);
 					confirmGUI.setVisible(true);
 				} catch (BookingException ex) {
 					result.setText(ex.getMessage());
