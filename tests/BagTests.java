@@ -8,61 +8,65 @@ import CheckIn.Bag;
 
 public class BagTests {
 
-		private int validWidth = 20;
-		private int validLength = 58;
-		private int validHeight = 38;
-		private double validWeight = 7;
-		private double validVolume = validLength*validWidth*validHeight;
-		private Bag myBag = null;
-		private double deltaPrecisionLoss = 0.01;
+	private int validWidth = 20;
+	private int validLength = 58;
+	private int validHeight = 38;
+	private double validWeight = 7;
+	private double validAllowedWeight = 6;
+	private double invalidAllowedWeight = 10;
+	private double invalidExcessCharge = 0;
+	private double validVolume = validLength*validWidth*validHeight;
+	private double validExcessCharge = 10;
+	private double expectedExcessCharge = 10;
+	private Bag myBag = null;
+	private double deltaPrecisionLoss = 0.01;
 
-		@Before
-		public void beforeEach() {
-			myBag = new Bag(validWidth, validLength, validHeight, validWeight);
-		}
+	@Before
+	public void beforeEach() {
+		myBag = new Bag(validWidth, validLength, validHeight, validWeight);
+	}
 
-		@Test
-		public void testWidth() {
+	@Test
+	public void testWidth() {
+		int resultWidth = myBag.getWidth();
+		assertEquals(validWidth, resultWidth);
+	}
 
-		
-			int resultWidth = myBag.getWidth();
-			assertEquals(resultWidth, validWidth);
-		}
+	@Test
+	public void testLength() {	
+		int resultLength = myBag.getLength();
+		assertEquals(validLength, resultLength);
+	}
 
+	@Test
+	public void testHeight() {
+		int resultHeight = myBag.getHeight();
+		assertEquals(validHeight, resultHeight);
+	}
 
-		@Test
-		public void testLength() {
+	@Test
+	public void testWeight() {
+		double resultWeight = myBag.getWeight();
+		assertEquals(validWeight, resultWeight, deltaPrecisionLoss);
+	}
 
-		
-			int resultLength = myBag.getLength();
-			assertEquals(resultLength, validLength);
-		}
-
-
-		@Test
-		public void testHeight() {
-
-		
-			int resultHeight = myBag.getHeight();
-			assertEquals(resultHeight, validHeight);
-		}
-
-
-		@Test
-		public void testWeight() {
-
-		
-			double resultWeight = myBag.getWeight();
-			assertEquals(resultWeight, validWeight, deltaPrecisionLoss);
-		}
-
-		@Test
-		public void testVolume() {
-
-		
-			double resultVolume = myBag.getVolume();
-			assertEquals(resultVolume, validVolume, deltaPrecisionLoss);
-		}
-
-
+	@Test
+	public void testVolume() {		
+		double resultVolume = myBag.getVolume();
+		assertEquals(validVolume, resultVolume, deltaPrecisionLoss);
+	}
+	
+	@Test
+	public void testExcessCharge() {
+		myBag.setExcessCharge(validAllowedWeight, validExcessCharge);
+		double actualExcessCharge = myBag.getExcessCharge();
+		assertEquals(expectedExcessCharge, actualExcessCharge, deltaPrecisionLoss);
+	}
+	
+	@Test
+	public void testUnsuccessfulExcessCharge() {
+		myBag.setExcessCharge(invalidAllowedWeight, validExcessCharge);
+		double actualExcessCharge = myBag.getExcessCharge();
+		assertEquals(invalidExcessCharge, actualExcessCharge, deltaPrecisionLoss);
+	}
 }
