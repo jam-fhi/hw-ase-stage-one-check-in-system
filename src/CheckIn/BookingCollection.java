@@ -59,4 +59,3 @@ public class BookingCollection {
 		return flightBookings;
 	}
 }
-

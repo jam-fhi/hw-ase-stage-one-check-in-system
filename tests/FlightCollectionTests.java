@@ -57,5 +57,4 @@ public class FlightCollectionTests {
 		Flight aFlight = validFlightCollection.findFlight(validFlightCode);
 		assertEquals(validFlightCode, aFlight.getFlightCode());
 	}
-
 }
