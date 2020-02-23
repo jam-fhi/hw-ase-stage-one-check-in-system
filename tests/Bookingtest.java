@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import CheckIn.Booking;
 import CheckIn.BookingException;
-import CheckIn.Passenger;
 public class Bookingtest {
 		private Booking thebooking ;
 	
@@ -25,11 +24,11 @@ public class Bookingtest {
 		     String actual1 = thebooking.getBookingCode();
 			 assertEquals(message1, expected1, actual1);
 			 try {
-			 Booking thelongbooking = new Booking("AA0", "yesfname", "yeslname", "yesfcode");
-			 fail("Invalid code - should throw exception");
-			 }catch(BookingException e){}
-			 // attempt to construct an illegal booking code here
-			
+				 new Booking("AA0", "yesfname", "yeslname", "yesfcode");
+				 fail("Invalid code - should throw exception");
+			 } catch(BookingException e) {
+				 
+			 }			
 		}
 		
 		@Test

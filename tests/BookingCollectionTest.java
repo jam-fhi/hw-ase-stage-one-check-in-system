@@ -12,7 +12,7 @@ import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
 import CheckIn.CheckInIOException;
-import CheckIn.Passenger;
+
 public class BookingCollectionTest {
 
 
@@ -25,7 +25,7 @@ public class BookingCollectionTest {
 		@Test
 		public void testloadbookings()
 		{ try {
-			 BookingCollection TestCollection = new BookingCollection("bookings.csv");
+			 new BookingCollection("bookings.csv");
 			 
 		}catch(Exception e) {fail("exception thrown");}
 		}
@@ -41,10 +41,10 @@ public class BookingCollectionTest {
 		@Test
 		public void testfilenotfound() {
 			try {
-			BookingCollection TestCollection = new BookingCollection("fakefilename");
-	
-			fail("file was found unexpectedly");
-			}catch(Exception e) {assertEquals(e.getMessage() ,"The file fakefilename was not found");
+				new BookingCollection("fakefilename");
+				fail("file was found unexpectedly");
+			} catch(Exception e) {
+				assertEquals(e.getMessage() ,"The file fakefilename was not found");
 			}
 		}
 		
@@ -52,7 +52,7 @@ public class BookingCollectionTest {
 		public void  testinvalidbookingcode() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 			BookingCollection TestCollection = new BookingCollection("bookings.csv");
 			try {
-			Booking test1 = TestCollection.getBooking("BA1236567568_,.;%$$", "Hill");
+			TestCollection.getBooking("BA1236567568_,.;%$$", "Hill");
 			fail("Booking Exception not thrown");
 			}catch(BookingException e) {}
 		}
@@ -70,7 +70,7 @@ public class BookingCollectionTest {
 		public  void testwronglastname() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 			BookingCollection TestCollection = new BookingCollection("bookings.csv");
 		
-			Booking test1 = TestCollection.getBooking("BA123-121", "Hillock");
+			TestCollection.getBooking("BA123-121", "Hillock");
 			fail("Booking Exception not thrown");
 	
 		}

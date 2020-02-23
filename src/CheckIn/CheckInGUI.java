@@ -3,14 +3,11 @@ package CheckIn;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Arrays;
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 
 public class CheckInGUI extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	private BookingCollection bookingCollection;
 	private FlightCollection flightCollection;
 	private ConfirmGUI confirmGUI;
@@ -73,8 +70,14 @@ public class CheckInGUI extends JFrame implements ActionListener {
 				}
 			}
 		} else if (e.getSource() == close) {
-			ReportGenerator reportGen = new ReportGenerator("FlightReport.csv");
+			try {
+				new ReportGenerator(bookingCollection, flightCollection, "FlightReport.csv");
+			} catch (CheckInIOException e1) {
+				// TODO Auto-generated catch block
+				// It's on exit of the application, nothing we can really do at this point.
+				e1.printStackTrace();
+			}
 			this.dispose();
-		}		
+		}
 	}	
 }

@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 public class ConfirmGUI extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	private Booking confirmBooking;
 	private Flight confirmFlight;
 	private CheckInGUI checkInGUI;
