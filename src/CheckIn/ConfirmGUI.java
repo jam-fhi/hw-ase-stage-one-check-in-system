@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class ConfirmGUI extends JFrame implements ActionListener {
+public class ConfirmGUI extends JFrame implements ActionListener, WindowListener {
 
 	private static final long serialVersionUID = 1L;
 	private Booking confirmBooking;
@@ -34,7 +37,7 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 		// ensure program ends when window closes
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setupCenterPanel();
-
+		addWindowListener(this);
 		// pack and set visible
 		pack();
 		setVisible(true);
@@ -80,8 +83,6 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {		
 		if (e.getSource() == calculateExcessCharge) {
-			// get search text and search booking list
-			// setting result text if found
 			if(isBagWidthValid() && isBagLengthValid() && isBagHeightValid() && isBagWeightValid()) {		
 				double weightSearch = Integer.parseInt(weight.getText().trim());
 				int widthSearch = Integer.parseInt(width.getText().trim());
@@ -98,18 +99,7 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 				if(charge >  0) {
 					JOptionPane.showMessageDialog(null, "Your excess baggage fee is: " + charge);
 				}
-				try {
-					CheckInGUI checkInGUI = new CheckInGUI(allBookings, allFlights);
-				    checkInGUI.setVisible(true);
-				    checkInGUI.setLocationRelativeTo(null);
-				} catch (BookingException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (CheckInIOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				this.dispose();
+				saveReportExit();
 			}
 		}
 	}	
@@ -220,5 +210,60 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 	private void displayMessage(String message) {
 		result.setText(message);
 		result.updateUI();
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		saveReportExit();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+	}
+	
+	private void saveReportExit() {
+		try {
+			CheckInGUI checkInGUI = new CheckInGUI(allBookings, allFlights);
+		    checkInGUI.setVisible(true);
+		    checkInGUI.setLocationRelativeTo(null);
+		} catch (BookingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (CheckInIOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		this.dispose();
 	}
 }

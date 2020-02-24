@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class CheckInGUI extends JFrame implements ActionListener {
+public class CheckInGUI extends JFrame implements ActionListener, WindowListener {
 
 	private static final long serialVersionUID = 1L;
 	private BookingCollection bookingCollection;
@@ -22,9 +22,11 @@ public class CheckInGUI extends JFrame implements ActionListener {
 		// set up window title
 		setTitle("Check In ");
 		// ensure program ends when window closes
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setupCenterPanel();
 		
+		addWindowListener(this);
+
 		// pack and set visible
 		pack();
 		setVisible(true);
@@ -32,7 +34,7 @@ public class CheckInGUI extends JFrame implements ActionListener {
 
 	private void setupCenterPanel() {
 		JPanel searchPanel = new JPanel();
-		searchPanel.setLayout(new GridLayout(4, 2));
+		searchPanel.setLayout(new GridLayout(3, 2));
 		searchPanel.add(new JLabel("Enter Last Name: "));
 		lastName = new JTextField(15);
 		searchPanel.add(lastName);
@@ -43,13 +45,14 @@ public class CheckInGUI extends JFrame implements ActionListener {
 		searchPanel.add(result);
 		checkin = new JButton("Check In");
 		searchPanel.add(checkin);
-		close = new JButton("Close");
-		searchPanel.add(close);
 		checkin.addActionListener(this);
-		close.addActionListener(this);
 		this.add(searchPanel, BorderLayout.CENTER);
 	}
-		
+
+	public void windowClosing(WindowEvent e) {
+		saveReport(this);
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getSource());
 		if (e.getSource() == checkin) {
@@ -73,15 +76,53 @@ public class CheckInGUI extends JFrame implements ActionListener {
 					result.updateUI();
 				}
 			}
-		} else if (e.getSource() == close) {
-			try {
-				new ReportGenerator(bookingCollection, flightCollection, "FlightReport.csv");
-			} catch (CheckInIOException e1) {
-				// TODO Auto-generated catch block
-				// It's on exit of the application, nothing we can really do at this point.
-				e1.printStackTrace();
-			}
-			this.dispose();
 		}
+	}
+	
+	private void saveReport(JFrame app) {
+		try {
+			new ReportGenerator(bookingCollection, flightCollection, "FlightReport.csv");
+		} catch (CheckInIOException e1) {
+			// TODO Auto-generated catch block
+			// It's on exit of the application, nothing we can really do at this point.
+			e1.printStackTrace();
+		}
+		app.dispose();	
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
