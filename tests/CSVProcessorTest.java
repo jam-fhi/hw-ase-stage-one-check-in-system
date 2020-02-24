@@ -12,7 +12,7 @@ public class CSVProcessorTest {
 	private String validCSVFile = "bookings.csv";
 	private String invalidCSVFile = "noBookings.csv";
 	private int expectedRows = 5;
-	private int expectedCols = 5;
+	private int expectedCols = 4;
 	private String colOneA = "Col One A";
 	private String colTwoA = "Col Two A";
 	private String colThreeA = "Col Three A";

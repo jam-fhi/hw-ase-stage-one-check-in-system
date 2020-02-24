@@ -16,16 +16,20 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Booking confirmBooking;
 	private Flight confirmFlight;
+	private BookingCollection allBookings;
+	private FlightCollection allFlights;
 
 	JTextField length, height, width, weight;
 	JButton calculateExcessCharge, close;
 	JLabel result;
 		
-	public ConfirmGUI(Booking aBooking, Flight aFlight) {
+	public ConfirmGUI(Booking aBooking, Flight aFlight, BookingCollection bookings, FlightCollection flights) {
 
 		confirmBooking = aBooking;
 		confirmFlight = aFlight;
-
+		allBookings = bookings;
+		allFlights = flights;
+		
 		setTitle("Baggage Information ");
 		// ensure program ends when window closes
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -42,7 +46,7 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 		length = new JTextField(15);
 		weight = new JTextField(15);
 		JPanel searchPanel = new JPanel();
-		searchPanel.setLayout(new GridLayout(3, 3));
+		searchPanel.setLayout(new GridLayout(5, 2));
 		searchPanel.add(new JLabel("Enter Bag Height: "));
 		searchPanel.add(height);
 		
@@ -95,7 +99,9 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(null, "Your excess baggage fee is: " + charge);
 				}
 				try {
-					new CheckInGUI();
+					CheckInGUI checkInGUI = new CheckInGUI(allBookings, allFlights);
+				    checkInGUI.setVisible(true);
+				    checkInGUI.setLocationRelativeTo(null);
 				} catch (BookingException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

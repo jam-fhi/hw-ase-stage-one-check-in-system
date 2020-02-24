@@ -16,29 +16,23 @@ public class CheckInGUI extends JFrame implements ActionListener {
 	JLabel result;
 	JButton checkin, close;
 	
-	public CheckInGUI() throws BookingException, CheckInIOException {
-		try {
-			this.bookingCollection = new BookingCollection("bookings.csv");
-			this.flightCollection = new FlightCollection("flights.csv");
-			// set up window title
-			setTitle("Check In ");
-			// ensure program ends when window closes
-			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			setupCenterPanel();
-
-			// pack and set visible
-			pack();
-			setVisible(true);
-		} catch(BookingException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		} catch(CheckInIOException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
+	public CheckInGUI(BookingCollection bookings, FlightCollection flights) throws BookingException, CheckInIOException {
+		this.bookingCollection = bookings;
+		this.flightCollection = flights;
+		// set up window title
+		setTitle("Check In ");
+		// ensure program ends when window closes
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setupCenterPanel();
+		
+		// pack and set visible
+		pack();
+		setVisible(true);
 	}
 
 	private void setupCenterPanel() {
 		JPanel searchPanel = new JPanel();
-		searchPanel.setLayout(new GridLayout(3, 3));
+		searchPanel.setLayout(new GridLayout(4, 2));
 		searchPanel.add(new JLabel("Enter Last Name: "));
 		lastName = new JTextField(15);
 		searchPanel.add(lastName);
@@ -68,8 +62,9 @@ public class CheckInGUI extends JFrame implements ActionListener {
 					Booking booking = bookingCollection.getBooking(bookingCodeSearch, lastNameSearch);
 					Flight flight = flightCollection.findFlight(booking.getFlightCode());
 					this.setVisible(false);
-					confirmGUI = new ConfirmGUI(booking, flight);
+					confirmGUI = new ConfirmGUI(booking, flight, bookingCollection, flightCollection);
 					confirmGUI.setVisible(true);
+					confirmGUI.setLocationRelativeTo(null);
 				} catch (BookingException ex) {
 					result.setText(ex.getMessage());
 					result.updateUI();
@@ -88,5 +83,5 @@ public class CheckInGUI extends JFrame implements ActionListener {
 			}
 			this.dispose();
 		}
-	}	
+	}
 }
