@@ -1,6 +1,6 @@
 package CheckIn;
 
-
+//import all the GUI classes
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
@@ -8,13 +8,22 @@ import javax.swing.*;
 
 public class CheckInGUI extends JFrame implements ActionListener {
 
+	/**
+	 * The booking and flight collections to be searched.
+	 */
 	private BookingCollection bookingCollection;
 	private FlightCollection flightCollection;
 	private ConfirmGUI confirmGUI;
 
+	/**
+	 * Creating GUI components to be included in GUI panels
+	 */
 	JTextField lastName, bookingCode, searchField, result;
 	JButton checkin, close;
 	
+	/**
+	 * Create the frame with panels.
+	 */
 	public CheckInGUI() throws BookingException, CheckInIOException {
 		try {
 			this.bookingCollection = new BookingCollection("bookings.csv");
@@ -31,14 +40,17 @@ public class CheckInGUI extends JFrame implements ActionListener {
 			// pack and set visible
 			pack();
 			setVisible(true);
-
-		} catch(BookingException e) {
+		
+		}catch(BookingException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		} catch(CheckInIOException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-	}
-
+		
+		/**
+		 * Creating the center panel with two JLables and a JButton and
+		 * adding an event to the checkin button once clicked
+		 */
 	private void setupCenterPanel() {
 		JPanel searchPanel = new JPanel();
 		searchPanel.setLayout(new GridLayout(3, 3));
@@ -54,6 +66,10 @@ public class CheckInGUI extends JFrame implements ActionListener {
 		this.add(searchPanel, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Creating the north panel with a close JButton and
+	 * adding an event to the button once clicked
+	 */
 	private void setupNorthPanel() {
 		JPanel northPanel = new JPanel();
 		close = new JButton("Close");
@@ -61,7 +77,13 @@ public class CheckInGUI extends JFrame implements ActionListener {
 		northPanel.add(close);
 		this.add(northPanel, BorderLayout.NORTH);
 	}
-		
+	
+	/**
+	 * Creating a method which is used when the checkin or close button is clicked. If the checkin 
+	 * button is clicked the method will search through the booking and flight collections to find the specific booking. 
+	 * If the booking is found it will open the confirmGUI frame.
+	 * If the close button is clicked it will generate a flight report.
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == checkin) {
 			// get search text and search booking list
