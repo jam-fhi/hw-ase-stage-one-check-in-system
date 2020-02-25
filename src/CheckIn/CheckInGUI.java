@@ -61,6 +61,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 			String lastNameSearch = lastName.getText().trim();
 			String bookingCodeSearch = bookingCode.getText().trim();
 
+
 			try {
 				if (lastNameSearch.length() > 0 && bookingCodeSearch.length() > 0) {
 
@@ -70,6 +71,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 					confirmGUI = new ConfirmGUI(booking, flight, bookingCollection, flightCollection);
 					confirmGUI.setVisible(true);
 					confirmGUI.setLocationRelativeTo(null);
+
 				} else {
 					displayMessage("Invalid entry. Please input a valid input");
 

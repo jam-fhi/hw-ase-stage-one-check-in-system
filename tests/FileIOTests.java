@@ -1,15 +1,9 @@
-
-
 import static org.junit.Assert.*;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-
 import org.junit.Test;
 import org.junit.Before;
-
+import CheckIn.CheckInIOException;
 import CheckIn.FileIO;
 
 public class FileIOTests {
@@ -36,20 +30,20 @@ public class FileIOTests {
 	}
 	
 	@Test
-	public void testFileReadSuccess() throws IOException {
+	public void testFileReadSuccess() throws CheckInIOException {
 		FileIO FileRead = new FileIO();
 		ArrayList<String> contents = FileRead.readFile(validAsciiFile);
 		assertEquals(contentLineSize, contents.size());
 	}
 	
-	@Test(expected = FileNotFoundException.class)
-	public void testFileReadFileNotFound() throws FileNotFoundException, IOException {
+	@Test(expected = CheckInIOException.class)
+	public void testFileReadFileNotFound() throws CheckInIOException {
 		FileIO FileRead = new FileIO();
 		FileRead.readFile(invalidAsciiFile);
 	}
 	
 	@Test
-	public void testWriteFileSuccess() throws IOException {
+	public void testWriteFileSuccess() throws CheckInIOException {
 		FileIO FileWrite = new FileIO();
 		FileWrite.writeFile(testWriteFile, fileWriteContent);
 		ArrayList<String> readContents = FileWrite.readFile(testWriteFile);
@@ -58,14 +52,14 @@ public class FileIOTests {
 		file.delete();
 	}
 	
-	@Test(expected = IOException.class)
-	public void testWriteFileNoContent() throws IOException {
+	@Test(expected = CheckInIOException.class)
+	public void testWriteFileNoContent() throws CheckInIOException {
 		FileIO FileWrite = new FileIO();
 		FileWrite.writeFile(testWriteFile, fileWriteEmptyContent);
 	}
 
-	@Test(expected = IOException.class)
-	public void testWriteFileReadOnlyFail() throws IOException {
+	@Test(expected = CheckInIOException.class)
+	public void testWriteFileReadOnlyFail() throws CheckInIOException {
 		try {
 			FileIO FileWrite = new FileIO();
 			FileWrite.writeFile(testWriteFile, fileWriteContent);

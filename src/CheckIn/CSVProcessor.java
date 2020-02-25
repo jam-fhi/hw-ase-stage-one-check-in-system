@@ -1,7 +1,5 @@
 package CheckIn;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -9,7 +7,7 @@ public class CSVProcessor {
 
 	private FileIO fileIO = new FileIO();
 	
-	public ArrayList<String[]> parseCSVToStringArray(String fileName) throws FileNotFoundException, IOException {
+	public ArrayList<String[]> parseCSVToStringArray(String fileName) throws CheckInIOException {
 		ArrayList<String> fileLines = fileIO.readFile(fileName);
 		ArrayList<String[]> fileLinesColumns = new ArrayList<String[]>();
 		String[] lineColumns;
@@ -21,7 +19,7 @@ public class CSVProcessor {
 		return fileLinesColumns;
 	}
 	
-	public void parseStringArrayToCSV(String fileName, ArrayList<String[]> fileLine) throws IOException {
+	public void parseStringArrayToCSV(String fileName, ArrayList<String[]> fileLine) throws CheckInIOException {
 		ArrayList<String> fileContents = new ArrayList<String>();
 		Iterator<String[]> fileLinesIt = fileLine.iterator();
 		while(fileLinesIt.hasNext()) {

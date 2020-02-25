@@ -8,7 +8,6 @@ import CheckIn.Flight;
 public class FlightTests {
 
 	private String validFlightCode = "BA123";
-
 	private String validDestinationAirport = "Barcelona";
 	private String validCarrier = "British Airways";
 	private int validMaximumPassengers = 30;
@@ -21,66 +20,62 @@ public class FlightTests {
 	@Before
 	public void beforeEach() {
 		myFlight = new Flight(validFlightCode, validDestinationAirport, validCarrier, validMaximumPassengers,
-				validMaximumBaggageWeight, validMaximumBaggageVolume, validExcessCharge);
+		validMaximumBaggageWeight, validMaximumBaggageVolume, validExcessCharge);
 	}
 
 	@Test
 	public void testFlightCode() {
-
-
 		String resultFlightCode = myFlight.getFlightCode();
-		assertEquals(resultFlightCode, validFlightCode);
+		assertEquals(validFlightCode, resultFlightCode);
 	}
 
 
 	@Test
 	public void testDestinationAirport() {
 		String resultDestinationAirport = myFlight.getDestinationAirport();
-		assertEquals(resultDestinationAirport, validDestinationAirport);
+		assertEquals(validDestinationAirport, resultDestinationAirport);
 	}
 
 	@Test
 	public void testCarrier() {
 		String resultCarrier = myFlight.getCarrier();
-		assertEquals(resultCarrier, validCarrier);
+		assertEquals(validCarrier, resultCarrier);
 	}
 
 	@Test
 	public void testMaximumPassengers() {
 		int resultMaximumPassengers = myFlight.getMaximumPassengers();
-		assertEquals(resultMaximumPassengers, validMaximumPassengers);
+		assertEquals(validMaximumPassengers, resultMaximumPassengers);
 	}
 
 	@Test
 	public void testMaximumBaggageWeight() {
 		double resultMaximumBaggageWeight = myFlight.getMaximumBaggageWeight();
-		assertEquals(resultMaximumBaggageWeight, validMaximumBaggageWeight, deltaPrecisionLoss);
+		assertEquals(validMaximumBaggageWeight, resultMaximumBaggageWeight, deltaPrecisionLoss);
 	}
 
 	@Test
 	public void testMaximumBaggageVolume() {
 		double resultMaximumBaggageVolume = myFlight.getMaximumBaggageVolume();
-		assertEquals(resultMaximumBaggageVolume, validMaximumBaggageVolume, deltaPrecisionLoss);
+		assertEquals(validMaximumBaggageVolume, resultMaximumBaggageVolume, deltaPrecisionLoss);
 	}
 
 	@Test
 	public void testExcessCharge() {
 		double resultExcessCharge = myFlight.getExcessCharge();
-		assertEquals(resultExcessCharge, validExcessCharge, deltaPrecisionLoss);
+		assertEquals(validExcessCharge, resultExcessCharge, deltaPrecisionLoss);
 	}
 
 	@Test
 	public void testAllowedBaggageWeightPerPassenger() {
 		double resultAllowedBaggageWeightPerPassenger = myFlight.getAllowedBaggageWeightPerPassenger();
-		assertEquals(resultAllowedBaggageWeightPerPassenger, validMaximumBaggageWeight / validMaximumPassengers,
+		assertEquals(validMaximumBaggageWeight / validMaximumPassengers, resultAllowedBaggageWeightPerPassenger,
 				deltaPrecisionLoss);
 	}
 
 	@Test
 	public void testAllowedBaggageVolumePerPassenger() {
 		double resultAllowedBaggageVolumePerPassenger = myFlight.getAllowedBaggageVolumePerPassenger();
-		assertEquals(resultAllowedBaggageVolumePerPassenger, validMaximumBaggageVolume / validMaximumPassengers,
-				deltaPrecisionLoss);
+		assertEquals(validMaximumBaggageVolume / validMaximumPassengers, resultAllowedBaggageVolumePerPassenger, deltaPrecisionLoss);
 	}
-
 }
