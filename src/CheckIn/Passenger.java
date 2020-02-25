@@ -1,5 +1,4 @@
 package CheckIn;
-import CheckIn.Bag;
 
 public class Passenger { 
 	private boolean checkIn = false;
@@ -7,21 +6,9 @@ public class Passenger {
 	private String firstName;
 	private String lastName;
 	
-	public Passenger(boolean checkIn,Bag baggage, String firstName, String lastName) {
-		
-		this.checkIn = checkIn;
-		this.baggage = baggage;
+	public Passenger(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-	}
-
-	public boolean isCheckIn() {
-		return checkIn;
-	}
-
-
-	public Bag getBaggage() {
-		return baggage;
 	}
 
 	public String getFirstName() {
@@ -34,40 +21,25 @@ public class Passenger {
 	
 	public Boolean doesLastNameMatch(String checkName) {
 		if (lastName.compareTo(checkName) != 0) {
-			return false;
-			
-		} else 
+			return false;	
+		} else {
 			return true;
-		
+		}
+	}
+
+	public boolean isCheckIn() {
+		return checkIn;
 	}
 
 	public void setCheckIn() {
 		this.checkIn = true;
 	}
-	
+
 	public void addBaggage(Bag baggage) {
-		
 		this.baggage  = baggage; 	
-	
 	}
-	
-	public double getBaggageWeight() {
-		if(baggage != null) {
-			
-			return baggage.getWeight();
-		   } else {
-			   return 0;
-		   }
-	
+
+	public Bag getBaggage() {
+		return baggage;
 	}
-	
-public double getBaggageVolume() {
-	
-	if(baggage != null) {
-		
-		return baggage.getVolume();
-	   } else {
-		   return 0;
-	   }
- 	}
 }
