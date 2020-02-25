@@ -10,7 +10,7 @@ public class Flight {
 	private double excessCharge;
 
 	public Flight(String flightCode, String destinationAirport, String carrier, int maximumPassengers,
-			double maximumBaggageWeight, double maximumBaggageVolume, double excessCharge) {
+		double maximumBaggageWeight, double maximumBaggageVolume, double excessCharge) {
 		this.flightCode = flightCode;
 		this.destinationAirport = destinationAirport;
 		this.carrier = carrier;

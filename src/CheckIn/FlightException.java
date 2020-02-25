@@ -1,7 +1,10 @@
 package CheckIn;
 
 public class FlightException extends Exception {
-		public FlightException(String message){
-			super(message);
-		}
+
+	private static final long serialVersionUID = 1L;
+
+	public FlightException(String message){
+		super(message);
 	}
+}

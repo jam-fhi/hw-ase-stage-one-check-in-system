@@ -8,7 +8,6 @@ import CheckIn.Flight;
 public class FlightTests {
 
 	private String validFlightCode = "BA123";
-
 	private String validDestinationAirport = "Barcelona";
 	private String validCarrier = "British Airways";
 	private int validMaximumPassengers = 30;
@@ -21,13 +20,11 @@ public class FlightTests {
 	@Before
 	public void beforeEach() {
 		myFlight = new Flight(validFlightCode, validDestinationAirport, validCarrier, validMaximumPassengers,
-				validMaximumBaggageWeight, validMaximumBaggageVolume, validExcessCharge);
+		validMaximumBaggageWeight, validMaximumBaggageVolume, validExcessCharge);
 	}
 
 	@Test
 	public void testFlightCode() {
-
-
 		String resultFlightCode = myFlight.getFlightCode();
 		assertEquals(validFlightCode, resultFlightCode);
 	}
@@ -79,8 +76,6 @@ public class FlightTests {
 	@Test
 	public void testAllowedBaggageVolumePerPassenger() {
 		double resultAllowedBaggageVolumePerPassenger = myFlight.getAllowedBaggageVolumePerPassenger();
-		assertEquals(validMaximumBaggageVolume / validMaximumPassengers, resultAllowedBaggageVolumePerPassenger,
-				deltaPrecisionLoss);
+		assertEquals(validMaximumBaggageVolume / validMaximumPassengers, resultAllowedBaggageVolumePerPassenger, deltaPrecisionLoss);
 	}
-
 }

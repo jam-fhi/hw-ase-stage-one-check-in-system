@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ReportGenerator {
-
+	
 	private BookingCollection bookings;
 	private FlightCollection flights;
 	

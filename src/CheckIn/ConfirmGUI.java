@@ -4,33 +4,40 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class ConfirmGUI extends JFrame implements ActionListener {
+public class ConfirmGUI extends JFrame implements ActionListener, WindowListener {
 
+	private static final long serialVersionUID = 1L;
 	private Booking confirmBooking;
 	private Flight confirmFlight;
-	private CheckInGUI checkInGUI;
+	private BookingCollection allBookings;
+	private FlightCollection allFlights;
 
-	JTextField length, height, width, weight, excessBaggageFee;
+	JTextField length, height, width, weight;
 	JButton calculateExcessCharge, close;
-	JTextField result;
+	JLabel result;
 		
-	public ConfirmGUI(Booking aBooking, Flight aFlight, CheckInGUI checkInForm) {
+	public ConfirmGUI(Booking aBooking, Flight aFlight, BookingCollection bookings, FlightCollection flights) {
 
 		confirmBooking = aBooking;
 		confirmFlight = aFlight;
-		this.checkInGUI = checkInForm;
-
+		allBookings = bookings;
+		allFlights = flights;
+		
 		setTitle("Baggage Information ");
 		// ensure program ends when window closes
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setupCenterPanel();
-
+		addWindowListener(this);
 		// pack and set visible
 		pack();
 		setVisible(true);
@@ -42,7 +49,7 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 		length = new JTextField(15);
 		weight = new JTextField(15);
 		JPanel searchPanel = new JPanel();
-		searchPanel.setLayout(new GridLayout(3, 3));
+		searchPanel.setLayout(new GridLayout(5, 2));
 		searchPanel.add(new JLabel("Enter Bag Height: "));
 		searchPanel.add(height);
 		
@@ -55,17 +62,17 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 		searchPanel.add(new JLabel("Enter Bag Weight : "));
 		searchPanel.add(weight);
 		
-		calculateExcessCharge = new JButton("Calculate baggage charge");
+		calculateExcessCharge = new JButton("Check In");
 
 		// Set up the area where the results will be displayed.
-		excessBaggageFee = new JTextField(25);
-		excessBaggageFee.setEditable(false);
+		// excessBaggageFee = new JTextField(25);
+		// excessBaggageFee.setEditable(false);
 		
-		result = new JTextField(25);
-		result.setEditable(false);
-
+		result = new JLabel("");
+		searchPanel.add(result);
+		
 		searchPanel.add(calculateExcessCharge);
-		searchPanel.add(excessBaggageFee);
+		// searchPanel.add(excessBaggageFee);
 		// specify action when button is pressed
 		calculateExcessCharge.addActionListener(this);
 		// Set up the area where the results will be displayed.
@@ -76,8 +83,6 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {		
 		if (e.getSource() == calculateExcessCharge) {
-			// get search text and search booking list
-			// setting result text if found
 			if(isBagWidthValid() && isBagLengthValid() && isBagHeightValid() && isBagWeightValid()) {		
 				double weightSearch = Integer.parseInt(weight.getText().trim());
 				int widthSearch = Integer.parseInt(width.getText().trim());
@@ -88,53 +93,64 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 				confirmBooking.getPassenger().setCheckIn();
 				double allowedBaggageWeight = confirmFlight.getAllowedBaggageWeightPerPassenger();
 				double excessCharge = confirmFlight.getExcessCharge();
-				double excessWeight = weightSearch - allowedBaggageWeight;
-				if(excessWeight >  0) {
-					this.confirmBooking.getPassenger().getBaggage().setExcessCharge(excessWeight, excessCharge);
-					double charge = this.confirmBooking.getPassenger().getBaggage().getExcessCharge();
-					result.setText("Your excess baggage fee is: " + charge);
+				this.confirmBooking.getPassenger().getBaggage().setExcessCharge(allowedBaggageWeight, excessCharge);
+				double charge = this.confirmBooking.getPassenger().getBaggage().getExcessCharge();
+				System.out.println(charge);
+				if(charge >  0) {
+					JOptionPane.showMessageDialog(null, "Your excess baggage fee is: " + charge);
 				}
-				this.dispose();
-				checkInGUI.setVisible(true);
+				saveReportExit();
 			}
 		}
 	}	
 
 	private boolean isBagWidthValid() {
+
+		if(width.getText().trim().compareTo("") == 0) {
+			displayMessage("Invalid entry. Please input a number");
+			return false;			
+		}
+		
 		int widthValue = Integer.parseInt(width.getText().trim());
-
-		if (widthValue < 0 || widthValue > 30) {
-			result.setText("Please enter a valid width value");
-			return false;
-		}
-
-		if (widthValue ==0 || widthValue ==0) {
-			result.setText("Please enter a value");
-			return false;
-		}
-
+		
 		if (widthValue != (int)widthValue) {
-			result.setText("Invalid entry. Please input a number");
+			displayMessage("Invalid entry. Please input a number");
+			return false;
+		}
+		
+		if (widthValue < 0 || widthValue > 100) {
+			displayMessage("Please enter a valid width value");
+			return false;
+		}
+
+		if (widthValue == 0 || widthValue == 0) {
+			displayMessage("Please enter a value");
 			return false;
 		}
 		return true;
 	}
 
 	private boolean isBagLengthValid() {
-		int lengthValue = Integer.parseInt(length.getText().trim());
 
-		if (lengthValue < 0 || lengthValue > 30) {
-			result.setText("Please enter a valid length value");
+		if(length.getText().trim().compareTo("") == 0) {
+			displayMessage("Invalid entry. Please input a number");
+			return false;			
+		}
+		
+		int lengthValue = Integer.parseInt(length.getText().trim());
+		
+		if (lengthValue < 0 || lengthValue > 100) {
+			displayMessage("Please enter a valid length value");
 			return false;
 		}
 	
-		if (lengthValue ==0 || lengthValue ==0) {
-			result.setText("Please enter a value");
+		if (lengthValue == 0 || lengthValue == 0) {
+			displayMessage("Please enter a value");
 			return false;
 		}
 
 		if (lengthValue != (int)lengthValue) {
-			result.setText("Invalid entry. Please input a number");
+			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}
 			
@@ -142,42 +158,112 @@ public class ConfirmGUI extends JFrame implements ActionListener {
 	}
 
 	private boolean isBagHeightValid() {
+		if(height.getText().trim().compareTo("") == 0) {
+			displayMessage("Invalid entry. Please input a number");
+			return false;			
+		}
+		
 		int heightValue = Integer.parseInt(height.getText().trim());
-
-		if (heightValue < 0 || heightValue > 30) {
-			result.setText("Please enter a valid height value");
+		
+		if (heightValue < 0 || heightValue > 100) {
+			displayMessage("Please enter a valid height value");
 			return false;
 		}
 		
-		if (heightValue ==0 || heightValue ==0) {
-			result.setText("Please enter a value");
+		if (heightValue == 0 || heightValue == 0) {
+			displayMessage("Please enter a value");
 			return false;
 		}
 			
 		if (heightValue != (int)heightValue) {
-			result.setText("Invalid entry. Please input a number");
+			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}	
 		return true;
 	}
 
 	private boolean isBagWeightValid() {
+		if(weight.getText().trim().compareTo("") == 0) {
+			displayMessage("Invalid entry. Please input a number");
+			return false;			
+		}
+		
 		int weightValue = Integer.parseInt(weight.getText().trim());
-
-		if (weightValue < 0 || weightValue > 30) {
-			result.setText("Please enter a valid weight value");
+		
+		if (weightValue < 0 || weightValue > 1000) {
+			displayMessage("Please enter a valid weight value");
 			return false;
 		}
 
-		if (weightValue ==0 || weightValue ==0) {
-			result.setText("Please enter a value");
+		if (weightValue == 0 || weightValue == 0) {
+			displayMessage("Please enter a value");
 			return false;
 		}
 
 		if (weightValue != (double)weightValue) {
-			result.setText("Invalid entry. Please input a number");
+			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}
 		return true;
-	}		
+	}	
+	
+	private void displayMessage(String message) {
+		result.setText(message);
+		result.updateUI();
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		saveReportExit();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+	}
+	
+	private void saveReportExit() {
+		try {
+			CheckInGUI checkInGUI = new CheckInGUI(allBookings, allFlights);
+		    checkInGUI.setVisible(true);
+		    checkInGUI.setLocationRelativeTo(null);
+		} catch (BookingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (CheckInIOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		this.dispose();
+	}
 }
