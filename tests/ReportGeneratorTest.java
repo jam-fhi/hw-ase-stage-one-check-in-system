@@ -11,79 +11,166 @@ import CheckIn.CheckInIOException;
 import CheckIn.FlightCollection;
 import CheckIn.ReportGenerator;
 
+/**
+ * ReportGeneratorTest
+ * Test suite to ensure that the report
+ * generator functionality will correctly
+ * output the flights report.
+ * @author jamiehill
+ *
+ */
 public class ReportGeneratorTest {
 
-	// Test files to test with
+	/**
+	 * Test files to test with
+	 */
 	private String reportFile = "FlightsReportTest.csv";
 	private String bookingFile = "bookings.csv";
 	private String flightFile = "flights.csv";
-	// Valid baggage weight test variable
+	
+	/**
+	 *  Valid baggage weight test variable
+	 */
 	private double validAllowedBaggageWeight = 10.0;
-	// Valid excess charge test variable
+	
+	/**
+	 *  Valid excess charge test variable
+	 */
 	private double validExcessCharge = 10;
-	// Expected number of lines in the flight report
+	
+	/**
+	 *  Expected number of lines in the flight report
+	 */
 	private int expectedFlightReportLines = 3;
-	// Valid width, length, height and weight to test with
+	
+	/**
+	 *  Valid width, length, height and weight to test with
+	 */
 	private int validWidth = 15;
 	private int validLength = 15;
 	private int validHeight = 15;
 	private double validWeight = 15.0;
-	// Expected number of passengers checked in
+	
+	/**
+	 *  Expected number of passengers checked in
+	 */
 	private int expectedCheckedIn = 1;
-	// Expected Weight, volume test variables
+	
+	/**
+	 *  Expected Weight, volume test variables
+	 */
 	private double expectedWeight = 15.0;
 	private double expectedVolume = 3375.0;
-	// Expected excess charge amount
+	
+	/**
+	 *  Expected excess charge amount
+	 */
 	private double expectedExcessCharge = 50.0;
-	// Expected remaining capacity test variable
+	
+	/**
+	 *  Expected remaining capacity test variable
+	 */
 	private double expectedRemainingCapacity = 122;
-	// Delta Precision Loss, required for asserting double types
+	
+	/**
+	 *  Delta Precision Loss, required for asserting double types
+	 */
 	private double deltaPrecisionLoss = 0.01;
-	// First report index in the array list of read in report data
+	
+	/**
+	 *  First report index in the array list of read in report data
+	 */
 	private int firstReport = 0;
 	
+	/**
+	 * Baggage object to generate test data with.
+	 */
 	private Bag aBag = new Bag(validWidth, validLength, validHeight, validWeight);
 	
+	/**
+	 * testReportGenerator
+	 * Tests that the report generator
+	 * will correctly generate the expected
+	 * report.
+	 * @throws BookingException
+	 * @throws CheckInIOException
+	 */
 	@Test
 	public void testReportGenerator() throws BookingException, CheckInIOException {
-		// Create a new booking collection and load bookings
+		/**
+		 *  Create a new booking collection and load bookings
+		 */
 		BookingCollection Bookings = new BookingCollection(bookingFile);
-		// Add a bag to one passenger
+		/**
+		 *  Add a bag to one passenger
+		 */
 		Bookings.getBooking("BA123-121", "Hill").getPassenger().addBaggage(aBag);
-		// Set the passenger as checked in
+		/**
+		 *  Set the passenger as checked in
+		 */
 		Bookings.getBooking("BA123-121", "Hill").getPassenger().setCheckIn();
-		// Calculate the excess charge
+		/**
+		 *  Calculate the excess charge
+		 */
 		Bookings.getBooking("BA123-121", "Hill").getPassenger().getBaggage().setExcessCharge(validAllowedBaggageWeight, validExcessCharge);
-		// Add bags to the other passengers
+		/**
+		 *  Add bags to the other passengers
+		 */
 		Bookings.getBooking("BA124-122", "Abulhawa").getPassenger().addBaggage(aBag);
 		Bookings.getBooking("BA123-123", "Ghoghari").getPassenger().addBaggage(aBag);
 		Bookings.getBooking("BA124-124", "McFarland").getPassenger().addBaggage(aBag);
 		Bookings.getBooking("BA125-125", "Muir").getPassenger().addBaggage(aBag);
-		// Create a flight collection from the flight collection file
+		/**
+		 *  Create a flight collection from the flight collection file
+		 */
 		FlightCollection Flights = new FlightCollection(flightFile);
-		// Create a report generator object, taking the test data to output in a report file
+		/**
+		 *  Create a report generator object, taking the test data to output in a report file
+		 */
 		new ReportGenerator(Bookings, Flights, reportFile);
-		// Create a new csv processor object
+		/**
+		 *  Create a new CSV processor object
+		 */
 		CSVProcessor csvProc = new CSVProcessor();
-		// Read in the report that was generated
+		/**
+		 *  Read in the report that was generated
+		 */
 		ArrayList<String[]> report = csvProc.parseCSVToStringArray(reportFile);
-		// Get a file handle for the test report file
+		/**
+		 *  Get a file handle for the test report file
+		 */
 		File file = new File(reportFile); 
-		// Delete the test report file as part of test clean up
+		/**
+		 *  Delete the test report file as part of test clean up
+		 */
 		file.delete();
-		// Assert the expected number of lines in the test report file
+		/**
+		 *  Assert the expected number of lines in the test report file
+		 */
 		assertEquals(expectedFlightReportLines, report.size());
-		// Extract the first entry in the test report file
+		/**
+		 *  Extract the first entry in the test report file
+		 */
 		String[] reportLine = report.remove(firstReport);
-		// Assert that the number of passengers checked in is as expected
+		/**
+		 *  Assert that the number of passengers checked in is as expected
+		 */
 		assertEquals(expectedCheckedIn, Integer.parseInt(reportLine[0]));
-		// Assert the weight checked in is as expected
+		/**
+		 *  Assert the weight checked in is as expected
+		 */
 		assertEquals(expectedWeight, Double.parseDouble(reportLine[1]), deltaPrecisionLoss);
-		// Assert the volume checked in is as expected
+		/**
+		 *  Assert the volume checked in is as expected
+		 */
 		assertEquals(expectedVolume, Double.parseDouble(reportLine[2]), deltaPrecisionLoss);
-		// Assert the excess charge checked in is as expected
+		/**
+		 *  Assert the excess charge checked in is as expected
+		 */
 		assertEquals(expectedExcessCharge, Double.parseDouble(reportLine[3]), deltaPrecisionLoss);
-		// Assert that the remaining capacity checked in is as expected
+		/**
+		 *  Assert that the remaining capacity checked in is as expected
+		 */
 		assertEquals(expectedRemainingCapacity, Integer.parseInt(reportLine[4]), deltaPrecisionLoss);
 	}
 }
