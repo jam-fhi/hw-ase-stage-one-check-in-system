@@ -1,7 +1,7 @@
 package CheckIn;
 
 /**
- * Importing all the GUI classes
+ *Importing all the GUI classes
  */
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -10,11 +10,10 @@ import javax.swing.*;
 
 /**
  * Simple GUI for Checkin application
- * 
  * @author amymcfarland
  */
 public class CheckInGUI extends JFrame implements ActionListener, WindowListener {
-
+	
 	/**
 	 * The flight and booking collection classes to be searched
 	 */
@@ -22,7 +21,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	private BookingCollection bookingCollection;
 	private FlightCollection flightCollection;
 	private ConfirmGUI confirmGUI;
-
+	
 	/**
 	 * Creating GUI components to be included in GUI panels
 	 */
@@ -43,7 +42,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 		// ensure program ends when window closes
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setupCenterPanel();
-
+		
 		addWindowListener(this);
 
 		// pack and set visible
@@ -83,7 +82,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	 * Creating a method which is used when the check in button is clicked. Once the 
 	 * button is clicked the method finds the booking and flight. If the booking the found it
 	 * then opens the confirmGUI. 
-	 * @param e used when a button is clicked
+	 * @param e used when a button is clicked 
 	 */
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getSource());
@@ -104,35 +103,20 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 					confirmGUI.setLocationRelativeTo(null);
 				} else {
 					displayMessage("Invalid entry. Please input a valid input");
-          
+
 				}
 				if (lastNameSearch.isEmpty() || bookingCodeSearch.isEmpty()) {
 					displayMessage("Please input all information required");
 				}
 
 			} catch (BookingException ex) {
-				result.setText(ex.getMessage());
-				result.updateUI();
+				displayMessage(ex.getMessage());
 			} catch (FlightException ex) {
-				result.setText(ex.getMessage());
-				result.updateUI();
+				displayMessage(ex.getMessage());
 			}
 		}
 
 	}
-
-	/**
-	 * Creating a method which displays messages in the GUI.
-	 * 
-	 * @param message adding in a messages to be able to display it on the GUI.
-	 */
-
-	private void displayMessage(String message) {
-		result.setText(message);
-		result.updateUI();
-	 }
- }
-}
 		
 	/**
 	 * Creating a method which displays messages in the GUI.
@@ -150,7 +134,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	 */
 	private void saveReport(JFrame app) {
 		try {
-			new ReportGenerator(bookingCollection, flightCollection, "FlightReport.txt");
+			new ReportGenerator(bookingCollection, flightCollection, "FlightReport.csv");
 		} catch (CheckInIOException e1) {
 			// TODO Auto-generated catch block
 			// It's on exit of the application, nothing we can really do at this point.
@@ -158,7 +142,6 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 		} finally {
 			app.dispose();
 		}
-
 	}
 
 	/**
@@ -169,7 +152,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	/**
@@ -180,7 +163,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	/**
@@ -191,7 +174,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	@Override
 	public void windowIconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	/**
@@ -202,7 +185,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 	
 	/**
@@ -213,7 +196,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	@Override
 	public void windowActivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	/**
@@ -224,6 +207,6 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 }
