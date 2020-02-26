@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+/**
+ * creating a TreeSet using FlightCollection
+ * 
+ * @author NadiaAbulhawa
+ *
+ */
+
 public class FlightCollection {
 	FlightComparator flightComp = new FlightComparator();
 	TreeSet<Flight> flightCollection = new TreeSet<Flight>(flightComp);
@@ -12,6 +19,15 @@ public class FlightCollection {
 		loadFlights(fileName);
 	}
 	
+	/**
+	 * creating a method to load flights from the flight.csv file the method does
+	 * this by iterating through the list of flights and uses the
+	 * parseCSVToStringArray to split each line into parts. A flight object is
+	 * created and added to the list.
+	 * 
+	 * @param fileName using the flight.csv file
+	 * @throws CheckInIOException
+	 */
 	public void loadFlights(String fileName) throws CheckInIOException {
 		CSVProcessor csvProc = new CSVProcessor ();
 		ArrayList<String[]> rawFlights = csvProc.parseCSVToStringArray(fileName);
@@ -30,6 +46,15 @@ public class FlightCollection {
 		}
 	}
 
+	/**
+	 * method to find a flight by iterating through the FlightCollection and
+	 * comparing flight codes of two flights. If the comparator equals 0 then the
+	 * flight has been found and returned
+	 * 
+	 * @param flightCode
+	 * @return aFlight returning a flight
+	 * @throws FlightException
+	 */
 	public Flight findFlight(String flightCode) throws FlightException {
 		Iterator<Flight> iterator = flightCollection.iterator();
 		while(iterator.hasNext()) {
@@ -41,6 +66,11 @@ public class FlightCollection {
 		throw new FlightException("Flight not found");
 	}
 	
+	/**
+	 * method to return list of flights
+	 * 
+	 * @return flightCollection returning flightCollection
+	 */
 	public TreeSet<Flight> getFlightCollection() {
 		return flightCollection;
 	}
