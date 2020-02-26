@@ -10,9 +10,11 @@ import javax.swing.*;
 
 /**
  * Simple GUI for Checkin application
+ * 
+ * @author amymcfarland
  */
 public class CheckInGUI extends JFrame implements ActionListener, WindowListener {
-	
+
 	/**
 	 * The flight and booking collection classes to be searched
 	 */
@@ -20,20 +22,22 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	private BookingCollection bookingCollection;
 	private FlightCollection flightCollection;
 	private ConfirmGUI confirmGUI;
-	
+
 	/**
 	 * Creating GUI components to be included in GUI panels
 	 */
 	JTextField lastName, bookingCode, searchField;
 	JLabel result;
 	JButton checkin, close;
-	
+
 	/**
 	 * Create the frame with panels.
+	 * 
 	 * @param bookings the list of bookings
-	 * @param flights the list of flights
+	 * @param flights  the list of flights
 	 */
-	public CheckInGUI(BookingCollection bookings, FlightCollection flights) throws BookingException, CheckInIOException {
+	public CheckInGUI(BookingCollection bookings, FlightCollection flights)
+			throws BookingException, CheckInIOException {
 		this.bookingCollection = bookings;
 		this.flightCollection = flights;
 		// set up window title
@@ -41,7 +45,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 		// ensure program ends when window closes
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setupCenterPanel();
-		
+
 		addWindowListener(this);
 
 		// pack and set visible
@@ -71,6 +75,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 
 	/**
 	 * Creating a method that closes the window and creates the report.
+	 * 
 	 * @param e which indicates that the window has changed status.
 	 */
 	public void windowClosing(WindowEvent e) {
@@ -78,10 +83,11 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	}
 
 	/**
-	 * Creating a method which is used when the check in button is clicked. Once the 
-	 * button is clicked the method finds the booking and flight. If the booking the found it
-	 * then opens the confirmGUI. 
-	 * @param e used when a button is clicked 
+	 * Creating a method which is used when the check in button is clicked. Once the
+	 * button is clicked the method finds the booking and flight. If the booking the
+	 * found it then opens the confirmGUI.
+	 * 
+	 * @param e used when a button is clicked
 	 */
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getSource());
@@ -118,65 +124,68 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 		}
 
 	}
-		
+
 	/**
 	 * Creating a method which displays messages in the GUI.
+	 * 
 	 * @param message adding in a messages to be able to display it on the GUI.
 	 */
-	
+
 	private void displayMessage(String message) {
 		result.setText(message);
 		result.updateUI();
 	}
 
 	/**
-	 * Creating a method which generates the report to a csv file with a CheckInIOException
-	 * @param app 
+	 * Creating a method which generates the report to a csv file with a
+	 * CheckInIOException
+	 * 
+	 * @param app
 	 */
 	private void saveReport(JFrame app) {
 		try {
-			new ReportGenerator(bookingCollection, flightCollection, "FlightReport.csv");
+			new ReportGenerator(bookingCollection, flightCollection, "FlightReport.txt");
 		} catch (CheckInIOException e1) {
 			// TODO Auto-generated catch block
 			// It's on exit of the application, nothing we can really do at this point.
 			e1.printStackTrace();
 		}
-		app.dispose();	
+		app.dispose();
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowActivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
