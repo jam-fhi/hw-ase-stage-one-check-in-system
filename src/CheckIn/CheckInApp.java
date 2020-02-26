@@ -2,10 +2,17 @@ package CheckIn;
 
 import javax.swing.JOptionPane;
 
+/**
+ * @author amymcfarland
+ */
+
 public class CheckInApp {
 	
 	private CheckInGUI checkinGUI;
-
+	
+	/**
+	 * method to show each GUI 
+	 */
     public void showGUI() throws BookingException, CheckInIOException {
 		try {
 			BookingCollection bookingCollection = new BookingCollection("bookings.csv");
@@ -19,7 +26,10 @@ public class CheckInApp {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
     }    
-    
+    /**
+	 * Method to run GUI 
+	 * @param arg
+	 */
     public static void main (String arg[]) throws BookingException, CheckInIOException  {
     	CheckInApp cia = new CheckInApp();
     	cia.showGUI();
