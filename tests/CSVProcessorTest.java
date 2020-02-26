@@ -1,22 +1,18 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import CheckIn.CSVProcessor;
+import CheckIn.CheckInIOException;
 
 public class CSVProcessorTest {
 	
 	private String validCSVFile = "bookings.csv";
 	private String invalidCSVFile = "noBookings.csv";
 	private int expectedRows = 5;
-	private int expectedCols = 5;
+	private int expectedCols = 4;
 	private String colOneA = "Col One A";
 	private String colTwoA = "Col Two A";
 	private String colThreeA = "Col Three A";
@@ -39,7 +35,7 @@ public class CSVProcessorTest {
 	}
 	
 	@Test
-	public void testReadCSV() throws FileNotFoundException, IOException {
+	public void testReadCSV() throws CheckInIOException {
 		CSVProcessor csvProc = new CSVProcessor();
 		ArrayList<String[]> csvResult = csvProc.parseCSVToStringArray(validCSVFile);
 		assertEquals(csvResult.size(), expectedRows);
@@ -47,14 +43,14 @@ public class CSVProcessorTest {
 		assertEquals(csvRow.length, expectedCols);
 	}
 	
-	@Test(expected = FileNotFoundException.class)
-	public void testReadCSVFileNotFound() throws FileNotFoundException, IOException {
+	@Test(expected = CheckInIOException.class)
+	public void testReadCSVFileNotFound() throws CheckInIOException {
 		CSVProcessor csvProc = new CSVProcessor();
 		csvProc.parseCSVToStringArray(invalidCSVFile);
 	}
 	
 	@Test
-	public void testWriteCSV() throws IOException {
+	public void testWriteCSV() throws CheckInIOException {
 		CSVProcessor csvProc = new CSVProcessor();
 		csvProc.parseStringArrayToCSV(outputCSVFileName, outputCSV);
 		ArrayList<String[]> readCSVTest = csvProc.parseCSVToStringArray(outputCSVFileName);
@@ -65,14 +61,33 @@ public class CSVProcessorTest {
 		file.delete();
 	}
 	
-	@Test(expected = IOException.class)
-	public void testWriteCSVFileNoContent() throws IOException {
+	@Test
+	public void testWriteBlankCSV() throws CheckInIOException {
+		CSVProcessor csvProc = new CSVProcessor();
+		ArrayList<String[]> blankLine = new ArrayList<String[]>();
+		String[] lineOne = {"One", "Two", "Three"};
+		String[] lineTwo = {}; 
+		String[] lineThree = {"One", "Two", "Three"};
+		blankLine.add(lineOne);
+		blankLine.add(lineTwo);
+		blankLine.add(lineThree);
+		csvProc.parseStringArrayToCSV(outputCSVFileName, blankLine);
+		ArrayList<String[]> readCSVTest = csvProc.parseCSVToStringArray(outputCSVFileName);
+		assertEquals(readCSVTest.size(), outputExpectedRows);
+		String[] oneLine = readCSVTest.remove(0);
+		assertEquals(oneLine.length, outputExpectedCols);
+		File file = new File(outputCSVFileName); 
+		file.delete();
+	}
+	
+	@Test(expected = CheckInIOException.class)
+	public void testWriteCSVFileNoContent() throws CheckInIOException {
 		CSVProcessor csvProc = new CSVProcessor();
 		csvProc.parseStringArrayToCSV(outputCSVFileName, emptyCSV);
 	}
 
-	@Test(expected = IOException.class)
-	public void testWriteFileReadOnlyFail() throws IOException {
+	@Test(expected = CheckInIOException.class)
+	public void testWriteFileReadOnlyFail() throws CheckInIOException {
 		try {
 			CSVProcessor csvProc = new CSVProcessor();
 			csvProc.parseStringArrayToCSV(outputCSVFileName, outputCSV);
@@ -85,5 +100,4 @@ public class CSVProcessorTest {
 			file.delete();
 		}
 	}
-	
 }

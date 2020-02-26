@@ -1,8 +1,10 @@
 package CheckIn;
 
+
 /**
  * Importing all the GUI classes
  */
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 /**
  * Simple GUI for Confirm checkin application
  */
@@ -24,12 +27,13 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 	/**
 	 * The booking, flight, flight and booking collection classes to be searched
 	 */
+  
 	private static final long serialVersionUID = 1L;
 	private Booking confirmBooking;
 	private Flight confirmFlight;
 	private BookingCollection allBookings;
 	private FlightCollection allFlights;
-	
+
 	/**
 	 * Creating GUI components to be included in GUI panels
 	 */
@@ -44,6 +48,7 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 	 * @param bookings list all bookings to be searched
 	 * @param flights  list all flights to be searched
 	 */	
+
 	public ConfirmGUI(Booking aBooking, Flight aFlight, BookingCollection bookings, FlightCollection flights) {
 
 		confirmBooking = aBooking;
@@ -60,10 +65,12 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 		pack();
 		setVisible(true);
 	}
+
 	
 	/**
 	 * Creating the centre panel with a four JTextFields and a JButton 
 	 */
+
 	private void setupCenterPanel() {
 		height = new JTextField(15);
 		width = new JTextField(15);
@@ -101,6 +108,7 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 		// add south panel to the content pane
 		this.add(searchPanel, BorderLayout.CENTER);
 	}
+
 	
 	/**
 	 * Creating a method which is used when the calculateExcessXharge button is clicked. Once the 
@@ -136,6 +144,7 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 		}
 	}	
 
+
 	/**
 	 * Creating a method to check if the baggage width is valid by using if statements.
 	 * It ensures the baggage width is an int, between 0 and 100 and doesn't equal 0. 
@@ -168,12 +177,14 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 		return true;
 	}
 
+
 	/**
 	 * Creating a method to check if the baggage length is valid by using if statements.
 	 * It ensures the baggage length is an int, between 0 and 100 and doesn't equal 0. 
 	 * @return false when length doesn't fulfil an if statement
 	 * @return true when length fulfils each if statement
 	 */
+
 	private boolean isBagLengthValid() {
 
 		if(length.getText().trim().compareTo("") == 0) {
@@ -200,6 +211,7 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 			
 		return true;
 	}
+
 	
 	/**
 	 * Creating a method to check if the baggage height is valid by using if statements.
@@ -231,6 +243,7 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 		}	
 		return true;
 	}
+
 
 	/**
 	 * Creating a method to check if the baggage weight is valid by using if statements.
@@ -308,6 +321,7 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 		// TODO Auto-generated method stub
 	}
 	
+
 	/**
 	 * Creating a method to open the checkin GUI once frame is closed
 	 * 
