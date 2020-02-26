@@ -1,8 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.TreeSet;
 
 import org.junit.Before;
@@ -38,7 +36,7 @@ public class FlightCollectionTests {
 	@Test
 	public void testUnsuccessfullyLoadsFlights() {
 		try {
-			FlightCollection flightCollection = new FlightCollection(invalidFlightsCSV);
+			new FlightCollection(invalidFlightsCSV);
 			fail("Didn't throw");
 		} catch (CheckInIOException myException) {
 			assertEquals(errorIOMessage, myException.getMessage());
@@ -59,5 +57,4 @@ public class FlightCollectionTests {
 		Flight aFlight = validFlightCollection.findFlight(validFlightCode);
 		assertEquals(validFlightCode, aFlight.getFlightCode());
 	}
-
 }
