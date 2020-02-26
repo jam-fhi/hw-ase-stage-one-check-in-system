@@ -35,7 +35,7 @@ public class FileIOTests {
 	 *  Expected file line counts for generated and existing files
 	 */
 	private int contentTestSize = 3;
-	private int contentLineSize = 5;
+	private int contentLineSize = 11;
 	
 	/**
 	 *  Test file content variables.

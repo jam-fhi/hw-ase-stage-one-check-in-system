@@ -67,7 +67,7 @@ public class FileIO {
 			 *  Catch an input/output exception and throw a custom exception with message.
 			 */
 			throw new CheckInIOException("There was a problem reading the file " + fileName);
-		} 
+		}
 		return fileContents;
 	}
 

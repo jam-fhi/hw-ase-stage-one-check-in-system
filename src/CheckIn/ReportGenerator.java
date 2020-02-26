@@ -19,6 +19,11 @@ public class ReportGenerator {
 	private FlightCollection flights;
 	
 	/**
+	 * CSV output headers
+	 */
+	private String[] reportHeader = {"Checked In Passengers", "Total Baggage Weight", "Total Baggage Volume", "Total Excess Charge", "Flight Capacity Remaining"};
+	
+	/**
 	 * ReportGenerator
 	 * Constructor, it will take in a collection of bookings and flights
 	 * before generating the the statistics per flight before writing
@@ -58,6 +63,10 @@ public class ReportGenerator {
 		 *  Create an array list of string arrays to store the csv report output
 		 */
 		ArrayList<String[]> flightReport = new ArrayList<String[]>();
+		/**
+		 * Add the file header to the output
+		 */
+		flightReport.add(reportHeader);
 		/**
 		 *  Loop through all the flights
 		 */

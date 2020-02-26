@@ -41,7 +41,7 @@ public class ReportGeneratorTest {
 	/**
 	 *  Expected number of lines in the flight report
 	 */
-	private int expectedFlightReportLines = 3;
+	private int expectedFlightReportLines = 4;
 	
 	/**
 	 *  Valid width, length, height and weight to test with
@@ -70,7 +70,7 @@ public class ReportGeneratorTest {
 	/**
 	 *  Expected remaining capacity test variable
 	 */
-	private double expectedRemainingCapacity = 122;
+	private double expectedRemainingCapacity = 119;
 	
 	/**
 	 *  Delta Precision Loss, required for asserting double types
