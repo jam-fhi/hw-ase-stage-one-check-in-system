@@ -109,11 +109,9 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 				}
 
 			} catch (BookingException ex) {
-				result.setText(ex.getMessage());
-				result.updateUI();
+				displayMessage(ex.getMessage());
 			} catch (FlightException ex) {
-				result.setText(ex.getMessage());
-				result.updateUI();
+				displayMessage(ex.getMessage());
 			}
 		}
 
@@ -140,40 +138,71 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 			// TODO Auto-generated catch block
 			// It's on exit of the application, nothing we can really do at this point.
 			e1.printStackTrace();
+		} finally {
+			app.dispose();
 		}
-		app.dispose();	
 	}
 
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowIconified(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowActivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
