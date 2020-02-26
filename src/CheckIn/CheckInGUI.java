@@ -29,15 +29,13 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	JTextField lastName, bookingCode, searchField;
 	JLabel result;
 	JButton checkin, close;
-
+	
 	/**
 	 * Create the frame with panels.
-	 * 
 	 * @param bookings the list of bookings
-	 * @param flights  the list of flights
+	 * @param flights the list of flights
 	 */
-	public CheckInGUI(BookingCollection bookings, FlightCollection flights)
-			throws BookingException, CheckInIOException {
+	public CheckInGUI(BookingCollection bookings, FlightCollection flights) throws BookingException, CheckInIOException {
 		this.bookingCollection = bookings;
 		this.flightCollection = flights;
 		// set up window title
@@ -75,7 +73,6 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 
 	/**
 	 * Creating a method that closes the window and creates the report.
-	 * 
 	 * @param e which indicates that the window has changed status.
 	 */
 	public void windowClosing(WindowEvent e) {
@@ -83,10 +80,9 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	}
 
 	/**
-	 * Creating a method which is used when the check in button is clicked. Once the
-	 * button is clicked the method finds the booking and flight. If the booking the
-	 * found it then opens the confirmGUI.
-	 * 
+	 * Creating a method which is used when the check in button is clicked. Once the 
+	 * button is clicked the method finds the booking and flight. If the booking the found it
+	 * then opens the confirmGUI. 
 	 * @param e used when a button is clicked
 	 */
 	public void actionPerformed(ActionEvent e) {
@@ -108,7 +104,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 					confirmGUI.setLocationRelativeTo(null);
 				} else {
 					displayMessage("Invalid entry. Please input a valid input");
-
+          
 				}
 				if (lastNameSearch.isEmpty() || bookingCodeSearch.isEmpty()) {
 					displayMessage("Please input all information required");
@@ -134,13 +130,23 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	private void displayMessage(String message) {
 		result.setText(message);
 		result.updateUI();
+	 }
+ }
+}
+		
+	/**
+	 * Creating a method which displays messages in the GUI.
+	 * @param message adding in a messages to be able to display it on the GUI.
+	 */
+	
+	private void displayMessage(String message) {
+		result.setText(message);
+		result.updateUI();
 	}
 
 	/**
-	 * Creating a method which generates the report to a csv file with a
-	 * CheckInIOException
-	 * 
-	 * @param app
+	 * Creating a method which generates the report to a csv file with a CheckInIOException
+	 * @param app 
 	 */
 	private void saveReport(JFrame app) {
 		try {
@@ -149,40 +155,72 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 			// TODO Auto-generated catch block
 			// It's on exit of the application, nothing we can really do at this point.
 			e1.printStackTrace();
+		} finally {
+			app.dispose();
 		}
-		app.dispose();
+
 	}
 
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowIconified(WindowEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowActivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Creating method studs to conform to the
+	 * window listener abstract interface
+	 * @param e which indicates that the window has changed status.
+	 */
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
