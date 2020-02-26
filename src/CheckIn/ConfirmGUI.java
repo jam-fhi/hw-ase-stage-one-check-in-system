@@ -2,9 +2,8 @@ package CheckIn;
 
 
 /**
- * Importing all the GUI classes
+ *Importing all the GUI classes
  */
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -21,6 +20,7 @@ import javax.swing.JTextField;
 
 /**
  * Simple GUI for Confirm checkin application
+ * @author amymcfarland
  */
 public class ConfirmGUI extends JFrame implements ActionListener, WindowListener {
 	
