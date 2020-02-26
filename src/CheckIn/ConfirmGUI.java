@@ -2,7 +2,7 @@ package CheckIn;
 
 
 /**
- * Importing all the GUI classes
+ *Importing all the GUI classes
  */
 
 import java.awt.BorderLayout;
@@ -21,13 +21,14 @@ import javax.swing.JTextField;
 
 /**
  * Simple GUI for Confirm checkin application
+ * @author amymcfarland
  */
+
 public class ConfirmGUI extends JFrame implements ActionListener, WindowListener {
 	
 	/**
 	 * The booking, flight, flight and booking collection classes to be searched
 	 */
-  
 	private static final long serialVersionUID = 1L;
 	private Booking confirmBooking;
 	private Flight confirmFlight;
