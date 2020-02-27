@@ -14,7 +14,7 @@ import CheckIn.BookingException;
 import CheckIn.CheckInIOException;
 
 public class BookingCollectionTest {
-	
+	// test if a booking collection with a valid file can be initialised
 	@Test
 	public void testloadbookings() {
 		try {
@@ -23,7 +23,7 @@ public class BookingCollectionTest {
 			fail("exception thrown");
 		}
 	}
-		
+	// test if a booking can be retrieved	
 	@Test
 	public void testgetbooking() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
@@ -31,7 +31,7 @@ public class BookingCollectionTest {
 		assertEquals(test1.getPassenger().getFirstName() , "Jamie");
 		assertEquals(test1.getFlightCode(), "BA123" );
 	}
-	
+	// test if the exception for an invalid file is thrown
 	@Test
 	public void testfilenotfound() {
 		try {
@@ -41,7 +41,7 @@ public class BookingCollectionTest {
 			assertEquals(e.getMessage() ,"The file fakefilename was not found");
 		}
 	}
-		
+	// test if the exception for an invalid booking code is thrown
 	@Test
 	public void  testinvalidbookingcode() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
@@ -54,7 +54,7 @@ public class BookingCollectionTest {
 	}	
 
 	/**
-	 * tests that exception is thrown for invalid dates
+	 * tests that exception is thrown for invalid names 
 	 * @throws BookingException 
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
@@ -67,7 +67,7 @@ public class BookingCollectionTest {
 		TestCollection.getBooking("BA123-121", "Hillock");
 		fail("Booking Exception not thrown");
 	}
-
+	// test if it can retrieve passengers by flight code
 	@Test
 	public void testgetbookingbyflightcode() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
@@ -75,7 +75,7 @@ public class BookingCollectionTest {
 		Booking test1 = testarray.get(1);
 		assertEquals( "Jamie" , test1.getPassenger().getFirstName() );
 		assertEquals(test1.getFlightCode(), "BA123" );
-	}
+	}// test an invalid flight code
 
 	@Test
 	public void testgetbookingbyflightcodeinvalid() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
