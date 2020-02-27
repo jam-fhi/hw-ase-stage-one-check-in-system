@@ -1,4 +1,5 @@
-Barcelona,British Airways,BA123,123,123,123,10
-Sydney,British Airways,BA124,123,123,123,12
-Oslo,British Airways,BA125,123,123,123,15
-New York,Easy Jet,EZ234,123,123,123,10
+Destination,Carrier,Flight Code,Maximum Passengers,Maximum Weight,Maximum Volume,Excess Charge
+Barcelona,British Airways,BA123,120,2400,75000,10
+Sydney,British Airways,BA124,54,1080,48000,12
+Oslo,British Airways,BA125,42,840,40000,15
+New York,Easy Jet,EZ234,255,5100,425000,10

@@ -25,7 +25,7 @@ public class CSVProcessorTest {
 	/**
 	 *  Expected row and column values for existing file
 	 */
-	private int expectedRows = 5;
+	private int expectedRows = 10;
 	private int expectedCols = 4;
 	/**
 	 *  Expected row and column values for generated file contents
@@ -41,6 +41,10 @@ public class CSVProcessorTest {
 	private String colOneB = "Col One B";
 	private String colTwoB = "Col Two B";
 	private String colThreeB = "Col Three B";
+	/**
+	 * Test Column Header
+	 */
+	private String[] colHeader = {"Col1", "Col2", "Col3"};
 	/**
 	 *  Test output content variable
 	 */
@@ -68,6 +72,7 @@ public class CSVProcessorTest {
 		/**
 		 *  Add each of the string array lines to the array list
 		 */
+		outputCSV.add(colHeader);
 		outputCSV.add(oneLine);
 		outputCSV.add(twoLine);
 	}
@@ -203,6 +208,7 @@ public class CSVProcessorTest {
 		/**
 		 *  Add them to our test file array list
 		 */
+		blankLine.add(colHeader);
 		blankLine.add(lineOne);
 		blankLine.add(lineTwo);
 		blankLine.add(lineThree);

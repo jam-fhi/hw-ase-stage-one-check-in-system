@@ -39,6 +39,10 @@ public class CSVProcessor {
 		 */
 		ArrayList<String> fileLines = fileIO.readFile(fileName);
 		/**
+		 * Remove the file header line before processing the data
+		 */
+		fileLines.remove(0);
+		/**
 		 *  Create array list of string arrays to store csv columns in the string array and each row of the file in the array list.
 		 */
 		ArrayList<String[]> fileLinesColumns = new ArrayList<String[]>();
