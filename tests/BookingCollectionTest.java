@@ -13,8 +13,17 @@ import CheckIn.BookingCollection;
 import CheckIn.BookingException;
 import CheckIn.CheckInIOException;
 
+/**
+ * BookingCollectionTest
+ * Test suite for the booking collection
+ * @author jamiehill
+ *
+ */
 public class BookingCollectionTest {
-	// test if a booking collection with a valid file can be initialised
+	/**
+	 * testloadbookings
+	 *  test if a booking collection with a valid file can be initialised
+	 */
 	@Test
 	public void testloadbookings() {
 		try {
@@ -23,7 +32,13 @@ public class BookingCollectionTest {
 			fail("exception thrown");
 		}
 	}
-	// test if a booking can be retrieved	
+	/**
+	 *  test if a booking can be retrieved	
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws BookingException
+	 * @throws CheckInIOException
+	 */
 	@Test
 	public void testgetbooking() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
@@ -31,7 +46,9 @@ public class BookingCollectionTest {
 		assertEquals(test1.getPassenger().getFirstName() , "Jamie");
 		assertEquals(test1.getFlightCode(), "BA123" );
 	}
-	// test if the exception for an invalid file is thrown
+	/**
+	 *  test if the exception for an invalid file is thrown
+	 */
 	@Test
 	public void testfilenotfound() {
 		try {
@@ -41,7 +58,13 @@ public class BookingCollectionTest {
 			assertEquals(e.getMessage() ,"The file fakefilename was not found");
 		}
 	}
-	// test if the exception for an invalid booking code is thrown
+	/**
+	 *  test if the exception for an invalid booking code is thrown
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws BookingException
+	 * @throws CheckInIOException
+	 */
 	@Test
 	public void  testinvalidbookingcode() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
@@ -67,7 +90,13 @@ public class BookingCollectionTest {
 		TestCollection.getBooking("BA123-121", "Hillock");
 		fail("Booking Exception not thrown");
 	}
-	// test if it can retrieve passengers by flight code
+	/**
+	 *  test if it can retrieve passengers by flight code
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws BookingException
+	 * @throws CheckInIOException
+	 */
 	@Test
 	public void testgetbookingbyflightcode() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
@@ -75,8 +104,15 @@ public class BookingCollectionTest {
 		Booking test1 = testarray.get(1);
 		assertEquals( "Jamie" , test1.getPassenger().getFirstName() );
 		assertEquals(test1.getFlightCode(), "BA123" );
-	}// test an invalid flight code
-
+	}
+	
+	/**
+	 *  test an invalid flight code
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws BookingException
+	 * @throws CheckInIOException
+	 */
 	@Test
 	public void testgetbookingbyflightcodeinvalid() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
