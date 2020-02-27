@@ -111,4 +111,12 @@ public class Bag {
 	public double getExcessCharge() {
 		return excessCharge;
 	}
+	/**
+	 * get method to return baggage
+	 * 
+	 * @return baggage
+	 */
+	public Bag getBaggage() {
+		return baggage;
+	}
 }
