@@ -58,14 +58,19 @@ public class Passenger {
 	}
 
 	/**
-	 * creating method to check if check-in is done
+	 * creating method to set check-in to true
 	 * 
-	 * @return true if passenger has checked in
-	 * @return false if passenger has not checked in 
+	 * @return true
 	 */
 	public boolean isCheckIn() {
 		return checkIn;
 	}
+	
+	/**
+	 * creating method to check if check-in is done
+	 * 
+	 * @return true
+	 */
 
 	public void setCheckIn() {
 		this.checkIn = true;
@@ -79,12 +84,4 @@ public class Passenger {
 		this.baggage  = baggage; 	
 	}
 
-	/**
-	 * get method to return baggage
-	 * 
-	 * @return baggage
-	 */
-	public Bag getBaggage() {
-		return baggage;
-	}
 }
