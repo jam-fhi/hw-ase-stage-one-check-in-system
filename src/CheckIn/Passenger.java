@@ -83,5 +83,7 @@ public class Passenger {
 	public void addBaggage(Bag baggage) {
 		this.baggage  = baggage; 	
 	}
-
+	public Bag getBaggage() {
+		return baggage;
+	}
 }

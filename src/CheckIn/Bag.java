@@ -116,7 +116,5 @@ public class Bag {
 	 * 
 	 * @return baggage
 	 */
-	public Bag getBaggage() {
-		return baggage;
-	}
+	
 }
