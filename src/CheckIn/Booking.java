@@ -62,7 +62,7 @@ public class Booking {
 	
 	/**
 	 *  this should be called to retrieve information about the passenger and their bags and excess baggage
-	 * @return
+	 * @return Passenger
 	 */
 	public Passenger getPassenger() {
 		return passenger;
