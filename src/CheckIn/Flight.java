@@ -124,4 +124,22 @@ public class Flight {
 	public double getAllowedBaggageVolumePerPassenger() {
 		return maximumBaggageVolume / maximumPassengers;
 	}
+	
+	/**
+	 * get method to return the departure time
+	 * 
+	 * @return departureTime
+	 */
+	public String getDepartureTime() {
+		return departureTime;
+	}
+	
+	
+	public String checkInClosingTime() {
+				Instant instant = getDepartureTime();
+				Instant value = instant.minus(60, ChronoUnit.MINUTES);
+				
+				return value;
+	}
+
 }
