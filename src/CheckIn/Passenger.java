@@ -83,5 +83,12 @@ public class Passenger {
 	public void addBaggage(Bag baggage) {
 		this.baggage  = baggage; 	
 	}
-
+	
+	/**
+	 * Returns the passengers baggage object
+	 * @return Bag
+	 */
+	public Bag getBaggage() {
+		return baggage;
+	}
 }
