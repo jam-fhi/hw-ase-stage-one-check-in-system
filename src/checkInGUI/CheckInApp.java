@@ -1,6 +1,11 @@
-package CheckIn;
+package checkInGUI;
 
 import javax.swing.JOptionPane;
+
+import CheckIn.BookingCollection;
+import CheckIn.BookingException;
+import CheckIn.CheckInIOException;
+import CheckIn.FlightCollection;
 
 /**
  * @author amymcfarland

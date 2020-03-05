@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInGUI;
 
 
 /**
@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,6 +19,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import CheckIn.Bag;
+import CheckIn.Booking;
+import CheckIn.BookingCollection;
+import CheckIn.BookingException;
+import CheckIn.CheckInIOException;
+import CheckIn.Flight;
+import CheckIn.FlightCollection;
 
 /**
  * Simple GUI for Confirm checkin application
@@ -122,6 +130,7 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 	 * than zero is multiplied by the excess charge value. 
 	 * @param e used when a button is clicked 
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {		
 		if (e.getSource() == calculateExcessCharge) {
 			if(isBagWidthValid() && isBagLengthValid() && isBagHeightValid() && isBagWeightValid()) {		
@@ -161,7 +170,7 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 		
 		int widthValue = Integer.parseInt(width.getText().trim());
 		
-		if (widthValue != (int)widthValue) {
+		if (widthValue != widthValue) {
 			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}
@@ -205,7 +214,7 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 			return false;
 		}
 
-		if (lengthValue != (int)lengthValue) {
+		if (lengthValue != lengthValue) {
 			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}
@@ -238,7 +247,7 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 			return false;
 		}
 			
-		if (heightValue != (int)heightValue) {
+		if (heightValue != heightValue) {
 			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}	

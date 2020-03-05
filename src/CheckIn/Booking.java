@@ -37,7 +37,7 @@ public class Booking {
 	 */
 	private void isBookingCodeValid(String code) throws BookingException {
 		/**
-		 *  check if booking code fits format current  format is a string of 9 characters
+		 * check if booking code fits format current format is a string of 8 characters
 		 */
 		if (code.length() < 8) {
 			throw new BookingException("Invalid Booking Code"); 
