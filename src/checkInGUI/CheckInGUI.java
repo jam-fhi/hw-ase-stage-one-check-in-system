@@ -1,12 +1,29 @@
-package CheckIn;
+package checkInGUI;
 
 /**
  *Importing all the GUI classes
  */
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import CheckIn.Booking;
+import CheckIn.BookingCollection;
+import CheckIn.BookingException;
+import CheckIn.CheckInIOException;
+import CheckIn.Flight;
+import CheckIn.FlightCollection;
+import CheckIn.FlightException;
+import CheckIn.ReportGenerator;
 
 /**
  * Simple GUI for Checkin application
@@ -74,6 +91,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	 * Creating a method that closes the window and creates the report.
 	 * @param e which indicates that the window has changed status.
 	 */
+	@Override
 	public void windowClosing(WindowEvent e) {
 		saveReport(this);
 	}
@@ -84,6 +102,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	 * then opens the confirmGUI. 
 	 * @param e used when a button is clicked 
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getSource());
 		if (e.getSource() == checkin) {
