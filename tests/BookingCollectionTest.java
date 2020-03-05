@@ -2,7 +2,9 @@
 	
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,6 +14,7 @@ import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
 import CheckIn.CheckInIOException;
+import CheckIn.Passenger;
 
 /**
  * BookingCollectionTest
@@ -118,5 +121,44 @@ public class BookingCollectionTest {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
 		ArrayList<Booking> testarray = TestCollection.getBookingByFlightCode("BA1235454654654");
 		assertEquals(testarray.size() , 0);	
+	}
+	
+	/**
+	 * Tests that a passenger who is not
+	 * checked in can be successfully
+	 * returned.
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetPassengerNotCheckedIn() throws Exception {
+		BookingCollection TestCollection = new BookingCollection("bookings.csv");
+		Passenger notCheckedIn = TestCollection.getPassengerNotCheckedIn();
+		assertEquals(notCheckedIn.isCheckIn(), false);
+	}
+	
+	/**
+	 * Tests that when there are no passengers
+	 * not checked in that an exception is thrown.
+	 * @throws IOException 
+	 * @throws BookingException 
+	 * @throws CheckInIOException 
+	 */
+	@Test(expected = Exception.class)
+	public void testGetPassengerNotCheckedInFail() throws IOException, CheckInIOException, BookingException {
+		File writeFile = new File("test.csv");
+		FileWriter writer = new FileWriter(writeFile);
+		writer.write("Flight Code,First Name,Last Name,Booking Code\nBA123,Jamie, Hill,BA123-121");
+		writer.close();
+		BookingCollection testCollection = new BookingCollection("test.csv");
+		testCollection.getBooking("BA123-121", "Hill").getPassenger().setCheckIn();
+		try {
+			testCollection.getPassengerNotCheckedIn();
+			fail("Passenger found who is not checked in");
+		} catch(Exception e) {
+			assertEquals(e.getMessage(), "No passengers found who are not checked in");
+		} finally {
+			writeFile.delete();
+		}
+			
 	}
 }

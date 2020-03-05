@@ -119,4 +119,22 @@ public class BookingCollection {
 		}
 		return flightBookings;
 	}
+	
+	/**
+	 * 
+	 * Will find and return the first passenger not checked in
+	 * @return Passenger
+	 * @throws Exception
+	 */
+	public Passenger getPassengerNotCheckedIn() throws Exception {
+		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+			/**
+			 * TODO: What if another thread is using this passenger? 
+			 */
+			if(aBooking.getValue().getPassenger().isCheckIn() == false) {
+				return aBooking.getValue().getPassenger();
+			}
+		}
+		throw new Exception("No passengers found who are not checked in");
+	}
 }
