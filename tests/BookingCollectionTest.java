@@ -149,7 +149,7 @@ public class BookingCollectionTest {
 		FileWriter writer = new FileWriter(writeFile);
 		writer.write("Flight Code,First Name,Last Name,Booking Code\nBA123,Jamie, Hill,BA123-121");
 		writer.close();
-		BookingCollection testCollection = new BookingCollection("bookings.csv");
+		BookingCollection testCollection = new BookingCollection("test.csv");
 		testCollection.getBooking("BA123-121", "Hill").getPassenger().setCheckIn();
 		try {
 			testCollection.getPassengerNotCheckedIn();

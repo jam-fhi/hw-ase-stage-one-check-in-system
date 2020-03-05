@@ -39,7 +39,7 @@ public class Booking {
 		/**
 		 *  check if booking code fits format current  format is a string of 9 characters
 		 */
-		if (code.length() < 9) {
+		if (code.length() < 8) {
 			throw new BookingException("Invalid Booking Code"); 
 		}
 	}
