@@ -12,7 +12,7 @@ public class RandomBagGenerator {
 	/**
 	 *  initialise local variables
 	 */
-	private Bag random;
+	private static Bag random;
 	
 	
 	/**
@@ -22,12 +22,12 @@ public class RandomBagGenerator {
 	 * @param weightlimit
 	 * @param illegalweight
 	 */
-	private int randomvolume(int volumelimit , boolean illegal) {
+	private static int randomvolume(double volumelimit , boolean illegal) {
 		// checks if an illegal value or legal value is to be created then returns appropiate value
 		if(illegal) {
-			return ThreadLocalRandom.current().nextInt(volumelimit/3, volumelimit); 
+			return ThreadLocalRandom.current().nextInt((int)volumelimit/3, (int)volumelimit); 
 		}else {
-			return ThreadLocalRandom.current().nextInt(volumelimit/30 , volumelimit/3);
+			return ThreadLocalRandom.current().nextInt((int)volumelimit/30 , (int)volumelimit/3);
 		}
 		
 		
@@ -37,7 +37,7 @@ public class RandomBagGenerator {
 	 * @param weightlimit
 	 * @param illegalweight
 	 */
-	private double randomweight(double weightlimit , boolean illegalweight) {
+	private static double randomweight(double weightlimit , boolean illegalweight) {
 		// checks if an illegal value or legal value is to be created then returns appropiate value
 		if(illegalweight) {
 			return ThreadLocalRandom.current().nextDouble(weightlimit, weightlimit*3); 
@@ -54,7 +54,7 @@ public class RandomBagGenerator {
 	 * @param volumelimit
 	 * @param illegalbagchange
 	 */
-	public Bag getRandomBag(double weightlimit , int volumelimit , double illegalbagchance ) {
+	public static Bag getRandomBag(double weightlimit , double volumelimit , double illegalbagchance ) {
 		if (Math.random() <= illegalbagchance) { // determines legality of bag
 			int randomNum = ThreadLocalRandom.current().nextInt(0, 2 + 1); // determines manner in which bag is illegal
 			switch(randomNum) {
