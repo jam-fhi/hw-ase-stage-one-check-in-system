@@ -9,9 +9,10 @@ public class ThreadNewPassenger extends Thread {
 	 *  initialise local variables
 	 */
 	private Passenger newpassenger;
-	private CheckinDesk mydesk;
+	private CheckIn mydesk;
 	private Flight flight;
 	private double illegalbagchance;
+	private boolean passengerReady;
 	
 	/**
 	 * constructor
@@ -32,5 +33,16 @@ public class ThreadNewPassenger extends Thread {
 		Flight flight = mydesk.getFlightCollection().FindFlight(mydesk.getBookingCollection().getBookingCode(newpassenger));
 		newpassenger.addBaggage(RandomBagGenerator.getRandomBag(flight.getAllowedBaggageWeightPerPassenger(), flight.getAllowedBaggageVolumePerPassenger(), illegalbagchance));
 		mydesk.addPassengertoQueue(newpassenger);
+	}
+	
+	private void getPassengerForCheckIn() {
+		while(passengerReady) {
+			try { wait(); }
+			catch (InterruptedException e) {}
+		}
+		passengerReady = false;
+		notifyAll(); // so wake up the producer
+		// Needs to be integrated
+		mydesk.doCheckedIn(passenger);
 	}
 }
