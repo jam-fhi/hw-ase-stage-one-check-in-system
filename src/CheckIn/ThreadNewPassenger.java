@@ -35,7 +35,7 @@ public class ThreadNewPassenger extends Thread {
 		mydesk.addPassengertoQueue(newpassenger);
 	}
 	
-	private void getPassengerForCheckIn() {
+	public synchronized void getPassengerForCheckIn() {
 		while(passengerReady) {
 			try { wait(); }
 			catch (InterruptedException e) {}
