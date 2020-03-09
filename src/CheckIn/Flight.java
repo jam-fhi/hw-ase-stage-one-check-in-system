@@ -1,7 +1,7 @@
 package CheckIn;
 
 import java.util.Date;
-
+import java.util.Calendar;
 /**
  * Flight Creating instance variables flightCode, destinationAirport, carrier,
  * maximumPassengers, maximumBaggageWeight, maximumBaggageVolume, and
@@ -43,7 +43,15 @@ public class Flight {
 		this.maximumBaggageWeight = maximumBaggageWeight;
 		this.maximumBaggageVolume = maximumBaggageVolume;
 		this.excessCharge = excessCharge;
-		this.departureDate = new Date(departureDate + "T" + departureTime + ".000Z");
+		Calendar departureCalendar = Calendar.getInstance();
+		String [] dateValues = departureDate.split("-");
+		String [] timeValues = departureTime.split(":");
+		departureCalendar.set(Calendar.YEAR, Integer.parseInt(dateValues[0]));
+		departureCalendar.set(Calendar.MONTH, Integer.parseInt(dateValues[1]));
+		departureCalendar.set(Calendar.DATE, Integer.parseInt(dateValues[2]));
+		departureCalendar.set(Calendar.HOUR, Integer.parseInt(timeValues[0]));
+		departureCalendar.set(Calendar.MINUTE, Integer.parseInt(timeValues[1]));
+		this.departureDate = departureCalendar.getTime();
 
 	}
 
