@@ -1,5 +1,7 @@
 package CheckIn;
 
+import java.util.Date;
+
 /**
  * Flight Creating instance variables flightCode, destinationAirport, carrier,
  * maximumPassengers, maximumBaggageWeight, maximumBaggageVolume, and
@@ -17,7 +19,8 @@ public class Flight {
 	private double maximumBaggageWeight;
 	private double maximumBaggageVolume;
 	private double excessCharge;
-
+	private Date departureDate;
+	
 	/**
 	 * Flight Creating constructor
 	 * 
@@ -28,10 +31,11 @@ public class Flight {
 	 * @param maximumBaggageWeight
 	 * @param maximumBaggageVolume
 	 * @param excessCharge
+	 * 
 	 */
 
 	public Flight(String flightCode, String destinationAirport, String carrier, int maximumPassengers,
-			double maximumBaggageWeight, double maximumBaggageVolume, double excessCharge) {
+			double maximumBaggageWeight, double maximumBaggageVolume, double excessCharge,String departureTime, String departureDate) {
 		this.flightCode = flightCode;
 		this.destinationAirport = destinationAirport;
 		this.carrier = carrier;
@@ -39,6 +43,7 @@ public class Flight {
 		this.maximumBaggageWeight = maximumBaggageWeight;
 		this.maximumBaggageVolume = maximumBaggageVolume;
 		this.excessCharge = excessCharge;
+		this.departureDate = new Date(departureDate + "T" + departureTime + ".000Z");
 
 	}
 
@@ -130,16 +135,18 @@ public class Flight {
 	 * 
 	 * @return departureTime
 	 */
-	public String getDepartureTime() {
-		return departureTime;
+	public Date getDepartureDate() {
+		return departureDate;
 	}
 	
 	
-	public String checkInClosingTime() {
-				Instant instant = getDepartureTime();
-				Instant value = instant.minus(60, ChronoUnit.MINUTES);
+	public Date checkInClosingTime() {
+		long hourInMs = 60 * 60 * 100;
+		long closingTime = departureDate.getTime() - hourInMs;
+		return new Date(closingTime); 
 				
-				return value;
 	}
+	
+	
 
 }

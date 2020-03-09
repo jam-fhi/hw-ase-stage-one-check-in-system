@@ -1,5 +1,5 @@
-Destination,Carrier,Flight Code,Maximum Passengers,Maximum Weight,Maximum Volume,Excess Charge,Departure Time
-Barcelona,British Airways,BA123,120,2400,75000,10,14:00
-Sydney,British Airways,BA124,54,1080,48000,12,10:30
-Oslo,British Airways,BA125,42,840,40000,15,02:45
-New York,Easy Jet,EZ234,255,5100,425000,10,20:15
+Destination,Carrier,Flight Code,Maximum Passengers,Maximum Weight,Maximum Volume,Excess Charge,Departure Time,Date
+Barcelona,British Airways,BA123,120,2400,75000,10,14:00,2020-03-09
+Sydney,British Airways,BA124,54,1080,48000,12,10:30,2020-03-15
+Oslo,British Airways,BA125,42,840,40000,15,02:45,2020-03-25
+New York,Easy Jet,EZ234,255,5100,425000,10,20:15,2020-03-30
