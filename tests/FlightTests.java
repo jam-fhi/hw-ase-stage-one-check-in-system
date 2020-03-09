@@ -19,6 +19,7 @@ public class FlightTests {
 	private double validExcessCharge = 30;
 	private Flight myFlight = null;
 	private String validTime = "14:00";
+	private String validTimeCheckInClose = "13:00";
 	private String validDate =  "2020-03-01";
 	private double deltaPrecisionLoss = 0.01;
 
@@ -92,13 +93,14 @@ public class FlightTests {
 		int year = departureCalendar.get(Calendar.YEAR);
 		int month = departureCalendar.get(Calendar.MONTH);
 		int date = departureCalendar.get(Calendar.DATE);
-		int hour = departureCalendar.get(Calendar.HOUR);
+		int hour = departureCalendar.get(Calendar.HOUR_OF_DAY);
 		int minute = departureCalendar.get(Calendar.MINUTE);
 		String monthStr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
 		String dateStr = date < 10 ? "0" + String.valueOf(date) : String.valueOf(date);
+		String hourStr = hour < 10 ? "0" + String.valueOf(hour) : String.valueOf(hour);
+		String minStr = minute < 10 ? "0" + String.valueOf(minute) : String.valueOf(minute);
 		assertEquals(validDate, String.valueOf(year) + "-" + monthStr + "-" + dateStr);
-		assertEquals(validTime, String.valueOf(hour) + ":" + String.valueOf(minute));
-		
+		assertEquals(validTime, hourStr + ":" + minStr);
 	}
 	
 	@Test
@@ -109,12 +111,14 @@ public class FlightTests {
 		int year = departureCalendar.get(Calendar.YEAR);
 		int month = departureCalendar.get(Calendar.MONTH);
 		int date = departureCalendar.get(Calendar.DATE);
-		int hour = departureCalendar.get(Calendar.HOUR);
+		int hour = departureCalendar.get(Calendar.HOUR_OF_DAY);
 		int minute = departureCalendar.get(Calendar.MINUTE);
 		String monthStr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
 		String dateStr = date < 10 ? "0" + String.valueOf(date) : String.valueOf(date);
-		//assertEquals(validDate, String.valueOf(year) + "-" + monthStr + "-" + dateStr);
-		assertEquals(validTime, String.valueOf(hour) + ":" + String.valueOf(minute));
+		String hourStr = hour < 10 ? "0" + String.valueOf(hour) : String.valueOf(hour);
+		String minStr = minute < 10 ? "0" + String.valueOf(minute) : String.valueOf(minute);
+		assertEquals(validDate, String.valueOf(year) + "-" + monthStr + "-" + dateStr);
+		assertEquals(validTimeCheckInClose, hourStr + ":" + minStr);
 		
 	}
 }

@@ -46,11 +46,7 @@ public class Flight {
 		Calendar departureCalendar = Calendar.getInstance();
 		String [] dateValues = departureDate.split("-");
 		String [] timeValues = departureTime.split(":");
-		departureCalendar.set(Calendar.YEAR, Integer.parseInt(dateValues[0]));
-		departureCalendar.set(Calendar.MONTH, Integer.parseInt(dateValues[1]));
-		departureCalendar.set(Calendar.DATE, Integer.parseInt(dateValues[2]));
-		departureCalendar.set(Calendar.HOUR, Integer.parseInt(timeValues[0]));
-		departureCalendar.set(Calendar.MINUTE, Integer.parseInt(timeValues[1]));
+		departureCalendar.set(Integer.parseInt(dateValues[0]), Integer.parseInt(dateValues[1]), Integer.parseInt(dateValues[2]), Integer.parseInt(timeValues[0]), Integer.parseInt(timeValues[1]), 0);
 		this.departureDate = departureCalendar.getTime();
 
 	}
@@ -149,7 +145,7 @@ public class Flight {
 	
 	
 	public Date checkInClosingTime() {
-		long hourInMs = 60 * 60 * 100;
+		long hourInMs = 60 * 60 * 1000;
 		long closingTime = departureDate.getTime() - hourInMs;
 		return new Date(closingTime); 
 				
