@@ -1,10 +1,5 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
-import java.util.HashMap;
-import java.util.TreeSet;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +24,18 @@ public class CheckInTests {
 	private String validflightfile = "flights.csv";
 	private CheckIn myCheckin = null;
 	private String validFlightCode = "BA123";
-		
+
+	private String validDestinationAirport = "Barcelona";
+	private String validCarrier = "EasyJet";
+	private int validMaximumPassengers = 40;
+	private double validMaximumBaggageWeight = 20;
+	private double validMaximumBaggageVolume = 1000;
+	private double validExcessCharge = 7;
+	private String validDepartureTime = "00:30";
+	private String validOpenDepartureTime = "18:45";
+	private String validDepartureDate = "2020-03-01";
+	private String validOpenDepartureDate = "2020-03-03";
+
 	@Before
 	public void beforeEach() throws CheckInIOException, BookingException {
 		myCheckin = new CheckIn(validflightfile, validbookingfile);
@@ -37,6 +43,25 @@ public class CheckInTests {
 		booking = new BookingCollection(validbookingfile);
 	}
 	
+	@Test
+	public void testCheckInClosed() {
+		Flight testFlight = new Flight(validFlightCode, validDestinationAirport, validCarrier, validMaximumPassengers,
+				validMaximumBaggageWeight, validMaximumBaggageVolume, validExcessCharge, validDepartureTime,
+				validDepartureDate);
+	boolean isCheckInClosed = myCheckin.isCheckInClosed(testFlight);
+		assertEquals(true, isCheckInClosed);
+	}
+
+	@Test
+	public void testCheckInOpen() {
+		Flight testFlight = new Flight(validFlightCode, validDestinationAirport, validCarrier, validMaximumPassengers,
+				validMaximumBaggageWeight, validMaximumBaggageVolume, validExcessCharge, validOpenDepartureTime,
+				validOpenDepartureDate);
+	
+	boolean isCheckInClosed = myCheckin.isCheckInClosed(testFlight);
+		assertEquals(false, isCheckInClosed);
+	}
+
 	@Test
 	public void testBookingCollection() throws BookingException, CheckInIOException {
 		BookingCollection resultBookingCollection = myCheckin.getBookingCollection();
