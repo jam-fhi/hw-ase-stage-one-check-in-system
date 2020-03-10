@@ -1,5 +1,7 @@
 package CheckIn;
 
+import java.util.Date;
+import java.util.Calendar;
 /**
  * Flight Creating instance variables flightCode, destinationAirport, carrier,
  * maximumPassengers, maximumBaggageWeight, maximumBaggageVolume, and
@@ -17,7 +19,8 @@ public class Flight {
 	private double maximumBaggageWeight;
 	private double maximumBaggageVolume;
 	private double excessCharge;
-
+	private Date departureDate;
+	
 	/**
 	 * Flight Creating constructor
 	 * 
@@ -28,10 +31,11 @@ public class Flight {
 	 * @param maximumBaggageWeight
 	 * @param maximumBaggageVolume
 	 * @param excessCharge
+	 * 
 	 */
 
 	public Flight(String flightCode, String destinationAirport, String carrier, int maximumPassengers,
-			double maximumBaggageWeight, double maximumBaggageVolume, double excessCharge) {
+			double maximumBaggageWeight, double maximumBaggageVolume, double excessCharge,String departureTime, String departureDate) {
 		this.flightCode = flightCode;
 		this.destinationAirport = destinationAirport;
 		this.carrier = carrier;
@@ -39,6 +43,11 @@ public class Flight {
 		this.maximumBaggageWeight = maximumBaggageWeight;
 		this.maximumBaggageVolume = maximumBaggageVolume;
 		this.excessCharge = excessCharge;
+		Calendar departureCalendar = Calendar.getInstance();
+		String [] dateValues = departureDate.split("-");
+		String [] timeValues = departureTime.split(":");
+		departureCalendar.set(Integer.parseInt(dateValues[0]), Integer.parseInt(dateValues[1]), Integer.parseInt(dateValues[2]), Integer.parseInt(timeValues[0]), Integer.parseInt(timeValues[1]), 0);
+		this.departureDate = departureCalendar.getTime();
 
 	}
 
@@ -124,4 +133,24 @@ public class Flight {
 	public double getAllowedBaggageVolumePerPassenger() {
 		return maximumBaggageVolume / maximumPassengers;
 	}
+	
+	/**
+	 * get method to return the departure time
+	 * 
+	 * @return departureTime
+	 */
+	public Date getDepartureDate() {
+		return departureDate;
+	}
+	
+	
+	public Date checkInClosingTime() {
+		long hourInMs = 60 * 60 * 1000;
+		long closingTime = departureDate.getTime() - hourInMs;
+		return new Date(closingTime); 
+				
+	}
+	
+	
+
 }
