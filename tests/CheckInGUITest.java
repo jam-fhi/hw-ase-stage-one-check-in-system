@@ -4,9 +4,9 @@ import org.junit.Test;
 
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
-import CheckIn.CheckInGUI;
 import CheckIn.CheckInIOException;
 import CheckIn.FlightCollection;
+import checkInGUI.CheckInGUI;
 
 public class CheckInGUITest {
 

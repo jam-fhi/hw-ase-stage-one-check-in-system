@@ -6,9 +6,9 @@ import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
 import CheckIn.CheckInIOException;
-import CheckIn.ConfirmGUI;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
+import checkInGUI.ConfirmGUI;
 
 public class ConfirmGUITests {
 
