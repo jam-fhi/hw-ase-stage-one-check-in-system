@@ -11,7 +11,7 @@ public class LoggingSingleton {
 		logMessages = new ArrayList<String>();
 	}
 	
-	public LoggingSingleton getInstance() {
+	public static LoggingSingleton getInstance() {
 		if(loggingsingleton_instance == null) {
 			loggingsingleton_instance = new LoggingSingleton();
 		}
