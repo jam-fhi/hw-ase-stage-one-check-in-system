@@ -41,7 +41,9 @@ public class FlightCollection {
 			double maximumBaggageWeight = Double.parseDouble(aFlight[4]);
 			double maximumBaggageVolume = Double.parseDouble(aFlight[5]);
 			double excessCharge = Double.parseDouble(aFlight[6]);
-			Flight addFlight = new Flight(flightCode, destinationAirport, carrier, maximumPassengers, maximumBaggageWeight, maximumBaggageVolume, excessCharge);
+			String addDepartureTime = aFlight[7];
+			String addDepartureDate = aFlight[8];
+			Flight addFlight = new Flight(flightCode, destinationAirport, carrier, maximumPassengers, maximumBaggageWeight, maximumBaggageVolume, excessCharge, addDepartureTime, addDepartureDate);
 			flightCollection.add(addFlight);
 		}
 	}

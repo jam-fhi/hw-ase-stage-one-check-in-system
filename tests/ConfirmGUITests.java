@@ -17,7 +17,7 @@ public class ConfirmGUITests {
 		BookingCollection bookings = new BookingCollection("bookings.csv");
 		FlightCollection flights = new FlightCollection("flights.csv");
 		Booking allbookings = new Booking("BA123-121", "Jamie", "Hill", "BA123");
-		Flight allflights = new Flight("BA123", "Barcelona", "British Airways", 123, 123, 123,20);
+		Flight allflights = new Flight("BA123", "Barcelona", "British Airways", 123, 123, 123,20, "14:00", "2020-03-01");
 		ConfirmGUI confirmGUI = new ConfirmGUI(allbookings, allflights,bookings, flights);
 		assertNotNull(confirmGUI);
 	}

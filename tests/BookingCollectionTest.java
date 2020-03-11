@@ -143,7 +143,7 @@ public class BookingCollectionTest {
 	 * @throws BookingException 
 	 * @throws CheckInIOException 
 	 */
-	@Test(expected = Exception.class)
+	@Test
 	public void testGetPassengerNotCheckedInFail() throws IOException, CheckInIOException, BookingException {
 		File writeFile = new File("test.csv");
 		FileWriter writer = new FileWriter(writeFile);
@@ -152,7 +152,7 @@ public class BookingCollectionTest {
 		BookingCollection testCollection = new BookingCollection("test.csv");
 		testCollection.getBooking("BA123-121", "Hill").getPassenger().setCheckIn();
 		try {
-			testCollection.getPassengerNotCheckedIn();
+			Passenger aPassenger = testCollection.getPassengerNotCheckedIn();
 			fail("Passenger found who is not checked in");
 		} catch(Exception e) {
 			assertEquals(e.getMessage(), "No passengers found who are not checked in");
