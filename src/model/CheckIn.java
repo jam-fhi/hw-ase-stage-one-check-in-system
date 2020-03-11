@@ -1,10 +1,9 @@
 package model;
 
 import java.util.Date;
-/*import java.util.LinkedList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observer;
-*/
 
 import CheckIn.Bag;
 import CheckIn.Booking;
@@ -22,6 +21,7 @@ import CheckIn.fakeTime;
  * the model class 
  * @author amymcfarland
  */
+@SuppressWarnings("deprecation")
 public class CheckIn {
 
 	private BookingCollection bookingCollection;
@@ -71,7 +71,7 @@ public class CheckIn {
 	// OBSERVER PATTERN
 	// SUBJECT must be able to register, remove and notify observers
 	// list to hold any observers
-	/*private List<Observer> registeredObservers = new LinkedList<Observer>();
+	private List<Observer> registeredObservers = new LinkedList<Observer>();
 
 	// methods to register, remove and notify observers
 	public void registerObserver(Observer obs) {
@@ -84,7 +84,7 @@ public class CheckIn {
 
 	public void notifyObservers() {
 		for (Observer obs : registeredObservers) {
-			obs.update();
+			obs.update(this, obs);
 		}
-	}*/
+	}
 }
