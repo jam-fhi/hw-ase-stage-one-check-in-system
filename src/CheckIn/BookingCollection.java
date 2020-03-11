@@ -1,7 +1,5 @@
 package CheckIn;
-/** 
- * imports
- */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,18 +7,20 @@ import java.util.Map;
 
 /**
  * BookingCollection
- * Stores and manages a collection of bookings
+ * Stores and manages a collection of bookings.
  * @author christophermuir
  *
  */
 public class BookingCollection {
+	
 	/**
-	 *  initialise hash map
+	 *  Initialise the hash map.
 	 */
 	private HashMap<String, Booking> Bookings = new HashMap<String, Booking>(); 
 	
 	/**
-	 *  the constructor calls load bookings to fill the hash map
+	 * BookingCollection
+	 * The constructor calls load bookings to fill the hash map.
 	 * @param fileName
 	 * @throws CheckInIOException
 	 * @throws BookingException
@@ -31,7 +31,7 @@ public class BookingCollection {
 
 	/**
 	 * loadBookings
-	 * Reads the booking csv file and loads the data into booking objects which are put into a collection.
+	 * Reads the booking CSV file and loads the data into booking objects which are put into a collection.
 	 * @param fileName
 	 * @throws BookingException
 	 * @throws CheckInIOException
@@ -39,28 +39,28 @@ public class BookingCollection {
 	public void loadBookings(String fileName) throws BookingException, CheckInIOException {
 		CSVProcessor csv = new CSVProcessor();
 		/**
-		 *  calls csv proccessor to convert to string array
+		 *  Calls CSV processor to convert to string array.
 		 */
 		ArrayList<String[]> fileContents = csv.parseCSVToStringArray(fileName);
 		/**
-		 * initialise a new iterator for this file
+		 * Initialise a new iterator for this file.
 		 */
 		Iterator<String[]> fileLinesIt = fileContents.iterator(); 
 		/**
-		 *  run until the file has been completly ran through
+		 *  Run until the file has been completely ran through.
 		 */
 		while(fileLinesIt.hasNext()) { 
 			/**
-			 *  set to next line of file
+			 *  Set to next line of file.
 			 */
 			String[] loadBooking = fileLinesIt.next(); 
 			Booking loadBookingObj = new Booking(
-				loadBooking[3].trim(), 	// booking code
-				loadBooking[1].trim(), 	// guest first name
-				loadBooking[2].trim(), 	// guest last name
-				loadBooking[0].trim()); // flight code
+				loadBooking[3].trim(), 	// Booking code.
+				loadBooking[1].trim(), 	// Guest first name.
+				loadBooking[2].trim(), 	// Guest last name.
+				loadBooking[0].trim()); // Flight code.
 			 /**
-			  *  add to hash map with booking code as the key
+			  *  Add to hash map with booking code as the key.
 			  */
 			Bookings.put(loadBooking[3], loadBookingObj);
 		}
@@ -68,7 +68,7 @@ public class BookingCollection {
 
 	/**
 	 * getBooking
-	 * Returns the booking object matching the id and last name
+	 * Returns the booking object matching the id and last name.
 	 * @param Bookingid
 	 * @param lastName
 	 * @return Booking
@@ -76,7 +76,7 @@ public class BookingCollection {
 	 */
 	public Booking getBooking(String Bookingid, String lastName) throws BookingException {
 		/**
-		 *  throws the booking exception back to the caller when booking hasn't been loaded yet and when the booking code doesn't exist
+		 *  Throws the booking exception back to the caller when booking hasn't been loaded yet and when the booking code doesn't exist.
 		 */
 		if(Bookings.isEmpty()) {
 			throw new BookingException("There are no bookings loaded");
@@ -90,7 +90,7 @@ public class BookingCollection {
 			throw new BookingException("Booking not found");
 		}
 		/**
-		 *  additionally throws the booking when the last name is erronous 
+		 *  Additionally throws the booking when the last name is erroneous. 
 		 */
 		if (foundBooking.getPassenger().doesLastNameMatch(lastName)) {
 			return foundBooking;
@@ -101,17 +101,18 @@ public class BookingCollection {
 	
 	/**
 	 * getBookingByFlightCode
+	 * Gets all bookings for a given flight code.
 	 * @param flightCode
 	 * @return ArrayList<Booking>
 	 */
 	public ArrayList<Booking> getBookingByFlightCode(String flightCode) {
 		/**
-		 *  can be called to retrieve all bookings with a certain flight code
+		 *  Can be called to retrieve all bookings with a certain flight code.
 		 */
 		ArrayList<Booking> flightBookings = new ArrayList<Booking>();
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
 			/**
-			 * if the flight codes match 
+			 * If the flight codes match.
 			 */
 			if(aBooking.getValue().getFlightCode().compareTo(flightCode) == 0) {
 				flightBookings.add(aBooking.getValue());
@@ -122,7 +123,8 @@ public class BookingCollection {
 	
 	/**
 	 * 
-	 * Will find and return the first passenger not checked in
+	 * getPassengerNotCheckedIn
+	 * Will find and return the first passenger not checked in.
 	 * @return Passenger
 	 * @throws Exception
 	 */

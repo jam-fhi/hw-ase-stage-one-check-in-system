@@ -3,11 +3,18 @@ package CheckIn;
 import java.util.Comparator;
 
 /**
- * Method used to compare the flight code of two flights
+ * FlightComparator
+ * Class used to compare the flight code of two flights.
  * 
  * @author NadiaAbulhawa
  */
 public class FlightComparator implements Comparator<Flight> {
+	/**
+	 * compare
+	 * Will compare two flights to determin if they
+	 * are equal.
+	 * return int 0 is equal
+	 */
 	@Override
 	public int compare(Flight aFlight, Flight bFlight) {
 		return aFlight.getFlightCode().compareTo(bFlight.getFlightCode());

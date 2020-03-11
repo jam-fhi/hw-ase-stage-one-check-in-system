@@ -168,23 +168,23 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 			return false;			
 		}
 		
-		int widthValue = Integer.parseInt(width.getText().trim());
-		
-		if (widthValue != widthValue) {
+		try {
+			int widthValue = Integer.parseInt(width.getText().trim());
+				
+			if (widthValue < 0 || widthValue > 100) {
+				displayMessage("Please enter a valid width value");
+				return false;
+			}
+	
+			if (widthValue == 0 || widthValue == 0) {
+				displayMessage("Please enter a value");
+				return false;
+			}
+			return true;
+		} catch (NumberFormatException e) {
 			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}
-		
-		if (widthValue < 0 || widthValue > 100) {
-			displayMessage("Please enter a valid width value");
-			return false;
-		}
-
-		if (widthValue == 0 || widthValue == 0) {
-			displayMessage("Please enter a value");
-			return false;
-		}
-		return true;
 	}
 
 
@@ -202,24 +202,24 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 			return false;			
 		}
 		
-		int lengthValue = Integer.parseInt(length.getText().trim());
+		try {
+			int lengthValue = Integer.parseInt(length.getText().trim());
 		
-		if (lengthValue < 0 || lengthValue > 100) {
-			displayMessage("Please enter a valid length value");
-			return false;
-		}
-	
-		if (lengthValue == 0 || lengthValue == 0) {
-			displayMessage("Please enter a value");
-			return false;
-		}
+			if (lengthValue < 0 || lengthValue > 100) {
+				displayMessage("Please enter a valid length value");
+				return false;
+			}
+		
+			if (lengthValue == 0 || lengthValue == 0) {
+				displayMessage("Please enter a value");
+				return false;
+			}
 
-		if (lengthValue != lengthValue) {
+			return true;
+		} catch (NumberFormatException e) {
 			displayMessage("Invalid entry. Please input a number");
 			return false;
 		}
-			
-		return true;
 	}
 
 	
@@ -235,23 +235,23 @@ public class ConfirmGUI extends JFrame implements ActionListener, WindowListener
 			return false;			
 		}
 		
-		int heightValue = Integer.parseInt(height.getText().trim());
-		
-		if (heightValue < 0 || heightValue > 100) {
-			displayMessage("Please enter a valid height value");
-			return false;
-		}
-		
-		if (heightValue == 0 || heightValue == 0) {
-			displayMessage("Please enter a value");
-			return false;
-		}
+		try {
+			int heightValue = Integer.parseInt(height.getText().trim());
 			
-		if (heightValue != heightValue) {
+			if (heightValue < 0 || heightValue > 100) {
+				displayMessage("Please enter a valid height value");
+				return false;
+			}
+			
+			if (heightValue == 0 || heightValue == 0) {
+				displayMessage("Please enter a value");
+				return false;
+			}
+			return true;
+		} catch(NumberFormatException e) {
 			displayMessage("Invalid entry. Please input a number");
 			return false;
-		}	
-		return true;
+		}
 	}
 
 
