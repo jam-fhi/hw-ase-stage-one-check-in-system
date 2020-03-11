@@ -1,16 +1,9 @@
 package checkInGUI;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.TreeSet;
 
 import javax.swing.*;
 
 import CheckIn.Flight;
-import CheckIn.FlightCollection;
-import CheckIn.FlightComparator;
 import observer.Observer;
 import model.CheckIn;
 

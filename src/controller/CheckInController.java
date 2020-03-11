@@ -5,18 +5,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import model.CheckIn;
-import view.CheckInWireframe;
-import view.FlightInformation;
+import checkInGUI.CheckInWireframe;
 
 public class CheckInController {
 
 
-	private FlightInformation view; 
+	private CheckInWireframe view; 
 
 	private CheckIn checkInModel; 
 	
 
-	public CheckInController(FlightInformation view, CheckIn checkInmodel) {
+	public CheckInController(CheckInWireframe view, CheckIn checkInmodel) {
 		this.view = view;
 		this.checkInModel = checkInmodel;
 		// specify the listener for the view
