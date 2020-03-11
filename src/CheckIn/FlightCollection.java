@@ -5,26 +5,33 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 /**
- * creating a TreeSet using FlightCollection
- * 
+ * FlightCollection
+ * Creating a TreeSet using FlightCollection.
  * @author NadiaAbulhawa
- *
  */
-
 public class FlightCollection {
+	
+	/**
+	 * Treeset to hold flight records.
+	 */
 	FlightComparator flightComp = new FlightComparator();
 	TreeSet<Flight> flightCollection = new TreeSet<Flight>(flightComp);
 
+	/**
+	 * FlightCollection
+	 * Constructor to create the flight collection onject.
+	 * @param fileName
+	 * @throws CheckInIOException
+	 */
 	public FlightCollection(String fileName) throws CheckInIOException {
 		loadFlights(fileName);
 	}
-	
+
 	/**
-	 * creating a method to load flights from the flight.csv file the method does
-	 * this by iterating through the list of flights and uses the
-	 * parseCSVToStringArray to split each line into parts. A flight object is
-	 * created and added to the list.
-	 * 
+	 * loadFlights
+	 * Creating a method to load flights from the flight.csv file the method does
+	 * this by iterating through the list of flights and uses the parseCSVToStringArray
+	 * to split each line into parts. A flight object is created and added to the list.
 	 * @param fileName using the flight.csv file
 	 * @throws CheckInIOException
 	 */
@@ -49,10 +56,10 @@ public class FlightCollection {
 	}
 
 	/**
-	 * method to find a flight by iterating through the FlightCollection and
+	 * findFlight
+	 * Method to find a flight by iterating through the FlightCollection and
 	 * comparing flight codes of two flights. If the comparator equals 0 then the
-	 * flight has been found and returned
-	 * 
+	 * flight has been found and returned.
 	 * @param flightCode
 	 * @return aFlight returning a flight
 	 * @throws FlightException
@@ -69,12 +76,11 @@ public class FlightCollection {
 	}
 	
 	/**
-	 * method to return list of flights
-	 * 
+	 * getFlightCollection
+	 * Method to return list of flights.
 	 * @return flightCollection returning flightCollection
 	 */
 	public TreeSet<Flight> getFlightCollection() {
 		return flightCollection;
 	}
-
 }

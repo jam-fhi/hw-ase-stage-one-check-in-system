@@ -33,7 +33,7 @@ public class FileIO {
 	 */
 	public ArrayList<String> readFile(String fileName) throws CheckInIOException {
 		/**
-		 *  Create an array list of strings to store the file contents
+		 *  Create an array list of strings to store the file contents.
 		 */
 		ArrayList<String> fileContents = new ArrayList<String>();
 		/**
@@ -45,7 +45,7 @@ public class FileIO {
 			 */
 		    String line;
 		    /**
-		     *  While there is line content in the buffer, add it to the temporary line storage
+		     *  While there is line content in the buffer, add it to the temporary line storage.
 		     */
 		    while ((line = buffReader.readLine()) != null) {
 		    	/**
@@ -87,7 +87,7 @@ public class FileIO {
 		 */
 		if(fileContents.size() > 0) {
 			/**
-			 *  Get a file handler for the file we want to write to
+			 *  Get a file handler for the file we want to write to.
 			 */
 	        File file = new File(fileName);
 	        /**
@@ -96,16 +96,16 @@ public class FileIO {
 	        FileWriter writer = null;
 	        try {
 	        	/**
-	        	 *  Load a file write handler
+	        	 *  Load a file write handler.
 	        	 */
 	            writer = new FileWriter(file);
 	            /**
-	             *  Create an iterator to process the file contents
+	             *  Create an iterator to process the file contents.
 	             */
 	            Iterator<String> fileContentsIt = fileContents.iterator();
 	            while(fileContentsIt.hasNext()) {
 	            	/**
-	            	 *  Write each line provided to the file via the file write handler
+	            	 *  Write each line provided to the file via the file write handler.
 	            	 */
 	            	writer.write(fileContentsIt.next() + "\n");
 	            }
@@ -129,7 +129,7 @@ public class FileIO {
 	        	} catch(IOException e) {
 	        		/**
 	        		 *  Catch an Input/output exception, but don't do anything as
-	        		 * at this point the error could be that nothing was opened.
+	        		 *  at this point the error could be that nothing was opened.
 	        		 */
 	        		System.out.println("Nothing to close. Shhh...");
 	        	}
