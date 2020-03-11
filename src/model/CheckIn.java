@@ -3,7 +3,6 @@ package model;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observer;
 
 import CheckIn.Bag;
 import CheckIn.Booking;
@@ -15,14 +14,14 @@ import CheckIn.FlightCollection;
 import CheckIn.FlightException;
 import CheckIn.Passenger;
 import CheckIn.fakeTime;
+import observer.Subject;
 /**
  * 
  * CheckIn 
  * the model class 
  * @author amymcfarland
  */
-@SuppressWarnings("deprecation")
-public class CheckIn {
+public class CheckIn implements Subject {
 
 	private BookingCollection bookingCollection;
 	private FlightCollection flightCollection;
@@ -71,20 +70,22 @@ public class CheckIn {
 	// OBSERVER PATTERN
 	// SUBJECT must be able to register, remove and notify observers
 	// list to hold any observers
-	private List<Observer> registeredObservers = new LinkedList<Observer>();
-
-	// methods to register, remove and notify observers
-	public void registerObserver(Observer obs) {
-		registeredObservers.add(obs);
-	}
-
-	public void removeObserver(Observer obs) {
-		registeredObservers.remove(obs);
-	}
+	private List<observer.Observer> registeredObservers = new LinkedList<observer.Observer>();
 
 	public void notifyObservers() {
-		for (Observer obs : registeredObservers) {
-			obs.update(this, obs);
+		for (observer.Observer obs : registeredObservers) {
+			obs.update(this);
 		}
+	}
+
+	@Override
+	public void registerObserver(observer.Observer obs) {
+		registeredObservers.add(obs);
+		
+	}
+
+	@Override
+	public void removeObserver(observer.Observer obs) {
+		registeredObservers.remove(obs);
 	}
 }

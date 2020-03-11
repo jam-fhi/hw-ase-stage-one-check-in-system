@@ -6,6 +6,8 @@ import CheckIn.BookingCollection;
 import CheckIn.BookingException;
 import CheckIn.CheckInIOException;
 import CheckIn.FlightCollection;
+import controller.CheckInController;
+import model.CheckIn;
 
 /**
  * @author amymcfarland
@@ -13,18 +15,23 @@ import CheckIn.FlightCollection;
 
 public class CheckInApp {
 	
-	private CheckInGUI checkinGUI;
+	private CheckInController checkInController;
 	
 	/**
 	 * method to show each GUI 
 	 */
     public void showGUI() throws BookingException, CheckInIOException {
 		try {
-			BookingCollection bookingCollection = new BookingCollection("bookings.csv");
-			FlightCollection flightCollection = new FlightCollection("flights.csv");
-		    checkinGUI = new CheckInGUI(bookingCollection, flightCollection);
-		    checkinGUI.setVisible(true);
-		    checkinGUI.setLocationRelativeTo(null);
+			//BookingCollection bookingCollection = new BookingCollection("bookings.csv");
+			//FlightCollection flightCollection = new FlightCollection("flights.csv");
+		    //checkinGUI = new CheckInGUI(bookingCollection, flightCollection);
+		    //checkinGUI.setVisible(true);
+		    //checkinGUI.setLocationRelativeTo(null);
+			CheckIn checkInDesk = new CheckIn("flights.csv", "bookings.csv");
+			CheckInWireframe  checkInView = new CheckInWireframe();
+			checkInController = new CheckInController(checkInView, checkInDesk);
+			
+			
 		} catch(BookingException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		} catch(CheckInIOException e) {

@@ -1,6 +1,6 @@
 package checkInGUI;
 
-import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,6 +11,7 @@ class FlightInformation extends JPanel {
 	
 	public FlightInformation(String flightCode, String destination) {
 		
+		this.setLayout(new GridLayout(2, 1));
 		JLabel flightCodeLbl = new JLabel();
 		flightCodeLbl.setText(flightCode);
 		
@@ -20,8 +21,7 @@ class FlightInformation extends JPanel {
 		
 		this.add(flightCodeLbl);
 		this.add(destinationLbl);
-		
-		setLayout(new BorderLayout());
-		setVisible(true);
+
+		this.setVisible(true);
 	}
 }
