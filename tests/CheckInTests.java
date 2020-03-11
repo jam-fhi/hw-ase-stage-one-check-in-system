@@ -1,5 +1,8 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.fail;
+
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +39,8 @@ public class CheckInTests {
 	private String validOpenDepartureTime = "18:45";
 	private String validDepartureDate = "2020-03-01";
 	private String validOpenDepartureDate = "2020-03-03";
-
+	private String checkInClosedException = "The check in desk is closed.";
+	
 	@Before
 	public void beforeEach() throws CheckInIOException, BookingException {
 		myCheckin = new CheckIn(validflightfile, validbookingfile);
@@ -71,6 +75,28 @@ public class CheckInTests {
 		myCheckin.doCheckIn(validBookingCode, aPassenger, baggage);
 		boolean isCheckedIn = myCheckin.getBookingCollection().getBooking(validBookingCode, validLastName).getPassenger().isCheckIn();
 		assertEquals(true, isCheckedIn);
+	}
+	
+	private void waitForMilliseconds(long miliseconds) {
+		Date startDate = new Date();
+		Date currentDate = new Date();
+		while(currentDate.getTime() - startDate.getTime() < miliseconds) {
+			currentDate = new Date();
+		}
+	}
+	
+	@Test
+	public void testDoCheckInFail() throws BookingException, FlightException {
+		Booking aBooking = booking.getBooking(validBookingCode, validLastName);
+		Passenger aPassenger = aBooking.getPassenger();
+		Bag baggage = new Bag(10, 10, 10, 1000.0);
+		waitForMilliseconds(1000);
+		try {
+			myCheckin.doCheckIn(validBookingCode, aPassenger, baggage);
+			fail("Check In did not throw an error");
+		} catch(BookingException e) {
+			assertEquals(checkInClosedException, e.getMessage());
+		}
 	}
 	
 	@Test
