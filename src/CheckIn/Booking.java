@@ -8,14 +8,17 @@ package CheckIn;
  *
  */
 public class Booking {
+
 	/**
-	 *  initialise local variables
+	 * Initialise local variables
 	 */
 	private String bookingCode;
 	private Passenger passenger;
 	private String flightCode;
+
 	/**
-	 *  the constructor checks if the booking code format is correct and then creates a booking and passenger  with the supplied variables
+	 * Booking
+	 * The constructor checks if the booking code format is correct and then creates a booking and passenger with the supplied variables.
 	 * @param bookingCode
 	 * @param firstName
 	 * @param lastName
@@ -31,20 +34,22 @@ public class Booking {
 
 	/**
 	 * isBookingCodeValid
-	 * Checks if the booking code is valid and throws if not
+	 * Checks if the booking code is valid and throws if not.
 	 * @param code
 	 * @throws BookingException
 	 */
 	private void isBookingCodeValid(String code) throws BookingException {
 		/**
-		 * check if booking code fits format current format is a string of 8 characters
+		 * Check if booking code fits format current format is a string of 8 characters.
 		 */
 		if (code.length() < 8) {
 			throw new BookingException("Invalid Booking Code"); 
 		}
 	}
+
 	/**
-	 *  methods to retrieve the bookings variables 
+	 * getBookingBode
+	 * Methods to retrieve the bookings variables.
 	 * @return
 	 */
 	public String getBookingCode() {
@@ -53,15 +58,16 @@ public class Booking {
 
 	/**
 	 * getFlightCode
-	 * Returns the flight code
+	 * Returns the flight code.
 	 * @return String
 	 */
 	public String getFlightCode() {
 		return flightCode;
 	}
-	
+
 	/**
-	 *  this should be called to retrieve information about the passenger and their bags and excess baggage
+	 * getPassenger
+	 * This should be called to retrieve information about the passenger and their bags and excess baggage.
 	 * @return Passenger
 	 */
 	public Passenger getPassenger() {

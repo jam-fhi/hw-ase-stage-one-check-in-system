@@ -3,6 +3,14 @@ package CheckIn;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * 
+ * fakeTime
+ * Simulates hours passing for thread
+ * based simulation of check in system.
+ * @author jamiehill and Haikah Ghoghari
+ *
+ */
 public class fakeTime {
 
 	/**
@@ -10,6 +18,13 @@ public class fakeTime {
 	 */
 	private static Date systemTime = new Date();
 	
+	/**
+	 * getCurrentTime
+	 * Returns a new date object that is a
+	 * fake time that has elapsed within the
+	 * check in system simulation.
+	 * @return Date of fake current time
+	 */
 	public static Date getCurrentTime() {
 		/**
 		 * When we call getCurrentTime, get the current system time, from a new date object.
