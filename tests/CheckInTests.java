@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import CheckIn.Bag;
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
@@ -11,20 +12,20 @@ import CheckIn.CheckInIOException;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.FlightException;
+import CheckIn.Passenger;
 import model.CheckIn;
 
 
 public class CheckInTests {
 	
 	private BookingCollection booking;
-	private Booking bookings;
 	private FlightCollection flight;
-	private int validFlightSize = 4;
 	private String  validbookingfile = "bookings.csv";
 	private String validflightfile = "flights.csv";
 	private CheckIn myCheckin = null;
 	private String validFlightCode = "BA123";
-
+	private String validBookingCode = "BA123-121";
+	private String validLastName = "Hill";
 	private String validDestinationAirport = "Barcelona";
 	private String validCarrier = "EasyJet";
 	private int validMaximumPassengers = 40;
@@ -62,6 +63,16 @@ public class CheckInTests {
 		assertEquals(false, isCheckInClosed);
 	}
 
+	@Test
+	public void testDoCheckInSuccess() throws BookingException, FlightException {
+		Booking aBooking = booking.getBooking(validBookingCode, validLastName);
+		Passenger aPassenger = aBooking.getPassenger();
+		Bag baggage = new Bag(10, 10, 10, 1000.0);
+		myCheckin.doCheckIn(validBookingCode, aPassenger, baggage);
+		boolean isCheckedIn = myCheckin.getBookingCollection().getBooking(validBookingCode, validLastName).getPassenger().isCheckIn();
+		assertEquals(true, isCheckedIn);
+	}
+	
 	@Test
 	public void testBookingCollection() throws BookingException, CheckInIOException {
 		BookingCollection resultBookingCollection = myCheckin.getBookingCollection();

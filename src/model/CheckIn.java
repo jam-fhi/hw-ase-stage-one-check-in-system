@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Observer;
 */
 
+import CheckIn.Bag;
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
@@ -39,11 +40,12 @@ public class CheckIn {
 		return false;
 	}
 
-	public void doCheckIn(String bookingCode, Passenger passenger) throws FlightException, BookingException {
+	public void doCheckIn(String bookingCode, Passenger passenger, Bag baggage) throws FlightException, BookingException {
 		Booking aBooking = bookingCollection.getBooking(bookingCode, passenger.getLastName());
 		Flight aFlight = flightCollection.findFlight(aBooking.getFlightCode());
 		if (isCheckInClosed(aFlight) == false) {
 			bookingCollection.getBooking(bookingCode, passenger.getLastName()).getPassenger().setCheckIn();
+			bookingCollection.getBooking(bookingCode,  passenger.getLastName()).getPassenger().addBaggage(baggage);
 			double allowedBaggageWeight = aFlight.getAllowedBaggageWeightPerPassenger();
 			double excessCharge = aFlight.getExcessCharge();
 			bookingCollection.getBooking(bookingCode, passenger.getLastName()).getPassenger().getBaggage().setExcessCharge(allowedBaggageWeight, excessCharge);
