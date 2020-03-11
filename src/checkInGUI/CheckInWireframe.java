@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.*;
@@ -11,27 +12,46 @@ import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.FlightComparator;
 import observer.Observer;
-import CheckIn.CheckIn;
+import model.CheckIn;
 
 /**
  * 
  * This class sets up the main GUI, which contains the Views.
  * @author amymcfarland
  */
-public class CheckInWireframe implements Observer {
+public class CheckInWireframe extends JFrame implements Observer {
 	
-	@Override
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public void update(CheckIn checkinmodel) {
 		
-		Iterator flightIt = flightCollection.g
-		for (int i = 0; i < flightCollection.size(); i++) {
-			
-			FlightInformation aFlight = new FlightInformation()
-			this.add(comp)
+		/**
+		 * On update remove any existing components on this JFrame
+		 */
+		int compCounter = 0;
+		while(compCounter < this.getComponentCount()) {
+			this.remove(compCounter);
+			compCounter++;
+		}
+		
+		/**
+		 * Iterate through the flights collection
+		 * Add a new flight panel for each flight
+		 * in our system
+		 */
+		
+		Iterator<Flight> flightIt = checkinmodel.getFlightCollection().getFlightCollection().iterator();
+		while(flightIt.hasNext()) {
+			Flight aFlight = flightIt.next();
+			FlightInformation aFlightPanel = new FlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport());
+			this.add(aFlightPanel);
 		}
 		
 		
-	
+	}
 	
 	//if fake time is greater than departure time then hide the flights
 			//there is a 
