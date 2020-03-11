@@ -1,5 +1,6 @@
 package checkInGUI;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ import model.CheckIn;
  */
 public class CheckInWireframe extends JFrame implements Observer {
 	
+	private JButton nextButton = new JButton();
 	/**
 	 * 
 	 */
@@ -26,6 +28,10 @@ public class CheckInWireframe extends JFrame implements Observer {
 	    pack();
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
+	}
+
+	public void addNextButtonActionListener(ActionListener nextAction) {
+		nextButton.addActionListener(nextAction);
 	}
 
 	public void update(CheckIn checkinmodel) {
@@ -46,6 +52,10 @@ public class CheckInWireframe extends JFrame implements Observer {
 		JPanel flightSummary = new JPanel();
 		flightSummary.setName("flightSummary");
 
+		nextButton.setText("Next Flight");
+		nextButton.setVisible(true);
+		flightSummary.add(nextButton);
+		
 		JLabel flightTotal = new JLabel();
 		flightTotal.setText("There are " + checkinmodel.getFlightCollection().getFlightCollection().size() + " flights.");
 		flightSummary.add(flightTotal);
@@ -54,7 +64,7 @@ public class CheckInWireframe extends JFrame implements Observer {
 		 * Iterate through the flights collection
 		 * Add a new flight panel for each flight
 		 * in our system
-		 */
+		 *
 		Iterator<Flight> flightIt = checkinmodel.getFlightCollection().getFlightCollection().iterator();
 		while(flightIt.hasNext()) {
 			Flight aFlight = flightIt.next();
@@ -62,9 +72,15 @@ public class CheckInWireframe extends JFrame implements Observer {
 			aFlightPanel.setSize(500, 150);
 			aFlightPanel.setVisible(true);
 			flightSummary.add(aFlightPanel);
-		}
+		}*/
+
+		Flight aFlight = checkinmodel.getFlightCollection().nextFlight;
+		FlightInformation aFlightPanel = new FlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport());
+		aFlightPanel.setSize(500, 150);
+		aFlightPanel.setVisible(true);
+		flightSummary.add(aFlightPanel);
 		
-		flightSummary.setLayout(new GridLayout(checkinmodel.getFlightCollection().getFlightCollection().size() + 1, 1));
+		flightSummary.setLayout(new GridLayout(3, 1));
 		this.add(flightSummary);
 		pack();
 	    this.setVisible(true);
