@@ -1,4 +1,4 @@
-package view;
+package checkInGUI;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import javax.swing.*;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.FlightComparator;
-import model.CheckIn;
 import observer.Observer;
+import CheckIn.CheckIn;
 
 /**
  * 
@@ -20,19 +20,13 @@ import observer.Observer;
  */
 public class CheckInWireframe implements Observer {
 	
-	FlightComparator flightComp = new FlightComparator();
-	
-	TreeSet<Flight> flightCollection = new TreeSet<Flight>(flightComp);
-	
-	
-	public CheckInWireframe() {
-		
-		flightCollection = new TreeSet<Flight>();
-	}
-	
 	@Override
 	public void update(CheckIn checkinmodel) {
+		
+		Iterator flightIt = flightCollection.g
 		for (int i = 0; i < flightCollection.size(); i++) {
+			
+			FlightInformation aFlight = new FlightInformation()
 			this.add(comp)
 		}
 		
