@@ -91,4 +91,5 @@ public class Passenger {
 	public Bag getBaggage() {
 		return baggage;
 	}
+
 }

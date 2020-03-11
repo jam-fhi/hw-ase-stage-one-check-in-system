@@ -9,10 +9,6 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  */
 public class RandomBagGenerator {
-	/**
-	 *  initialise local variables
-	 */
-	private Bag random;
 	
 	
 	/**
@@ -59,22 +55,22 @@ public class RandomBagGenerator {
 			int randomNum = ThreadLocalRandom.current().nextInt(0, 2 + 1); // determines manner in which bag is illegal
 			switch(randomNum) {
 			case 0:
-				return random = new Bag(randomvolume(volumelimit,true),
+				return new Bag(randomvolume(volumelimit,true),
 						randomvolume(volumelimit,true),
 						randomvolume(volumelimit,true),
 						randomweight(weightlimit,false)); // illegal volume legal weight
 			case 1: 
-				return random = new Bag(randomvolume(volumelimit,false),
+				return new Bag(randomvolume(volumelimit,false),
 						randomvolume(volumelimit,false),
 						randomvolume(volumelimit,false),
 						randomweight(weightlimit,true)); // legal volume illegal weight
 			case 2:
-				return random = new Bag(randomvolume(volumelimit,true),
+				return new Bag(randomvolume(volumelimit,true),
 						randomvolume(volumelimit,true),
 						randomvolume(volumelimit,true),
 						randomweight(weightlimit,true)); // illegal volume and weight
 			default: // this should never happen
-				return random = new Bag(randomvolume(volumelimit,true),
+				return new Bag(randomvolume(volumelimit,true),
 					randomvolume(volumelimit,true),
 					randomvolume(volumelimit,true),
 					randomweight(weightlimit,true)); // illegal volume and weight
@@ -82,7 +78,7 @@ public class RandomBagGenerator {
 			}
 		}
 		else {
-			return random = new Bag(randomvolume(volumelimit,false),
+			return new Bag(randomvolume(volumelimit,false),
 					randomvolume(volumelimit,false),
 					randomvolume(volumelimit,false),
 					randomweight(weightlimit,false)); // legal bag
