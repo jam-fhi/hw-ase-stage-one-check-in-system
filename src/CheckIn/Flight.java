@@ -2,15 +2,16 @@ package CheckIn;
 
 import java.util.Date;
 import java.util.Calendar;
+
 /**
+ * Flight
  * Flight Creating instance variables flightCode, destinationAirport, carrier,
  * maximumPassengers, maximumBaggageWeight, maximumBaggageVolume, and
- * excessCharge
+ * excessCharge.
  * 
  * @author NadiaAbulhawa
  *
  */
-
 public class Flight {
 	private String flightCode;
 	private String destinationAirport;
@@ -33,7 +34,6 @@ public class Flight {
 	 * @param excessCharge
 	 * 
 	 */
-
 	public Flight(String flightCode, String destinationAirport, String carrier, int maximumPassengers,
 			double maximumBaggageWeight, double maximumBaggageVolume, double excessCharge,String departureTime, String departureDate) {
 		this.flightCode = flightCode;
@@ -46,18 +46,14 @@ public class Flight {
 		Calendar departureCalendar = Calendar.getInstance();
 		String [] dateValues = departureDate.split("-");
 		String [] timeValues = departureTime.split(":");
-		departureCalendar.set(Calendar.YEAR, Integer.parseInt(dateValues[0]));
-		departureCalendar.set(Calendar.MONTH, Integer.parseInt(dateValues[1]));
-		departureCalendar.set(Calendar.DATE, Integer.parseInt(dateValues[2]));
-		departureCalendar.set(Calendar.HOUR, Integer.parseInt(timeValues[0]));
-		departureCalendar.set(Calendar.MINUTE, Integer.parseInt(timeValues[1]));
+		departureCalendar.set(Integer.parseInt(dateValues[0]), Integer.parseInt(dateValues[1]), Integer.parseInt(dateValues[2]), Integer.parseInt(timeValues[0]), Integer.parseInt(timeValues[1]), 0);
 		this.departureDate = departureCalendar.getTime();
 
 	}
 
 	/**
-	 * get method to return the flight code
-	 * 
+	 * getFlightCode
+	 * Get method to return the flight code
 	 * @return flightCode
 	 */
 	public String getFlightCode() {
@@ -65,8 +61,8 @@ public class Flight {
 	}
 
 	/**
-	 * get method to return the destination airport
-	 * 
+	 * getDestinationAirport
+	 * Get method to return the destination airport.
 	 * @return destinationAirport
 	 */
 	public String getDestinationAirport() {
@@ -74,8 +70,8 @@ public class Flight {
 	}
 
 	/**
-	 * get method to return the carrier
-	 * 
+	 * gtCarrier
+	 * Get method to return the carrier.
 	 * @return carrier
 	 */
 	public String getCarrier() {
@@ -83,8 +79,8 @@ public class Flight {
 	}
 
 	/**
-	 * get method to return the maximum passengers
-	 * 
+	 * getMaximumPassengers
+	 * Get method to return the maximum passengers.
 	 * @return maximumPassengers
 	 */
 	public int getMaximumPassengers() {
@@ -92,8 +88,8 @@ public class Flight {
 	}
 
 	/**
-	 * get method to return the maximum baggage weight
-	 * 
+	 * getMaximumBaggageWeight
+	 * Get method to return the maximum baggage weight.
 	 * @return maximumBaggageWeight
 	 */
 	public double getMaximumBaggageWeight() {
@@ -101,8 +97,8 @@ public class Flight {
 	}
 
 	/**
-	 * get method to return the maximum baggage volume
-	 * 
+	 * getMaximumBaggageVolume
+	 * Get method to return the maximum baggage volume.
 	 * @return maximumBaggageVolume
 	 */
 	public double getMaximumBaggageVolume() {
@@ -110,8 +106,8 @@ public class Flight {
 	}
 
 	/**
-	 * get method to return the excess charge
-	 * 
+	 * getExcessCharge
+	 * Get method to return the excess charge.
 	 * @return excessCharge
 	 */
 	public double getExcessCharge() {
@@ -119,42 +115,41 @@ public class Flight {
 	}
 
 	/**
-	 * get method to return allowed baggage weight per passenger
-	 * 
-	 * @return maximumBaggageWeight / maximumPassengers returns allowed baggage
-	 *         weight
+	 * GetAllowedBaggageWeightPerPassenger
+	 * Get method to return allowed baggage weight per passenger.
+	 * @return maximumBaggageWeight / maximumPassengers returns allowed baggage weight
 	 */
 	public double getAllowedBaggageWeightPerPassenger() {
 		return maximumBaggageWeight / maximumPassengers;
 	}
 
 	/**
-	 * get method to return allowed baggage volume per passenger
-	 * 
-	 * @return maximumBaggageVolume / maximumPassengers returns allowed baggage
-	 *         volume
+	 * getAllowedBaggageVolumePerPassenger
+	 * Get method to return allowed baggage volume per passenger
+	 * @return maximumBaggageVolume / maximumPassengers returns allowed baggage volume
 	 */
 	public double getAllowedBaggageVolumePerPassenger() {
 		return maximumBaggageVolume / maximumPassengers;
 	}
 	
 	/**
-	 * get method to return the departure time
-	 * 
+	 * getDepartureDate
+	 * Get method to return the departure time.
 	 * @return departureTime
 	 */
 	public Date getDepartureDate() {
 		return departureDate;
 	}
 	
-	
+	/**
+	 * checkInClosingTime
+	 * Returns the flight departure time minus one hour
+	 * as this is when a check in desk will close.
+	 * @return
+	 */
 	public Date checkInClosingTime() {
-		long hourInMs = 60 * 60 * 100;
+		long hourInMs = 60 * 60 * 1000;
 		long closingTime = departureDate.getTime() - hourInMs;
-		return new Date(closingTime); 
-				
+		return new Date(closingTime);
 	}
-	
-	
-
 }

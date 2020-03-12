@@ -152,7 +152,7 @@ public class BookingCollectionTest {
 		BookingCollection testCollection = new BookingCollection("test.csv");
 		testCollection.getBooking("BA123-121", "Hill").getPassenger().setCheckIn();
 		try {
-			Passenger aPassenger = testCollection.getPassengerNotCheckedIn();
+			testCollection.getPassengerNotCheckedIn();
 			fail("Passenger found who is not checked in");
 		} catch(Exception e) {
 			assertEquals(e.getMessage(), "No passengers found who are not checked in");
