@@ -20,7 +20,7 @@ private static final long serialVersionUID = 1L;
 	 * @param excessfee
 	 * @param baggagedimensions
 	 */
-	public CheckInInformation(String passengerFirstName, String passengerLastName, double baggageweight, double excessfee) {
+	public CheckInInformation(String passengerFirstName, String passengerLastName) {
 		
 		this.setLayout(new GridLayout(1, 2));
 		JLabel passengerFirstNameLbl = new JLabel();
@@ -30,20 +30,12 @@ private static final long serialVersionUID = 1L;
 		passengerLastNameLbl.setText(passengerLastName);
 
 		
-		JLabel bagbaggageWeightLbl = new JLabel();
-		String baggagefee = String.valueOf(baggageweight);
-		bagbaggageWeightLbl.setText(baggagefee);
-		
-		JLabel excessfeeLbl = new JLabel();
-		String excessfee1 = String.valueOf(excessfee);
-		excessfeeLbl.setText(excessfee1);
 		
 		
 		
 		this.add(passengerFirstNameLbl);
 		this.add(passengerLastNameLbl);
-		this.add(bagbaggageWeightLbl);
-		this.add(excessfeeLbl);
+		
 		this.setVisible(true);
 	}
 	

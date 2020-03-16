@@ -25,13 +25,9 @@ private JTextArea displayList;
 JTextArea result, result1, result2;
 private JScrollPane scrollList;
 	
-	public PassengerInformation(String bookingCode, String passengerFirstName, String passengerLastName, double baggageweight) {
+	public PassengerInformation(String bookingCode, String passengerFirstName, String passengerLastName) {
 		
 		
-		displayList = new JTextArea(10, 30);
-		displayList.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
-		displayList.setEditable(false);
-		scrollList = new JScrollPane(displayList);
 		
 	
 		JLabel bookingCodeLbl = new JLabel();
@@ -40,11 +36,7 @@ private JScrollPane scrollList;
 		JLabel passengerFirstNameLbl = new JLabel();
 		passengerFirstNameLbl.setText(passengerFirstName);
 		JLabel passengerLastNameLbl = new JLabel();
-		passengerFirstNameLbl.setText(passengerLastName);
-		
-		JLabel bagbaggageWeightLbl = new JLabel();
-		String baggagefee = String.valueOf(baggageweight);
-		bagbaggageWeightLbl.setText(baggagefee);
+		passengerLastNameLbl.setText(passengerLastName);
 		
 		
 		
@@ -53,7 +45,7 @@ private JScrollPane scrollList;
 		this.add(bookingCodeLbl);
 		this.add(passengerFirstNameLbl);
 		this.add(passengerLastNameLbl);
-		this.add(bagbaggageWeightLbl);
+		
 		
 		//this.add(displayList, BorderLayout.NORTH);
 		

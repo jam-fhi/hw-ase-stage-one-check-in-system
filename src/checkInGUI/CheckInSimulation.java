@@ -18,6 +18,7 @@ import CheckIn.Flight;
 import CheckIn.fakeTime;
 import observer.Observer;
 import model.CheckIn;
+import checkInGUI.PassengerSummary;
 
 /**
  * 
@@ -73,18 +74,8 @@ public class CheckInSimulation extends JFrame implements Observer {
 		flightSummary.add(flightTotal);
 		
 		
-		JPanel passengerSummary = new JPanel();
+		PassengerSummary passengerSummary = new PassengerSummary();
 		passengerSummary.setName("Passenger");
-		
-		
-		JLabel passengerDetails = new JLabel();
-		passengerDetails.setText("There are currently" + checkinmodel.getBookingCollection().getBookingCollection().size() + " passengers waiting in the queue.");
-		passengerSummary.add(passengerDetails);
-		
-		JTextArea passengers = new JTextArea();
-		passengers.add(passengerDetails);
-		passengerSummary.add(passengers);
-		
 		
 		JPanel checkinSummary = new JPanel();
 		checkinSummary.setName("Check In Desk 1");
@@ -158,12 +149,11 @@ public class CheckInSimulation extends JFrame implements Observer {
 	   
 		for(Map.Entry<String, Booking> aBooking: checkinmodel.getBookingCollection().getBookingCollection().entrySet()) {
 	  
-			PassengerInformation aPassengerPanel = new PassengerInformation(aBooking.getValue().getBookingCode(), aBooking.getValue().getPassenger().getFirstName(), aBooking.getValue().getPassenger().getLastName(), aBooking.getValue().getPassenger().getBaggage().getWeight());
-	
+			//PassengerInformation aPassengerPanel = new PassengerInformation(aBooking.getValue().getBookingCode(), aBooking.getValue().getPassenger().getFirstName(), aBooking.getValue().getPassenger().getLastName());
 			
 			//aPassengerPanel.setSize(15, 10);
-			aPassengerPanel.setVisible(true);
-			passengerSummary.add(aPassengerPanel);
+			//aPassengerPanel.setVisible(true);
+			passengerSummary.addPassengerList(aBooking.getValue().getBookingCode(), aBooking.getValue().getPassenger().getFirstName() + " " + aBooking.getValue().getPassenger().getLastName());
 			
 			this.add(passengerSummary,BorderLayout.NORTH);
 			pack();
@@ -172,10 +162,11 @@ public class CheckInSimulation extends JFrame implements Observer {
 		   
 		    
 		}
+		passengerSummary.displayList();
 		
 		for(Map.Entry<String, Booking> aBooking1: checkinmodel.getBookingCollection().getBookingCollection().entrySet()) {
 			  
-			CheckInInformation aCheckInPanel = new CheckInInformation(aBooking1.getValue().getPassenger().getFirstName(), aBooking1.getValue().getPassenger().getLastName(), aBooking1.getValue().getPassenger().getBaggage().getWeight(), aBooking1.getValue().getPassenger().getBaggage().getExcessCharge());
+			CheckInInformation aCheckInPanel = new CheckInInformation(aBooking1.getValue().getPassenger().getFirstName(), aBooking1.getValue().getPassenger().getLastName());
 	
 			
 			//aPassengerPanel.setSize(15, 10);
