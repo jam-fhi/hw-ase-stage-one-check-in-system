@@ -28,7 +28,7 @@ public class CheckInApp {
 		    //checkinGUI.setVisible(true);
 		    //checkinGUI.setLocationRelativeTo(null);
 			CheckIn checkInDesk = new CheckIn("flights.csv", "bookings.csv");
-			CheckInWireframe  checkInView = new CheckInWireframe();
+			CheckInSimulation  checkInView = new CheckInSimulation();
 			checkInController = new CheckInController(checkInView, checkInDesk);
 			
 			
