@@ -152,4 +152,18 @@ public class Flight {
 		long closingTime = departureDate.getTime() - hourInMs;
 		return new Date(closingTime);
 	}
+	 
+	public String getFlightStatus() {
+		String status = "waiting";
+		if (getDepartureDate().getTime() > fakeTime.getCurrentTime().getTime() - 6*60*60*1000 && getDepartureDate().getTime() < fakeTime.getCurrentTime().getTime() - 60*60*1000) {
+			status = "boarding";
+		} else if (checkInClosingTime().getTime() < fakeTime.getCurrentTime().getTime()){
+			status = "Check in closed";
+			
+		}else {
+			status = "departed";
+		}
+		return status;
+	}
+	
 }
