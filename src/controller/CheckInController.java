@@ -5,17 +5,17 @@ import model.CheckIn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import checkInGUI.CheckInWireframe;
+import checkInGUI.CheckInSimulation;
 
 public class CheckInController {
 
 
-	private CheckInWireframe checkInView; 
+	private CheckInSimulation checkInView; 
 
 	private CheckIn checkInModel; 
 	
 
-	public CheckInController(CheckInWireframe view, CheckIn model) {
+	public CheckInController(CheckInSimulation view, CheckIn model) {
 		checkInView = view;
 		checkInModel = model;
 		checkInView.update(checkInModel);
