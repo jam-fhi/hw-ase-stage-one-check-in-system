@@ -139,4 +139,21 @@ public class BookingCollection {
 		}
 		throw new Exception("No passengers found who are not checked in");
 	}
+	/**
+	 * 
+	 * Will find and return appropiate booking code for the passenger
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getBookingCode(Passenger p) throws Exception {
+		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+			if(aBooking.getValue().getPassenger() == p) {
+				return aBooking.getValue().getBookingCode();
+			}
+		}
+		throw new Exception("No such Passenger in file");
+	
+		
+		
+	}
 }

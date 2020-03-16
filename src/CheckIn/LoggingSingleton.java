@@ -62,4 +62,12 @@ public class LoggingSingleton {
 	public void addLog(String message) {
 		logMessages.add(message);
 	}
+
+	public void writelog(String filename) throws CheckInIOException {
+		if(logMessages.size() > 0) {
+			FileIO fileIO = new FileIO();
+			fileIO.writeFile(filename, logMessages);
+		}
+		
+	}
 }

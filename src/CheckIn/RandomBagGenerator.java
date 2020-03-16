@@ -18,7 +18,7 @@ public class RandomBagGenerator {
 	 * @param weightlimit
 	 * @param illegalweight
 	 */
-	private int randomvolume(int volumelimit , boolean illegal) {
+	private static  int randomvolume(int volumelimit , boolean illegal) {
 		/**
 		 *  Checks if an illegal value or legal value is to be created then returns appropriate value.
 		 */
@@ -35,7 +35,7 @@ public class RandomBagGenerator {
 	 * @param weightlimit
 	 * @param illegalweight
 	 */
-	private double randomweight(double weightlimit , boolean illegalweight) {
+	private static double randomweight(double weightlimit , boolean illegalweight) {
 		/**
 		 * Checks if an illegal value or legal value is to be created then returns appropriate value.
 		 */
@@ -55,7 +55,7 @@ public class RandomBagGenerator {
 	 * @param volumelimit
 	 * @param illegalbagchange
 	 */
-	public Bag getRandomBag(double weightlimit , int volumelimit , double illegalbagchance ) {
+	public static Bag getRandomBag(double weightlimit , int volumelimit , double illegalbagchance ) {
 		/**
 		 * Determines legality of bag.
 		 */
