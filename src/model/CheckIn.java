@@ -25,6 +25,7 @@ public class CheckIn implements Subject {
 
 	private BookingCollection bookingCollection;
 	private FlightCollection flightCollection;
+	private int SimulationTime = 1;
 
 	public boolean isCheckInClosed(Flight aFlight) {
 
