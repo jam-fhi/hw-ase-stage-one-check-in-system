@@ -128,13 +128,14 @@ public class BookingCollection {
 	 * @return Passenger
 	 * @throws Exception
 	 */
-	public Passenger getPassengerNotCheckedIn() throws Exception {
+	public PassengerWithBcode getPassengerNotCheckedIn() throws Exception {
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
 			/**
 			 * TODO: What if another thread is using this passenger? 
 			 */
 			if(aBooking.getValue().getPassenger().isCheckIn() == false) {
-				return aBooking.getValue().getPassenger();
+				Passenger aPassenger = aBooking.getValue().getPassenger();
+				return new PassengerWithBcode(aBooking.getValue().getBookingCode(), aPassenger);
 			}
 		}
 		throw new Exception("No passengers found who are not checked in");

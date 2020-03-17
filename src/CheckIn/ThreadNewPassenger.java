@@ -16,12 +16,9 @@ public class ThreadNewPassenger extends Thread {
 	/**
 	 *  initialise local variables
 	 */
-	private Passenger newpassenger;
 	private CheckIn mydesk;
-	private Flight flight;
 	private double illegalbagchance;
 	private boolean passengerReady;
-	private PassengerWithBcode AddInfo;
 	private ArrayList<PassengerWithBcode> list = new ArrayList<PassengerWithBcode>();
 	
 	/**
@@ -47,21 +44,18 @@ public class ThreadNewPassenger extends Thread {
 			catch (InterruptedException e) {}
 		}
 		passengerReady = true;
-		newpassenger = mydesk.getBookingCollection().getPassengerNotCheckedIn();
-		Flight flight = mydesk.getFlightCollection().findFlight(mydesk.getBookingCollection().getBookingCode(newpassenger));
-		newpassenger.addBaggage(RandomBagGenerator.getRandomBag(flight.getAllowedBaggageWeightPerPassenger(), (int) flight.getAllowedBaggageVolumePerPassenger(), illegalbagchance));
-		AddInfo = new PassengerWithBcode((mydesk.getBookingCollection().getBookingCode(newpassenger)), newpassenger);
+		PassengerWithBcode queuePassenger = mydesk.getBookingCollection().getPassengerNotCheckedIn();
+		Flight flight = mydesk.getFlightCollection().findFlight(queuePassenger.getBookingCode());
+		queuePassenger.getPassenger().addBaggage(RandomBagGenerator.getRandomBag(flight.getAllowedBaggageWeightPerPassenger(), (int)flight.getAllowedBaggageVolumePerPassenger(), illegalbagchance));
 		
-		this.list.add(AddInfo);
+		this.list.add(queuePassenger);
 		notifyAll();
 		
 		// log event
 		Date currentTime = fakeTime.getCurrentTime();
-		String name = newpassenger.getFirstName() + " " + newpassenger.getLastName();
-	
-		String Time = currentTime.toString();
+		String name = queuePassenger.getPassenger().getFirstName() + " " + queuePassenger.getPassenger().getLastName();
 		LoggingSingleton logger = LoggingSingleton.getInstance();
-		logger.addLog(name + " added to Checkin queue at " + Time);
+		logger.addLog(fakeTime.getCurrentTime().getTime(), name + " added to Checkin queue.");
 	}
 
 	/**
@@ -77,7 +71,7 @@ public class ThreadNewPassenger extends Thread {
 		}
 		passengerReady = false;
 		notifyAll(); 
-		mydesk.doCheckIn(list.get(0).getBookingCode(),list.get(0).getPassenger(),list.get(0).getPassenger().getBaggage()  );
+		mydesk.doCheckIn(list.get(0).getBookingCode(),list.get(0).getPassenger(),list.get(0).getPassenger().getBaggage());
 		list.clear();
 		
 	}
