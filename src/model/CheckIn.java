@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class CheckIn implements Subject {
 	private BookingCollection bookingCollection;
 	private FlightCollection flightCollection;
 	private int SimulationTime = 1;
+	private ArrayList<CheckInDesk> checkInDesks = new ArrayList<CheckInDesk>();
 
 	public boolean isCheckInClosed(Flight aFlight) {
 
@@ -57,6 +59,15 @@ public class CheckIn implements Subject {
 	public CheckIn(String flightfile, String bookingfile) throws CheckInIOException, BookingException {
 		this.bookingCollection = new BookingCollection(bookingfile);
 		this.flightCollection = new FlightCollection(flightfile);
+		
+		CheckInDesk aDesk1 = new CheckInDesk("BA123", "BA123-123", "Passenger Name1", "123KG", "£12");
+		CheckInDesk aDesk2 = new CheckInDesk("BA124", "BA123-124", "Passenger Name2", "124KG", "£13");
+		CheckInDesk aDesk3 = new CheckInDesk("BA125", "BA123-125", "Passenger Name3", "125KG", "£14");
+		CheckInDesk aDesk4 = new CheckInDesk("BA126", "BA123-126", "Passenger Name4", "126KG", "£15");
+		checkInDesks.add(aDesk4);
+		checkInDesks.add(aDesk3);
+		checkInDesks.add(aDesk2);
+		checkInDesks.add(aDesk1);
 	}
 
 	public BookingCollection getBookingCollection() {
@@ -68,7 +79,11 @@ public class CheckIn implements Subject {
 
 	}
 
-	// OBSERVER PATTERN
+	public ArrayList<CheckInDesk> getCheckInDesk() {
+		return checkInDesks;
+	}
+
+ 	// OBSERVER PATTERN
 	// SUBJECT must be able to register, remove and notify observers
 	// list to hold any observers
 	private List<observer.Observer> registeredObservers = new LinkedList<observer.Observer>();

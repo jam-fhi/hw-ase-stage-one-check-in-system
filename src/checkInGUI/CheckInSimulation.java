@@ -27,8 +27,6 @@ import checkInGUI.PassengerSummary;
  */
 public class CheckInSimulation extends JFrame implements Observer {
 	
-	private JButton nextButton = new JButton();
-	
 	/**
 	 * 
 	 */
@@ -40,10 +38,6 @@ public class CheckInSimulation extends JFrame implements Observer {
 	    pack();
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
-	}
-
-	public void addNextButtonActionListener(ActionListener nextAction) {
-		nextButton.addActionListener(nextAction);
 	}
 
 	public void update(CheckIn checkinmodel) {
@@ -76,84 +70,15 @@ public class CheckInSimulation extends JFrame implements Observer {
 		FlightSummary flightSummaryList = new FlightSummary(checkinmodel.getFlightCollection());
 		this.add(flightSummaryList, BorderLayout.SOUTH);
 		
-		JPanel checkinSummary = new JPanel();
-		checkinSummary.setName("Check In Desk 1");
-
+		/**
+		 * Add checkin desks
+		 */
+		CheckInDeskSummary checkInDeskSummary = new CheckInDeskSummary(checkinmodel.getCheckInDesk());
+		this.add(checkInDeskSummary, BorderLayout.CENTER);
 		
-		JLabel checkinDetails = new JLabel();
-		checkinSummary.add(checkinDetails);
-		
-		JPanel checkinSummary1 = new JPanel();
-		checkinSummary1.setName("Check In Desk 2");
-
-		
-		JLabel checkinDetails1 = new JLabel();
-		checkinSummary1.add(checkinDetails1);
-		
-		Flight aFlight = checkinmodel.getFlightCollection().nextFlight;
-		
-		FlightInformation aFlightPanel = new FlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus());
-		
-		aFlightPanel.setSize(500, 150);
-		aFlightPanel.setVisible(true);
-		flightSummary.add(aFlightPanel);
-		
-		flightSummary.setLayout(new GridLayout(1, 3));
-		this.add(flightSummary);
 		pack();
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
-		
-		for(Map.Entry<String, Booking> aBooking1: checkinmodel.getBookingCollection().getBookingCollection().entrySet()) {
-			  
-			CheckInInformation aCheckInPanel = new CheckInInformation(aBooking1.getValue().getPassenger().getFirstName(), aBooking1.getValue().getPassenger().getLastName());
-	
-			aCheckInPanel.setVisible(true);
-			checkinSummary.add(aCheckInPanel);
-			
-			this.add(checkinSummary,BorderLayout.EAST);
-			pack();
-			this.setVisible(true);
-		    this.setLocationRelativeTo(null);
-		    
-		    aCheckInPanel.setVisible(true);
-			checkinSummary1.add(aCheckInPanel);
-			
-			this.add(checkinSummary1,BorderLayout.EAST);
-			pack();
-			this.setVisible(true);
-		    this.setLocationRelativeTo(null);
-		    
-		    
-		   
-		    
-		}
-		
-		/*Booking aBooking = checkinmodel.getBookingCollection().;
-		
-		PassengerInformation aPassengerPanel = new PassengerInformation(aBooking.getBookingCode(), aBooking.getPassenger().getFirstName(), aBooking.getPassenger().getLastName());
-		aPassengerPanel.setSize(500, 150);
-		aPassengerPanel.setVisible(true);
-		passengerSummary.add(aPassengerPanel);
-		
-		passengerSummary.setLayout(new GridLayout(3, 1));
-		this.add(passengerSummary);
-		pack();
-	    this.setVisible(true);
-	    this.setLocationRelativeTo(null);
-	    */
-	
-}
-	
 
-   
+	}   
 }	
-	
-	
-	
-
-
-	//actionlistener is updating the model and fed into the checkin timer task
-			//checkin desks that have a close button 
-	
-	

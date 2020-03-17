@@ -20,17 +20,15 @@ public class CheckInInformation extends JPanel {
 	 * @param excessfee
 	 * @param baggagedimensions
 	 */
-	public CheckInInformation(String passengerFirstName, String passengerLastName) {
+	public CheckInInformation(String flightCode, String bookingCode, String passengerName, String bagWeight, String excessFee) {
 
-		this.setLayout(new GridLayout(1, 2));
-		JLabel passengerFirstNameLbl = new JLabel();
-		passengerFirstNameLbl.setText(passengerFirstName);
-
-		JLabel passengerLastNameLbl = new JLabel();
-		passengerLastNameLbl.setText(passengerLastName);
-
-		this.add(passengerFirstNameLbl);
-		this.add(passengerLastNameLbl);
+		this.setLayout(new GridLayout(5, 1));
+		
+		this.add(new JLabel(flightCode));
+		this.add(new JLabel(bookingCode));
+		this.add(new JLabel(passengerName));
+		this.add(new JLabel(bagWeight));
+		this.add(new JLabel(excessFee));
 
 		this.setVisible(true);
 	}

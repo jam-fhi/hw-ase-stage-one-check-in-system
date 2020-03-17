@@ -20,7 +20,7 @@ public class CheckInController {
 		checkInModel = model;
 		checkInView.update(checkInModel);
 		checkInModel.registerObserver(checkInView);
-		checkInView.addNextButtonActionListener(new NextFlightActionSetter());
+		// checkInView.addNextButtonActionListener(new NextFlightActionSetter());
 		// specify the listener for the view
 		//view.addSetListener(new SetListener());
 	}
