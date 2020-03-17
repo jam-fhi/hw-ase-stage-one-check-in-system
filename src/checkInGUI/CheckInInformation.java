@@ -2,6 +2,8 @@ package checkInGUI;
 
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -22,8 +24,11 @@ public class CheckInInformation extends JPanel {
 	 */
 	public CheckInInformation(String flightCode, String bookingCode, String passengerName, String bagWeight, String excessFee) {
 
-		this.setLayout(new GridLayout(5, 1));
+		this.setLayout(new GridLayout(6, 1));
 		
+		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
+		this.add(new JButton("Close"));
 		this.add(new JLabel(flightCode));
 		this.add(new JLabel(bookingCode));
 		this.add(new JLabel(passengerName));

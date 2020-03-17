@@ -62,19 +62,24 @@ public class CheckInSimulation extends JFrame implements Observer {
 		 * Add the passenger queue to the view.
 		 */
 		PassengerQueue passengerQueue = new PassengerQueue(checkinmodel.getBookingCollection());
-		this.add(passengerQueue, BorderLayout.NORTH);
+		this.add(passengerQueue, BorderLayout.WEST);
 		
-		/**
-		 * Add flights to the flight display.
-		 */
-		FlightSummary flightSummaryList = new FlightSummary(checkinmodel.getFlightCollection());
-		this.add(flightSummaryList, BorderLayout.SOUTH);
+		JPanel rightSide = new JPanel();
+		rightSide.setLayout(new BorderLayout());
 		
 		/**
 		 * Add checkin desks
 		 */
 		CheckInDeskSummary checkInDeskSummary = new CheckInDeskSummary(checkinmodel.getCheckInDesk());
-		this.add(checkInDeskSummary, BorderLayout.CENTER);
+		rightSide.add(checkInDeskSummary, BorderLayout.NORTH);
+		
+		/**
+		 * Add flights to the flight display.
+		 */
+		FlightSummary flightSummaryList = new FlightSummary(checkinmodel.getFlightCollection());
+		rightSide.add(flightSummaryList, BorderLayout.SOUTH);
+		
+		this.add(rightSide, BorderLayout.EAST);
 		
 		pack();
 	    this.setVisible(true);

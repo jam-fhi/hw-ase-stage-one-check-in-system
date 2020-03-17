@@ -3,6 +3,7 @@ package checkInGUI;
 import java.awt.GridLayout;
 import java.util.Iterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import CheckIn.Flight;
@@ -18,7 +19,8 @@ public class FlightSummary extends JPanel {
 	public FlightSummary(FlightCollection allFlights) {
 
 		this.setLayout(new GridLayout(allFlights.getFlightCollection().size() + 1, 1));
-
+		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
 		JLabel flightTotal = new JLabel("There are " + allFlights.getFlightCollection().size() + " flights.");
 		this.add(flightTotal);
 
