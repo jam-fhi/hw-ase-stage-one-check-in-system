@@ -11,7 +11,7 @@ import javax.swing.JPanel;
  */
 public class CheckInInformation extends JPanel {
 	
-private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * @param flightCode
@@ -21,22 +21,17 @@ private static final long serialVersionUID = 1L;
 	 * @param baggagedimensions
 	 */
 	public CheckInInformation(String passengerFirstName, String passengerLastName) {
-		
+
 		this.setLayout(new GridLayout(1, 2));
 		JLabel passengerFirstNameLbl = new JLabel();
 		passengerFirstNameLbl.setText(passengerFirstName);
-		
+
 		JLabel passengerLastNameLbl = new JLabel();
 		passengerLastNameLbl.setText(passengerLastName);
 
-		
-		
-		
-		
 		this.add(passengerFirstNameLbl);
 		this.add(passengerLastNameLbl);
-		
+
 		this.setVisible(true);
 	}
-	
 }

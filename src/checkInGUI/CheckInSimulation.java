@@ -74,18 +74,13 @@ public class CheckInSimulation extends JFrame implements Observer {
 		JLabel flightTotal = new JLabel();
 		flightTotal.setText("There are " + checkinmodel.getFlightCollection().getFlightCollection().size() + " flights.");
 		flightSummary.add(flightTotal);
-		
-		
-		PassengerSummary passengerSummary = new PassengerSummary();
-		passengerSummary.setName("Passenger");
-		
+				
 		JPanel checkinSummary = new JPanel();
 		checkinSummary.setName("Check In Desk 1");
 
 		
 		JLabel checkinDetails = new JLabel();
 		checkinSummary.add(checkinDetails);
-		
 		
 		JPanel checkinSummary1 = new JPanel();
 		checkinSummary1.setName("Check In Desk 2");
@@ -130,18 +125,11 @@ public class CheckInSimulation extends JFrame implements Observer {
 		pack();
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
-	    
-	    
-	   
-
-		// passengerSummary.displayList();
 		
 		for(Map.Entry<String, Booking> aBooking1: checkinmodel.getBookingCollection().getBookingCollection().entrySet()) {
 			  
 			CheckInInformation aCheckInPanel = new CheckInInformation(aBooking1.getValue().getPassenger().getFirstName(), aBooking1.getValue().getPassenger().getLastName());
 	
-			
-			//aPassengerPanel.setSize(15, 10);
 			aCheckInPanel.setVisible(true);
 			checkinSummary.add(aCheckInPanel);
 			
