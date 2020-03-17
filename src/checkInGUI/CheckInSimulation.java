@@ -162,7 +162,7 @@ public class CheckInSimulation extends JFrame implements Observer {
 		   
 		    
 		}
-		passengerSummary.displayList();
+		// passengerSummary.displayList();
 		
 		for(Map.Entry<String, Booking> aBooking1: checkinmodel.getBookingCollection().getBookingCollection().entrySet()) {
 			  
