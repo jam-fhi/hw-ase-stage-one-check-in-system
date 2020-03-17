@@ -154,16 +154,21 @@ public class Flight {
 	}
 	 
 	public String getFlightStatus() {
-		String status = "waiting";
-		if (getDepartureDate().getTime() > fakeTime.getCurrentTime().getTime() - 6*60*60*1000 && getDepartureDate().getTime() < fakeTime.getCurrentTime().getTime() - 60*60*1000) {
-			status = "boarding";
-		} else if (checkInClosingTime().getTime() < fakeTime.getCurrentTime().getTime()){
-			status = "Check in closed";
-			
-		}else {
-			status = "departed";
+		long hourInMs = 60 * 60 * 1000;
+		long sixHrInMs = hourInMs * 6;
+		long departureTime = getDepartureDate().getTime();
+		long boardingStarts = fakeTime.getCurrentTime().getTime() - sixHrInMs;
+		long boardingEnds = fakeTime.getCurrentTime().getTime() - hourInMs;
+		long checkinClosed = departureTime - hourInMs;
+		
+		if (departureTime > boardingStarts && departureTime < boardingEnds) {
+			return "boarding";
+		} else if (fakeTime.getCurrentTime().getTime() > checkinClosed) {
+			return "closed";
+		} else if (fakeTime.getCurrentTime().getTime() > departureTime) {
+			return "departed";
 		}
-		return status;
+		return "waiting";
 	}
 	
 }

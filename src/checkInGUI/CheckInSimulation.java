@@ -70,11 +70,12 @@ public class CheckInSimulation extends JFrame implements Observer {
 		PassengerQueue passengerQueue = new PassengerQueue(checkinmodel.getBookingCollection());
 		this.add(passengerQueue, BorderLayout.NORTH);
 		
+		/**
+		 * Add flights to the flight display.
+		 */
+		FlightSummary flightSummaryList = new FlightSummary(checkinmodel.getFlightCollection());
+		this.add(flightSummaryList, BorderLayout.SOUTH);
 		
-		JLabel flightTotal = new JLabel();
-		flightTotal.setText("There are " + checkinmodel.getFlightCollection().getFlightCollection().size() + " flights.");
-		flightSummary.add(flightTotal);
-				
 		JPanel checkinSummary = new JPanel();
 		checkinSummary.setName("Check In Desk 1");
 
@@ -89,29 +90,6 @@ public class CheckInSimulation extends JFrame implements Observer {
 		JLabel checkinDetails1 = new JLabel();
 		checkinSummary1.add(checkinDetails1);
 		
-		
-	
-		/**
-		 * Iterate through the flights collection
-		 * Add a new flight panel for each flight
-		 * in our system
-		 * Check if the flight status isn't equal departed then it will show the flight details. If it is departed 
-		 * it wont show on the GUI. 
-		 */
-		
-		Iterator<Flight> flightIt = checkinmodel.getFlightCollection().getFlightCollection().iterator();
-		while(flightIt.hasNext()) {
-			Flight aFlight = flightIt.next();
-			if(aFlight.getFlightStatus().compareTo("departed") != 0) {
-				
-			FlightInformation aFlightPanel = new FlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus());
-			aFlightPanel.setSize(500, 150);
-			aFlightPanel.setVisible(true);
-			flightSummary.add(aFlightPanel);
-			}
-		}
-		
-
 		Flight aFlight = checkinmodel.getFlightCollection().nextFlight;
 		
 		FlightInformation aFlightPanel = new FlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus());
