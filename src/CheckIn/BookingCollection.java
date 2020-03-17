@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * BookingCollection
@@ -139,5 +140,10 @@ public class BookingCollection {
 			}
 		}
 		throw new Exception("No passengers found who are not checked in");
+	}
+	
+	
+	public HashMap<String, Booking> getBookingCollection() {
+		return Bookings;
 	}
 }

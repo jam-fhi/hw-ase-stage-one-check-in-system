@@ -16,6 +16,7 @@ public class FlightCollection {
 	 */
 	FlightComparator flightComp = new FlightComparator();
 	TreeSet<Flight> flightCollection = new TreeSet<Flight>(flightComp);
+	public Flight nextFlight = null;
 
 	/**
 	 * FlightCollection
@@ -52,6 +53,22 @@ public class FlightCollection {
 			String addDepartureDate = aFlight[8];
 			Flight addFlight = new Flight(flightCode, destinationAirport, carrier, maximumPassengers, maximumBaggageWeight, maximumBaggageVolume, excessCharge, addDepartureTime, addDepartureDate);
 			flightCollection.add(addFlight);
+			nextFlight = addFlight;
+		}
+	}
+
+	public void setNextFlight() {
+		Iterator<Flight> flightIt = flightCollection.iterator();
+		while(flightIt.hasNext()) {
+			Flight aFlight = flightIt.next();
+			if(aFlight.getFlightCode().compareTo(nextFlight.getFlightCode()) == 0) {
+				if(flightIt.hasNext()) {
+					nextFlight = flightIt.next();
+					break;
+				} else {
+					nextFlight = flightCollection.first();
+				}
+			}
 		}
 	}
 

@@ -18,6 +18,8 @@ public class fakeTime {
 	 */
 	private static Date systemTime = new Date();
 	
+	private long simulationDelay = 10;
+	
 	/**
 	 * getCurrentTime
 	 * Returns a new date object that is a
@@ -60,5 +62,44 @@ public class fakeTime {
 		 */
 		currentFakeTime.setTimeInMillis(firstMarch + deltaTimeHr);
 		return currentFakeTime.getTime();
+	}
+	
+	/**
+	 * waitForMilliseconds
+	 * Takes a number of milliseconds to wait for
+	 * by running a while loop that checks if the
+	 * number of milliseconds specified have passed
+	 * before exiting the loop.
+	 * @param miliseconds
+	 */
+	private void waitForMilliseconds(long miliseconds) {
+		Date startDate = new Date();
+		Date currentDate = new Date();
+		while(currentDate.getTime() - startDate.getTime() < miliseconds) {
+			currentDate = new Date();
+		}
+	}
+	
+	/**
+	 * delaySimulation
+	 * Forces the simulation to wait for n milliseconds
+	 * so that the speed it runs at can be controlled.
+	 * @param simulationSpeed
+	 */
+	public void delaySimulation(int simulationSpeed) {
+		/**
+		 * Default wait is 25 ms
+		 */
+		long defaultWait = 25;
+		/**
+		 * Calculate wait time based on - simulationSpeed being slower
+		 * and positive speeds being x times faster so have a lower
+		 * wait in ms.
+		 */
+		long useWait = (simulationSpeed * simulationSpeed) - defaultWait;
+		if(simulationSpeed < 0) {
+			useWait = (simulationSpeed * simulationSpeed) + defaultWait;
+		}
+		waitForMilliseconds(useWait);
 	}
 }
