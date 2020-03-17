@@ -59,8 +59,8 @@ public class LoggingSingleton {
 	 * log message and adds it to the log messages
 	 * Array List.
 	 */
-	public void addLog(String message) {
-		logMessages.add(message);
+	public void addLog(long timeStamp, String message) {
+		logMessages.add(timeStamp + ": " + message);
 	}
 
 	public void writelog(String filename) throws CheckInIOException {

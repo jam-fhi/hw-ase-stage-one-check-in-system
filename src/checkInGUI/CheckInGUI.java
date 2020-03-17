@@ -98,10 +98,9 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	public void windowClosing(WindowEvent e) {
 		saveReport(this);
 		// log event
-		Date currentTime = fakeTime.getCurrentTime();	
-		String Time = currentTime.toString();
+		Date currentTime = fakeTime.getCurrentTime();
 		LoggingSingleton logger = LoggingSingleton.getInstance();
-		logger.addLog("Report generated and window closed at  " + Time);
+		logger.addLog(currentTime.getTime(), "Report generated and window closed");
 		try {
 			logger.writelog("Logs.txt");
 		} catch (CheckInIOException e1) {
