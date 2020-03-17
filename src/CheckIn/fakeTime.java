@@ -18,6 +18,8 @@ public class fakeTime {
 	 */
 	private static Date systemTime = new Date();
 	
+	private long simulationDelay = 10;
+	
 	/**
 	 * getCurrentTime
 	 * Returns a new date object that is a
@@ -60,5 +62,18 @@ public class fakeTime {
 		 */
 		currentFakeTime.setTimeInMillis(firstMarch + deltaTimeHr);
 		return currentFakeTime.getTime();
+	}
+	
+	private void waitForMilliseconds(long miliseconds) {
+		Date startDate = new Date();
+		Date currentDate = new Date();
+		while(currentDate.getTime() - startDate.getTime() < miliseconds) {
+			currentDate = new Date();
+		}
+	}
+	
+	public void delaySimulation(int simulationSpeed) {
+		
+		waitForMilliseconds(simulationSpeed * simulationDelay);
 	}
 }
