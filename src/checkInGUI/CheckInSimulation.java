@@ -64,10 +64,12 @@ public class CheckInSimulation extends JFrame implements Observer {
 		JPanel flightSummary = new JPanel();
 		flightSummary.setName("flightSummary");
 		
-
-		//nextButton.setText("Next Flight");
-		//nextButton.setVisible(true);
-		//flightSummary.add(nextButton);
+		/**
+		 * Add the passenger queue to the view.
+		 */
+		PassengerQueue passengerQueue = new PassengerQueue(checkinmodel.getBookingCollection());
+		this.add(passengerQueue, BorderLayout.NORTH);
+		
 		
 		JLabel flightTotal = new JLabel();
 		flightTotal.setText("There are " + checkinmodel.getFlightCollection().getFlightCollection().size() + " flights.");
@@ -118,26 +120,10 @@ public class CheckInSimulation extends JFrame implements Observer {
 		Flight aFlight = checkinmodel.getFlightCollection().nextFlight;
 		
 		FlightInformation aFlightPanel = new FlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus());
-		//FlightInformation aFlightPanel1 = new FlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus());
-		//FlightInformation aFlightPanel2 = new FlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus());
-		
 		
 		aFlightPanel.setSize(500, 150);
 		aFlightPanel.setVisible(true);
 		flightSummary.add(aFlightPanel);
-		//flightSummary.add(aFlightPanel1);
-		//flightSummary.add(aFlightPanel2);
-		
-		//JTextArea result = new JTextArea(10,15);
-		//result.setEditable(false);
-		//JTextArea result1 = new JTextArea(10,15);
-		//result1.setEditable(false);
-		//JTextArea result2 = new JTextArea(10,15);
-		//result2.setEditable(false);
-		
-		//aFlightPanel.add(result);
-		//aFlightPanel1.add(result1);
-		//aFlightPanel2.add(result2);
 		
 		flightSummary.setLayout(new GridLayout(1, 3));
 		this.add(flightSummary);
@@ -147,21 +133,7 @@ public class CheckInSimulation extends JFrame implements Observer {
 	    
 	    
 	   
-		for(Map.Entry<String, Booking> aBooking: checkinmodel.getBookingCollection().getBookingCollection().entrySet()) {
-	  
-			//PassengerInformation aPassengerPanel = new PassengerInformation(aBooking.getValue().getBookingCode(), aBooking.getValue().getPassenger().getFirstName(), aBooking.getValue().getPassenger().getLastName());
-			
-			//aPassengerPanel.setSize(15, 10);
-			//aPassengerPanel.setVisible(true);
-			passengerSummary.addPassengerList(aBooking.getValue().getBookingCode(), aBooking.getValue().getPassenger().getFirstName() + " " + aBooking.getValue().getPassenger().getLastName());
-			
-			this.add(passengerSummary,BorderLayout.NORTH);
-			pack();
-			this.setVisible(true);
-		    this.setLocationRelativeTo(null);
-		   
-		    
-		}
+
 		// passengerSummary.displayList();
 		
 		for(Map.Entry<String, Booking> aBooking1: checkinmodel.getBookingCollection().getBookingCollection().entrySet()) {
