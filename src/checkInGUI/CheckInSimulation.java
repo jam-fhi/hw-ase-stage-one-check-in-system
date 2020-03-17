@@ -68,10 +68,16 @@ public class CheckInSimulation extends JFrame implements Observer {
 		rightSide.setLayout(new BorderLayout());
 		
 		/**
+		 * Simulation controls
+		 */
+		SimControl simControl = new SimControl();
+		rightSide.add(simControl, BorderLayout.NORTH);
+		
+		/**
 		 * Add checkin desks
 		 */
 		CheckInDeskSummary checkInDeskSummary = new CheckInDeskSummary(checkinmodel.getCheckInDesk());
-		rightSide.add(checkInDeskSummary, BorderLayout.NORTH);
+		rightSide.add(checkInDeskSummary, BorderLayout.CENTER);
 		
 		/**
 		 * Add flights to the flight display.
