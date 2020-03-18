@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +28,9 @@ public class CheckIn implements Subject {
 
 	private BookingCollection bookingCollection;
 	private FlightCollection flightCollection;
-	private int SimulationTime = 1;
+	private String SimulationTime = "1";
+	
+
 	private ArrayList<CheckInDesk> checkInDesks = new ArrayList<CheckInDesk>();
 	private ThreadNewPassenger aQueue;
 	
@@ -130,4 +133,20 @@ public class CheckIn implements Subject {
 	public void removeObserver(observer.Observer obs) {
 		registeredObservers.remove(obs);
 	}
+	
+	public String getSimulationTime() {
+		return SimulationTime;
+	}
+
+	public void setSimulationTime(String simulationTime) {
+		SimulationTime = simulationTime;
+	}
+	
+	public CheckInDesk getCheckInDesk(int index) {
+		return checkInDesks.get(index);
+		
+	}
+	
+	
+	
 }

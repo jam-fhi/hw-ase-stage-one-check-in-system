@@ -1,24 +1,9 @@
 package checkInGUI;
 import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import javax.swing.*;
-
-import CheckIn.Booking;
-import CheckIn.Flight;
-import CheckIn.fakeTime;
 import observer.Observer;
 import model.CheckIn;
-import checkInGUI.PassengerSummary;
 
 /**
  * 
@@ -31,12 +16,19 @@ public class CheckInSimulation extends JFrame implements Observer {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private CheckInDeskSummary checkInDeskSummary;
+	private JPanel flightSummary = new JPanel();
+	private ActionListener closeStatusButton;
+	private ActionListener simSpeed;
 
 	public CheckInSimulation() {
 		this.setSize(100, 300);
 		this.setTitle("Check In Simulator");
 	    pack();
 	    this.setVisible(true);
+		
+		flightSummary.setLayout(new BorderLayout());
+		flightSummary.setName("flightSummary");
 	    this.setLocationRelativeTo(null);
 	}
 
@@ -45,24 +37,15 @@ public class CheckInSimulation extends JFrame implements Observer {
 		/**
 		 * On update remove any existing components on this JFrame
 		 */
-		int compCounter = 1;
-		while(compCounter < this.getComponentCount()) {
-			if(this.getComponent(compCounter) != null) {
-				if(this.getComponent(compCounter).getName().compareTo("flightSummary") == 0) {
-					this.remove(compCounter);
-				}
-			}
-			compCounter++;
-		}
-				
-		JPanel flightSummary = new JPanel();
-		flightSummary.setName("flightSummary");
-		
+		flightSummary.removeAll();
+		flightSummary.revalidate();
+		flightSummary.repaint();
+
 		/**
 		 * Add the passenger queue to the view.
 		 */
-		PassengerQueue passengerQueue = new PassengerQueue(checkinmodel.getPassengerQueue());
-		this.add(passengerQueue, BorderLayout.WEST);
+		PassengerQueue passengerQueue = new PassengerQueue(checkinmodel.getBookingCollection());
+		flightSummary.add(passengerQueue, BorderLayout.WEST);
 		
 		JPanel rightSide = new JPanel();
 		rightSide.setLayout(new BorderLayout());
@@ -70,13 +53,15 @@ public class CheckInSimulation extends JFrame implements Observer {
 		/**
 		 * Simulation controls
 		 */
-		SimControl simControl = new SimControl();
+		SimControl simControl = new SimControl(checkinmodel.getSimulationTime());
+		simControl.setSimSpeedAction(simSpeed);
 		rightSide.add(simControl, BorderLayout.NORTH);
 		
 		/**
 		 * Add checkin desks
 		 */
-		CheckInDeskSummary checkInDeskSummary = new CheckInDeskSummary(checkinmodel.getCheckInDesk());
+		checkInDeskSummary = new CheckInDeskSummary(checkinmodel.getCheckInDesk());
+		checkInDeskSummary.setDeskStatusActionListener(closeStatusButton);
 		rightSide.add(checkInDeskSummary, BorderLayout.CENTER);
 		
 		/**
@@ -85,11 +70,18 @@ public class CheckInSimulation extends JFrame implements Observer {
 		FlightSummary flightSummaryList = new FlightSummary(checkinmodel.getFlightCollection());
 		rightSide.add(flightSummaryList, BorderLayout.SOUTH);
 		
-		this.add(rightSide, BorderLayout.EAST);
-		
+		flightSummary.add(rightSide, BorderLayout.EAST);
+		this.add(flightSummary);
 		pack();
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
+	}
 
-	}   
+	public void setCheckInDeskAction(ActionListener e) {
+		this.closeStatusButton = e;
+	}
+	
+	public void setSimSpeedAction(ActionListener e) {
+		this.simSpeed = e;
+	}
 }	

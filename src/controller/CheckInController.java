@@ -5,38 +5,49 @@ import model.CheckIn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import CheckIn.FlightException;
-import CheckIn.ThreadNewPassenger;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import checkInGUI.CheckInSimulation;
 
 public class CheckInController {
 
+	private CheckInSimulation checkInView;
 
-	private CheckInSimulation checkInView; 
+	private CheckIn checkInModel;
 
-	private CheckIn checkInModel; 
-	
+	public CheckInController(CheckInSimulation view, CheckIn model) {
 
-	public CheckInController(CheckInSimulation view, CheckIn model) throws FlightException, Exception {
 		checkInView = view;
 		checkInModel = model;
+		// specify the listener for the view
+		view.setCheckInDeskAction(new CheckInDeskStatusActionSetter());
+		view.setSimSpeedAction(new SpeedSimulatorActionSetter());
 		checkInView.update(checkInModel);
 		checkInModel.registerObserver(checkInView);
-		
-		// checkInView.addNextButtonActionListener(new NextFlightActionSetter());
-		// specify the listener for the view
-		//view.addSetListener(new SetListener());
 	}
 
-
-	public class NextFlightActionSetter implements ActionListener {
+	public class CheckInDeskStatusActionSetter implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			checkInModel.getFlightCollection().setNextFlight();
+			JButton deskStatusButton = (JButton) e.getSource();
+			String name = deskStatusButton.getName();
+			checkInModel.getCheckInDesk(Integer.parseInt(name)).toggleclosestatus();
 			checkInModel.notifyObservers();
 		}
-		
+
+	}
+	public class SpeedSimulatorActionSetter implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JComboBox<String> speedList = (JComboBox<String>) e.getSource();
+			String selectedValue = (String) speedList.getSelectedItem();
+			checkInModel.setSimulationTime(selectedValue);
+			checkInModel.notifyObservers();
+		}
+
 	}
 
 }

@@ -15,9 +15,20 @@ public class CheckInDesk implements Runnable {
 	private String passengerName;
 	private double baggageWeight;
 	private String excessFee;
+	private boolean closestatus = false;
 	private ThreadNewPassenger so;
 	private BookingCollection allBookings;
 	
+	
+
+	
+
+	public CheckInDesk(String flightCode, String bookingCode, String passengerName, String baggageWeight, String excessFee) {
+		this.flightCode = flightCode;
+		this.bookingCode = bookingCode;
+		this.passengerName = passengerName;
+		this.baggageWeight = baggageWeight;
+		this.excessFee = excessFee;
 	public CheckInDesk(ThreadNewPassenger so, BookingCollection allBookings) {
 		this.so = so;
 		this.allBookings = allBookings;
@@ -41,6 +52,20 @@ public class CheckInDesk implements Runnable {
 
 	public String getExcessFee() {
 		return excessFee;
+	}
+	
+	public boolean isClosestatus() {
+		return closestatus;
+	}
+	
+	public void toggleclosestatus() {
+		if(closestatus == true) {
+			closestatus = false;
+		}
+		else {
+			closestatus = true;
+		}
+		
 	}
 
 	@Override
