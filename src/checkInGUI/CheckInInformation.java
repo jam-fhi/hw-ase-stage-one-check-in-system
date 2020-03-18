@@ -31,23 +31,27 @@ public class CheckInInformation extends JPanel {
 		
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		String statusText = "Open";
-		if(closeStatus == false) {
-			statusText = "Close";
-		}
-		close = new JButton(statusText);
+		
+		close = new JButton();
 		close.setName(index);
 		this.add(close);
+		if(closeStatus == false) {
+			statusText = "Close";
 		this.add(new JLabel(flightCode));
 		this.add(new JLabel(bookingCode));
 		this.add(new JLabel(passengerName));
 		this.add(new JLabel(bagWeight));
 		this.add(new JLabel(excessFee));
+		}
+		close.setText(statusText);
 		this.setVisible(true);
 		this.setName("checkindesk");
-		count++;
+		
 	}
 
 	public void setCloseButtonAction (ActionListener e) {
 		close.addActionListener(e);
 	}
+	
+	
 }
