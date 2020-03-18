@@ -19,11 +19,10 @@ public class CheckInController {
 
 		checkInView = view;
 		checkInModel = model;
-		checkInView.update(checkInModel);
-		checkInModel.registerObserver(checkInView);
-
 		// specify the listener for the view
 		view.setCheckInDeskAction(new CheckInDeskStatusActionSetter());
+		checkInView.update(checkInModel);
+		checkInModel.registerObserver(checkInView);
 	}
 
 	public class CheckInDeskStatusActionSetter implements ActionListener {
@@ -34,7 +33,6 @@ public class CheckInController {
 			String name = deskStatusButton.getName();
 			checkInModel.getCheckInDesk(Integer.parseInt(name)).toggleclosestatus();
 			checkInModel.notifyObservers();
-			System.out.println("button clicked" + deskStatusButton.getName() + "   " + checkInModel.getCheckInDesk(Integer.parseInt(name)).isClosestatus());
 		}
 
 	}

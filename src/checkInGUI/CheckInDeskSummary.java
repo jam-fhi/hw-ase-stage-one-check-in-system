@@ -2,7 +2,6 @@ package checkInGUI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,29 +35,18 @@ public class CheckInDeskSummary extends JPanel {
 		while(checkInDeskIt.hasNext()) {
 			CheckInDesk aDesk = checkInDeskIt.next();
 			desks.add(new CheckInInformation(aDesk.getFlightCode(), aDesk.getBookingCode(), aDesk.getPassengerName(), aDesk.getBaggageWeight(), aDesk.getExcessFee(), String.valueOf(index), aDesk.isClosestatus()));
-			
-			index ++;
-			
+			index ++;	
 		}
-		
 		this.add(desks, BorderLayout.SOUTH);
 	}
 
 	public void setDeskStatusActionListener (ActionListener e) {
-		
 		int compCounter = 0;
 		while(compCounter < desks.getComponentCount()) {
-			if(desks.getComponent(compCounter) != null) {
-				if(desks.getComponent(compCounter).getName().compareTo("checkindesk") == 0) {
-					((CheckInInformation)desks.getComponent(compCounter)).setCloseButtonAction(e);
-					
-				}
+			if(desks.getComponent(compCounter).getName().compareTo("checkindesk") == 0) {
+				((CheckInInformation)desks.getComponent(compCounter)).setCloseButtonAction(e);
 			}
 			compCounter++;
 		}
-			
 	}
-	
-	
-	
 }

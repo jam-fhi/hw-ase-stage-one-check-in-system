@@ -1,7 +1,6 @@
 package checkInGUI;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
@@ -13,10 +12,11 @@ import javax.swing.JPanel;
  * @author amymcfarland
  *
  */
-public class CheckInInformation extends JPanel implements ActionListener {
+public class CheckInInformation extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	JButton close;
+	int count = 0;
 	
 	/**
 	 * @param flightCode
@@ -30,14 +30,11 @@ public class CheckInInformation extends JPanel implements ActionListener {
 		this.setLayout(new GridLayout(6, 1));
 		
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		close = new JButton();
-		
-		if(closeStatus == true) {
-			close.setText("Open");;
-		}else {
-			close.setText("Close");
+		String statusText = "Open";
+		if(closeStatus == false) {
+			statusText = "Close";
 		}
-		
+		close = new JButton(statusText);
 		close.setName(index);
 		this.add(close);
 		this.add(new JLabel(flightCode));
@@ -47,21 +44,10 @@ public class CheckInInformation extends JPanel implements ActionListener {
 		this.add(new JLabel(excessFee));
 		this.setVisible(true);
 		this.setName("checkindesk");
-		
+		count++;
 	}
-
 
 	public void setCloseButtonAction (ActionListener e) {
 		close.addActionListener(e);
-		
 	}
-
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 }
