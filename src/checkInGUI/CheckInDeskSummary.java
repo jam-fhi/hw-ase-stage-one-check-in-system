@@ -30,7 +30,7 @@ public class CheckInDeskSummary extends JPanel {
 		Iterator<CheckInDesk> checkInDeskIt = allDesks.iterator();
 		while(checkInDeskIt.hasNext()) {
 			CheckInDesk aDesk = checkInDeskIt.next();
-			desks.add(new CheckInInformation(aDesk.getFlightCode(), aDesk.getBookingCode(), aDesk.getPassengerName(), aDesk.getBaggageWeight(), aDesk.getExcessFee()));
+			desks.add(new CheckInInformation(aDesk.getFlightCode(), aDesk.getBookingCode(), aDesk.getPassengerName(), String.valueOf(aDesk.getBaggageWeight()), aDesk.getExcessFee()));
 		}
 		
 		this.add(desks, BorderLayout.SOUTH);

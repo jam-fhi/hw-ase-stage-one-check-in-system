@@ -14,6 +14,7 @@ import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.FlightException;
 import CheckIn.Passenger;
+import CheckIn.ThreadNewPassenger;
 import CheckIn.fakeTime;
 import observer.Subject;
 /**
@@ -28,6 +29,41 @@ public class CheckIn implements Subject {
 	private FlightCollection flightCollection;
 	private int SimulationTime = 1;
 	private ArrayList<CheckInDesk> checkInDesks = new ArrayList<CheckInDesk>();
+	private ThreadNewPassenger aQueue;
+	
+	public CheckIn(String flightfile, String bookingfile, ThreadNewPassenger aPassengerQueue) throws CheckInIOException, BookingException {
+		
+		aQueue = aPassengerQueue;
+		
+		this.bookingCollection = new BookingCollection(bookingfile);
+		this.flightCollection = new FlightCollection(flightfile);
+		
+		CheckInDesk aDesk1 = new CheckInDesk(aQueue, this.bookingCollection);
+		CheckInDesk aDesk2 = new CheckInDesk(aQueue, this.bookingCollection);
+		CheckInDesk aDesk3 = new CheckInDesk(aQueue, this.bookingCollection);
+		CheckInDesk aDesk4 = new CheckInDesk(aQueue, this.bookingCollection);
+		
+		Thread producerThread = new Thread(new QueueProducer(aQueue, bookingCollection, flightCollection));
+		producerThread.start();
+		
+		// create a consumer thread and start it
+		Thread consumerThread1 = new Thread(aDesk1);
+		consumerThread1.start();
+		
+		/*Thread consumerThread2 = new Thread(aDesk2);
+		consumerThread1.start();
+		
+		Thread consumerThread3 = new Thread(aDesk3);
+		consumerThread1.start();
+		
+		Thread consumerThread4 = new Thread(aDesk4);
+		consumerThread1.start();*/
+		
+		checkInDesks.add(aDesk4);
+		checkInDesks.add(aDesk3);
+		checkInDesks.add(aDesk2);
+		checkInDesks.add(aDesk1);
+	}
 
 	public boolean isCheckInClosed(Flight aFlight) {
 
@@ -56,20 +92,6 @@ public class CheckIn implements Subject {
 		}
 	}
 
-	public CheckIn(String flightfile, String bookingfile) throws CheckInIOException, BookingException {
-		this.bookingCollection = new BookingCollection(bookingfile);
-		this.flightCollection = new FlightCollection(flightfile);
-		
-		CheckInDesk aDesk1 = new CheckInDesk("BA123", "BA123-123", "Passenger Name1", "123KG", "£12");
-		CheckInDesk aDesk2 = new CheckInDesk("BA124", "BA123-124", "Passenger Name2", "124KG", "£13");
-		CheckInDesk aDesk3 = new CheckInDesk("BA125", "BA123-125", "Passenger Name3", "125KG", "£14");
-		CheckInDesk aDesk4 = new CheckInDesk("BA126", "BA123-126", "Passenger Name4", "126KG", "£15");
-		checkInDesks.add(aDesk4);
-		checkInDesks.add(aDesk3);
-		checkInDesks.add(aDesk2);
-		checkInDesks.add(aDesk1);
-	}
-
 	public BookingCollection getBookingCollection() {
 		return bookingCollection;
 	}
@@ -81,6 +103,10 @@ public class CheckIn implements Subject {
 
 	public ArrayList<CheckInDesk> getCheckInDesk() {
 		return checkInDesks;
+	}
+	
+	public ArrayList<Booking> getPassengerQueue() {
+		return aQueue.getList();
 	}
 
  	// OBSERVER PATTERN

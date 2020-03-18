@@ -16,19 +16,19 @@ public class ThreadNewPassenger extends Thread {
 	/**
 	 *  initialise local variables
 	 */
-	private CheckIn mydesk;
+	// private CheckIn mydesk;
 	private double illegalbagchance;
-	private boolean passengerReady;
-	private ArrayList<PassengerWithBcode> list = new ArrayList<PassengerWithBcode>();
+	private boolean passengerReady = true;
+	private ArrayList<Booking> list = new ArrayList<Booking>();
 	
 	/**
 	 * constructor
 	 * @param double illegalbagchance
 	 * @param CheckinDeck checkin
 	 */
-	public ThreadNewPassenger(double illegal, CheckIn checkin){
-		this.illegalbagchance = illegal;
-		this.mydesk = checkin;
+	public ThreadNewPassenger(/*CheckIn checkin*/){
+		this.illegalbagchance = 3.0;
+		//this.mydesk = checkin;
 	}
 	
 	/**
@@ -38,24 +38,30 @@ public class ThreadNewPassenger extends Thread {
 	 * @throws FlightException 
 	 */
 	
-	public synchronized void put() throws FlightException, Exception {
-		while(!passengerReady) {
-			try { wait(); }
-			catch (InterruptedException e) {}
-		}
-		passengerReady = true;
-		PassengerWithBcode queuePassenger = mydesk.getBookingCollection().getPassengerNotCheckedIn();
-		Flight flight = mydesk.getFlightCollection().findFlight(queuePassenger.getBookingCode());
+	public synchronized void put(Booking queuePassenger, Flight flight) throws FlightException, Exception {
+		
+		//Thread.sleep(1000);
+		System.out.println(queuePassenger.getPassenger().getFirstName());
+		passengerReady = false;
 		queuePassenger.getPassenger().addBaggage(RandomBagGenerator.getRandomBag(flight.getAllowedBaggageWeightPerPassenger(), (int)flight.getAllowedBaggageVolumePerPassenger(), illegalbagchance));
-		
 		this.list.add(queuePassenger);
-		notifyAll();
-		
 		// log event
 		Date currentTime = fakeTime.getCurrentTime();
 		String name = queuePassenger.getPassenger().getFirstName() + " " + queuePassenger.getPassenger().getLastName();
 		LoggingSingleton logger = LoggingSingleton.getInstance();
 		logger.addLog(fakeTime.getCurrentTime().getTime(), name + " added to Checkin queue.");
+		
+		
+/*		while(!passengerReady) {
+			try { wait(); }
+			catch (InterruptedException e) {}
+		}
+		passengerReady = false;
+		queuePassenger.getPassenger().addBaggage(RandomBagGenerator.getRandomBag(flight.getAllowedBaggageWeightPerPassenger(), (int)flight.getAllowedBaggageVolumePerPassenger(), illegalbagchance));
+		this.list.add(queuePassenger);
+		notifyAll();
+*/		
+
 	}
 
 	/**
@@ -64,15 +70,16 @@ public class ThreadNewPassenger extends Thread {
 	 * @throws BookingException 
 	 * @throws FlightException 
 	 */
-	public synchronized void getPassengerForCheckIn() throws FlightException, BookingException {
-		while(passengerReady) {
+	public synchronized Booking getPassengerForCheckIn() throws FlightException, BookingException {
+		while(passengerReady || list.size() <= 0) {
 			try { wait(); }
 			catch (InterruptedException e) {}
 		}
-		passengerReady = false;
+		passengerReady = true;
 		notifyAll(); 
-		mydesk.doCheckIn(list.get(0).getBookingCode(),list.get(0).getPassenger(),list.get(0).getPassenger().getBaggage());
-		list.clear();
+		return list.get(0);
+		//mydesk.doCheckIn(list.get(0).getBookingCode(),list.get(0).getPassenger(),list.get(0).getPassenger().getBaggage());
+		//list.clear();
 		
 	}
 	
@@ -80,7 +87,7 @@ public class ThreadNewPassenger extends Thread {
 	 * get method 
 	 * passes the current state of the list
 	 */
-	public ArrayList<PassengerWithBcode> getList() {
+	public ArrayList<Booking> getList() {
 		return list;
 	}
 }

@@ -15,6 +15,7 @@ public class Booking {
 	private String bookingCode;
 	private Passenger passenger;
 	private String flightCode;
+	private boolean inQueue = false;
 
 	/**
 	 * Booking
@@ -72,5 +73,13 @@ public class Booking {
 	 */
 	public Passenger getPassenger() {
 		return passenger;
+	}
+	
+	public void setInQueue() {
+		inQueue = true;
+	}
+	
+	public boolean getInQueue() {
+		return inQueue;
 	}
 }

@@ -1,8 +1,11 @@
 package checkInGUI;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 import javax.swing.JPanel;
+
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
 
@@ -23,9 +26,11 @@ public class PassengerQueue extends JPanel {
 	 * a queue and displays them.
 	 * @param allBookings
 	 */
-	public PassengerQueue(BookingCollection allBookings) {
-		for(Map.Entry<String, Booking> aBooking: allBookings.getBookingCollection().entrySet()) {
-			passengers.addPassengerList(aBooking.getValue().getBookingCode(), aBooking.getValue().getPassenger().getFirstName() + " " + aBooking.getValue().getPassenger().getLastName());		    
+	public PassengerQueue(ArrayList<Booking> passengerQueue) {
+		Iterator<Booking> queueIt = passengerQueue.iterator();
+		while(queueIt.hasNext()) {
+			Booking aBooking = queueIt.next();
+			passengers.addPassengerList(aBooking.getBookingCode(), aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName());		    
 		}
 		
 		this.add(passengers, BorderLayout.NORTH);

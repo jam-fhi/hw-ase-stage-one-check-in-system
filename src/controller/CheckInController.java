@@ -5,6 +5,8 @@ import model.CheckIn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import CheckIn.FlightException;
+import CheckIn.ThreadNewPassenger;
 import checkInGUI.CheckInSimulation;
 
 public class CheckInController {
@@ -15,11 +17,12 @@ public class CheckInController {
 	private CheckIn checkInModel; 
 	
 
-	public CheckInController(CheckInSimulation view, CheckIn model) {
+	public CheckInController(CheckInSimulation view, CheckIn model) throws FlightException, Exception {
 		checkInView = view;
 		checkInModel = model;
 		checkInView.update(checkInModel);
 		checkInModel.registerObserver(checkInView);
+		
 		// checkInView.addNextButtonActionListener(new NextFlightActionSetter());
 		// specify the listener for the view
 		//view.addSetListener(new SetListener());
