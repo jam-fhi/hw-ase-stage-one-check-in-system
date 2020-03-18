@@ -1,13 +1,15 @@
 package checkInGUI;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class SimControl extends JPanel {
+public class SimControl extends JPanel implements ActionListener {
 
 	public SimControl() {
 		/**
@@ -20,7 +22,13 @@ public class SimControl extends JPanel {
 
 		JComboBox<String> speedList = new JComboBox<String>(simSpeeds);
 		speedList.setSelectedIndex(5);
-		//speedList.addActionListener(this);
+		speedList.addActionListener(this);
 		this.add(speedList);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

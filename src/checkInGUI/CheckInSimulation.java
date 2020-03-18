@@ -31,6 +31,7 @@ public class CheckInSimulation extends JFrame implements Observer {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private CheckInDeskSummary checkInDeskSummary;
 
 	public CheckInSimulation() {
 		this.setSize(100, 300);
@@ -76,7 +77,7 @@ public class CheckInSimulation extends JFrame implements Observer {
 		/**
 		 * Add checkin desks
 		 */
-		CheckInDeskSummary checkInDeskSummary = new CheckInDeskSummary(checkinmodel.getCheckInDesk());
+		checkInDeskSummary = new CheckInDeskSummary(checkinmodel.getCheckInDesk());
 		rightSide.add(checkInDeskSummary, BorderLayout.CENTER);
 		
 		/**
@@ -90,6 +91,12 @@ public class CheckInSimulation extends JFrame implements Observer {
 		pack();
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
+	   
 
-	}   
+	} 
+	
+		public void setCheckInDeskAction(ActionListener e) {
+			checkInDeskSummary.setDeskStatusActionListener(e);
+			
+	}
 }	
