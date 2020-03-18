@@ -19,6 +19,7 @@ public class CheckInSimulation extends JFrame implements Observer {
 	private CheckInDeskSummary checkInDeskSummary;
 	private JPanel flightSummary = new JPanel();
 	private ActionListener closeStatusButton;
+	private ActionListener simSpeed;
 
 	public CheckInSimulation() {
 		this.setSize(100, 300);
@@ -52,7 +53,8 @@ public class CheckInSimulation extends JFrame implements Observer {
 		/**
 		 * Simulation controls
 		 */
-		SimControl simControl = new SimControl();
+		SimControl simControl = new SimControl(checkinmodel.getSimulationTime());
+		simControl.setSimSpeedAction(simSpeed);
 		rightSide.add(simControl, BorderLayout.NORTH);
 		
 		/**
@@ -77,5 +79,9 @@ public class CheckInSimulation extends JFrame implements Observer {
 
 	public void setCheckInDeskAction(ActionListener e) {
 		this.closeStatusButton = e;
+	}
+	
+	public void setSimSpeedAction(ActionListener e) {
+		this.simSpeed = e;
 	}
 }	

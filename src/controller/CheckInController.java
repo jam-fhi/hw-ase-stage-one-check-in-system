@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 import checkInGUI.CheckInSimulation;
 
@@ -21,6 +22,7 @@ public class CheckInController {
 		checkInModel = model;
 		// specify the listener for the view
 		view.setCheckInDeskAction(new CheckInDeskStatusActionSetter());
+		view.setSimSpeedAction(new SpeedSimulatorActionSetter());
 		checkInView.update(checkInModel);
 		checkInModel.registerObserver(checkInView);
 	}
@@ -32,6 +34,17 @@ public class CheckInController {
 			JButton deskStatusButton = (JButton) e.getSource();
 			String name = deskStatusButton.getName();
 			checkInModel.getCheckInDesk(Integer.parseInt(name)).toggleclosestatus();
+			checkInModel.notifyObservers();
+		}
+
+	}
+	public class SpeedSimulatorActionSetter implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JComboBox<String> speedList = (JComboBox<String>) e.getSource();
+			String selectedValue = (String) speedList.getSelectedItem();
+			checkInModel.setSimulationTime(selectedValue);
 			checkInModel.notifyObservers();
 		}
 

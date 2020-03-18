@@ -27,7 +27,7 @@ public class CheckIn implements Subject {
 
 	private BookingCollection bookingCollection;
 	private FlightCollection flightCollection;
-	private int SimulationTime = 1;
+	private String SimulationTime = "1";
 	
 
 	private ArrayList<CheckInDesk> checkInDesks = new ArrayList<CheckInDesk>();
@@ -108,11 +108,11 @@ public class CheckIn implements Subject {
 		registeredObservers.remove(obs);
 	}
 	
-	public int getSimulationTime() {
+	public String getSimulationTime() {
 		return SimulationTime;
 	}
 
-	public void setSimulationTime(int simulationTime) {
+	public void setSimulationTime(String simulationTime) {
 		SimulationTime = simulationTime;
 	}
 	
@@ -120,4 +120,7 @@ public class CheckIn implements Subject {
 		return checkInDesks.get(index);
 		
 	}
+	
+	
+	
 }
