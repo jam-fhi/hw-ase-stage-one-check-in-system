@@ -7,7 +7,12 @@ public class CheckInDesk {
 	private String passengerName;
 	private String baggageWeight;
 	private String excessFee;
+	private boolean closestatus = false;
 	
+	
+
+	
+
 	public CheckInDesk(String flightCode, String bookingCode, String passengerName, String baggageWeight, String excessFee) {
 		this.flightCode = flightCode;
 		this.bookingCode = bookingCode;
@@ -34,5 +39,19 @@ public class CheckInDesk {
 
 	public String getExcessFee() {
 		return excessFee;
+	}
+	
+	public boolean isClosestatus() {
+		return closestatus;
+	}
+	
+	public void toggleclosestatus() {
+		if(closestatus == true) {
+			closestatus = false;
+		}
+		else {
+			closestatus = true;
+		}
+		
 	}
 }

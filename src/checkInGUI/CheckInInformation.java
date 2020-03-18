@@ -1,6 +1,7 @@
 package checkInGUI;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,6 +15,8 @@ import javax.swing.JPanel;
 public class CheckInInformation extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
+	JButton close;
+	int count = 0;
 	
 	/**
 	 * @param flightCode
@@ -22,19 +25,33 @@ public class CheckInInformation extends JPanel {
 	 * @param excessfee
 	 * @param baggagedimensions
 	 */
-	public CheckInInformation(String flightCode, String bookingCode, String passengerName, String bagWeight, String excessFee) {
+	public CheckInInformation(String flightCode, String bookingCode, String passengerName, String bagWeight, String excessFee, String index, boolean closeStatus) {
 
 		this.setLayout(new GridLayout(6, 1));
 		
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		String statusText = "Open";
 		
-		this.add(new JButton("Close"));
+		close = new JButton();
+		close.setName(index);
+		this.add(close);
+		if(closeStatus == false) {
+			statusText = "Close";
 		this.add(new JLabel(flightCode));
 		this.add(new JLabel(bookingCode));
 		this.add(new JLabel(passengerName));
 		this.add(new JLabel(bagWeight));
 		this.add(new JLabel(excessFee));
-
+		}
+		close.setText(statusText);
 		this.setVisible(true);
+		this.setName("checkindesk");
+		
 	}
+
+	public void setCloseButtonAction (ActionListener e) {
+		close.addActionListener(e);
+	}
+	
+	
 }
