@@ -39,26 +39,26 @@ public class CheckIn implements Subject {
 		this.bookingCollection = new BookingCollection(bookingfile);
 		this.flightCollection = new FlightCollection(flightfile);
 		
-		CheckInDesk aDesk1 = new CheckInDesk(aQueue, this.bookingCollection);
-		CheckInDesk aDesk2 = new CheckInDesk(aQueue, this.bookingCollection);
-		CheckInDesk aDesk3 = new CheckInDesk(aQueue, this.bookingCollection);
-		CheckInDesk aDesk4 = new CheckInDesk(aQueue, this.bookingCollection);
+		CheckInDesk aDesk1 = new CheckInDesk(aQueue, this.bookingCollection, this);
+		CheckInDesk aDesk2 = new CheckInDesk(aQueue, this.bookingCollection, this);
+		CheckInDesk aDesk3 = new CheckInDesk(aQueue, this.bookingCollection, this);
+		CheckInDesk aDesk4 = new CheckInDesk(aQueue, this.bookingCollection, this);
 		
-		Thread producerThread = new Thread(new QueueProducer(aQueue, bookingCollection, flightCollection));
+		Thread producerThread = new Thread(new QueueProducer(aQueue, bookingCollection, flightCollection, this));
 		producerThread.start();
 		
 		// create a consumer thread and start it
 		Thread consumerThread1 = new Thread(aDesk1);
 		consumerThread1.start();
 		
-		/*Thread consumerThread2 = new Thread(aDesk2);
-		consumerThread1.start();
+		Thread consumerThread2 = new Thread(aDesk2);
+		consumerThread2.start();
 		
 		Thread consumerThread3 = new Thread(aDesk3);
-		consumerThread1.start();
+		consumerThread3.start();
 		
 		Thread consumerThread4 = new Thread(aDesk4);
-		consumerThread1.start();*/
+		consumerThread4.start();
 		
 		checkInDesks.add(aDesk4);
 		checkInDesks.add(aDesk3);

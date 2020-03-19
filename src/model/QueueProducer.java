@@ -12,8 +12,10 @@ public class QueueProducer implements Runnable {
 	private ThreadNewPassenger aThread;
 	private BookingCollection allBookings;
 	private FlightCollection allFlights;
+	private CheckIn model;
 	
-	public QueueProducer(ThreadNewPassenger aThread, BookingCollection allBookings, FlightCollection allFlights) {
+	public QueueProducer(ThreadNewPassenger aThread, BookingCollection allBookings, FlightCollection allFlights, CheckIn model) {
+		this.model = model;
 		this.aThread = aThread;
 		this.allBookings = allBookings;
 		this.allFlights = allFlights;
@@ -29,6 +31,7 @@ public class QueueProducer implements Runnable {
 				Booking aPassenger = allBookings.getPassengerNotCheckedIn();
 				Flight aFlight = this.allFlights.findFlight(aPassenger.getFlightCode());
 				aThread.put(aPassenger, aFlight);
+				model.notifyObservers();
 			} catch(FlightException e) {
 				System.out.println(e.getMessage());
 			} catch (InterruptedException e1) {
