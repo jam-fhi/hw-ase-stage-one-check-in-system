@@ -3,9 +3,7 @@ package model;
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
-import CheckIn.FlightCollection;
 import CheckIn.FlightException;
-import CheckIn.PassengerWithBcode;
 import CheckIn.ThreadNewPassenger;
 
 public class CheckInDesk implements Runnable {
@@ -19,16 +17,14 @@ public class CheckInDesk implements Runnable {
 	private ThreadNewPassenger so;
 	private BookingCollection allBookings;
 	
-	
-
-	
-
-	public CheckInDesk(String flightCode, String bookingCode, String passengerName, String baggageWeight, String excessFee) {
+	public CheckInDesk(String flightCode, String bookingCode, String passengerName, double baggageWeight, String excessFee) {
 		this.flightCode = flightCode;
 		this.bookingCode = bookingCode;
 		this.passengerName = passengerName;
 		this.baggageWeight = baggageWeight;
 		this.excessFee = excessFee;
+	}
+
 	public CheckInDesk(ThreadNewPassenger so, BookingCollection allBookings) {
 		this.so = so;
 		this.allBookings = allBookings;

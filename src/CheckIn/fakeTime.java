@@ -18,8 +18,6 @@ public class fakeTime {
 	 */
 	private static Date systemTime = new Date();
 	
-	private long simulationDelay = 10;
-	
 	/**
 	 * getCurrentTime
 	 * Returns a new date object that is a

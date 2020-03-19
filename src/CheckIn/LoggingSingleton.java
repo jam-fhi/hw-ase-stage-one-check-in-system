@@ -1,6 +1,7 @@
 package CheckIn;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * LoggingSingleton
@@ -59,8 +60,9 @@ public class LoggingSingleton {
 	 * log message and adds it to the log messages
 	 * Array List.
 	 */
-	public void addLog(long timeStamp, String message) {
-		logMessages.add(timeStamp + ": " + message);
+	public void addLog(String message) {
+		Date currentTime = fakeTime.getCurrentTime();
+		logMessages.add(currentTime.getTime() + ": " + message);
 	}
 
 	public void writelog(String filename) throws CheckInIOException {

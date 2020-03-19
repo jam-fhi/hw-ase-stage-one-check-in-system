@@ -9,14 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Date;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
@@ -26,7 +23,6 @@ import CheckIn.FlightCollection;
 import CheckIn.FlightException;
 import CheckIn.LoggingSingleton;
 import CheckIn.ReportGenerator;
-import CheckIn.fakeTime;
 
 /**
  * Simple GUI for Checkin application
@@ -98,9 +94,8 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 	public void windowClosing(WindowEvent e) {
 		saveReport(this);
 		// log event
-		Date currentTime = fakeTime.getCurrentTime();
 		LoggingSingleton logger = LoggingSingleton.getInstance();
-		logger.addLog(currentTime.getTime(), "Report generated and window closed");
+		logger.addLog("Report generated and window closed");
 		try {
 			logger.writelog("Logs.txt");
 		} catch (CheckInIOException e1) {

@@ -20,9 +20,8 @@ public class RandomBagGeneratorTest {
 		int volumelimit = 7;
 		String message1 = "bags are identical";
 		double illegalbagchance = 0.5;
-		RandomBagGenerator generator = new RandomBagGenerator();
-		Bag bag1 = generator.getRandomBag(weightlimit, volumelimit, illegalbagchance);
-		Bag bag2 = generator.getRandomBag(weightlimit, volumelimit, illegalbagchance);
+		Bag bag1 = RandomBagGenerator.getRandomBag(weightlimit, volumelimit, illegalbagchance);
+		Bag bag2 = RandomBagGenerator.getRandomBag(weightlimit, volumelimit, illegalbagchance);
 		assertNotEquals(message1, bag1, bag2);		
 	}
 	/**
@@ -33,8 +32,7 @@ public class RandomBagGeneratorTest {
 		double weightlimit  = 10.0;
 		int volumelimit = 7;
 		double illegalbagchance = 1;
-		RandomBagGenerator generator = new RandomBagGenerator();
-		Bag bag1 = generator.getRandomBag(weightlimit, volumelimit, illegalbagchance);
+		Bag bag1 = RandomBagGenerator.getRandomBag(weightlimit, volumelimit, illegalbagchance);
 		assertFalse(bag1.getVolume()<volumelimit && bag1.getWeight()<weightlimit);
 	}
 	/**
@@ -45,8 +43,7 @@ public class RandomBagGeneratorTest {
 		double weightlimit  = 10.0;
 		int volumelimit = 7;
 		double illegalbagchance = 0;
-		RandomBagGenerator generator = new RandomBagGenerator();
-		Bag bag1 = generator.getRandomBag(weightlimit, volumelimit, illegalbagchance);
+		Bag bag1 = RandomBagGenerator.getRandomBag(weightlimit, volumelimit, illegalbagchance);
 		assertTrue(bag1.getVolume()<volumelimit && bag1.getWeight()<weightlimit);
 	}
 }

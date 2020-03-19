@@ -42,6 +42,7 @@ public class CheckInController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
 			JComboBox<String> speedList = (JComboBox<String>) e.getSource();
 			String selectedValue = (String) speedList.getSelectedItem();
 			checkInModel.setSimulationTime(selectedValue);

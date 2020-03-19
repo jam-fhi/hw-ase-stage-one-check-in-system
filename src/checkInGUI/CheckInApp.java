@@ -14,8 +14,6 @@ import model.CheckIn;
 
 public class CheckInApp {
 	
-	private CheckInController checkInController;
-	
 	/**
 	 * method to show each GUI 
 	 * @throws Exception 
@@ -27,7 +25,7 @@ public class CheckInApp {
 			
 			CheckIn checkInDesk = new CheckIn("flights.csv", "bookings.csv", aThread);
 			CheckInSimulation  checkInView = new CheckInSimulation();
-			checkInController = new CheckInController(checkInView, checkInDesk);
+			new CheckInController(checkInView, checkInDesk);
 		} catch(BookingException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		} catch(CheckInIOException e) {

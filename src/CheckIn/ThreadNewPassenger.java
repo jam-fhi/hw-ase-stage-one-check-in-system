@@ -1,9 +1,6 @@
 package CheckIn;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.ArrayList;
-import model.CheckIn;
 // need to do add comments , fix the booking and passeneger requirement in check in to
 // the new class 
 // make prettier
@@ -46,10 +43,10 @@ public class ThreadNewPassenger extends Thread {
 		queuePassenger.getPassenger().addBaggage(RandomBagGenerator.getRandomBag(flight.getAllowedBaggageWeightPerPassenger(), (int)flight.getAllowedBaggageVolumePerPassenger(), illegalbagchance));
 		this.list.add(queuePassenger);
 		// log event
-		Date currentTime = fakeTime.getCurrentTime();
+		
 		String name = queuePassenger.getPassenger().getFirstName() + " " + queuePassenger.getPassenger().getLastName();
 		LoggingSingleton logger = LoggingSingleton.getInstance();
-		logger.addLog(fakeTime.getCurrentTime().getTime(), name + " added to Checkin queue.");
+		logger.addLog(name + " added to Checkin queue.");
 		
 		
 /*		while(!passengerReady) {
