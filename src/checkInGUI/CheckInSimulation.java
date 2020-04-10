@@ -44,7 +44,7 @@ public class CheckInSimulation extends JFrame implements Observer {
 		/**
 		 * Add the passenger queue to the view.
 		 */
-		PassengerQueue passengerQueue = new PassengerQueue(checkinmodel.getBookingCollection());
+		PassengerQueue passengerQueue = new PassengerQueue(checkinmodel.getPassengerQueue());
 		flightSummary.add(passengerQueue, BorderLayout.WEST);
 		
 		JPanel rightSide = new JPanel();

@@ -16,6 +16,7 @@ import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.FlightException;
 import CheckIn.Passenger;
+import CheckIn.ThreadNewPassenger;
 import model.CheckIn;
 
 
@@ -43,7 +44,8 @@ public class CheckInTests {
 	
 	@Before
 	public void beforeEach() throws CheckInIOException, BookingException {
-		myCheckin = new CheckIn(validflightfile, validbookingfile);
+		ThreadNewPassenger so = new ThreadNewPassenger();
+		myCheckin = new CheckIn(validflightfile, validbookingfile, so);
 		flight = new FlightCollection(validflightfile);
 		booking = new BookingCollection(validbookingfile);
 	}

@@ -18,8 +18,6 @@ public class fakeTime {
 	 */
 	private static Date systemTime = new Date();
 	
-	private long simulationDelay = 10;
-	
 	/**
 	 * getCurrentTime
 	 * Returns a new date object that is a
@@ -37,7 +35,7 @@ public class fakeTime {
 		 * Then convert the number of milliseconds into hours for the simulation.
 		 */
 		long deltaTimeMS = currentSystemTime.getTime() - systemTime.getTime();
-		long deltaTimeHr = deltaTimeMS * 60 * 60 * 1000;
+		long deltaTimeHr = deltaTimeMS * 60 * 1000;
 		
 		/**
 		 * We assume our simulation begins on the first of march.

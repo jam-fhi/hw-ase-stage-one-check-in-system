@@ -7,14 +7,11 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import org.junit.Test;
-
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
 import CheckIn.CheckInIOException;
-import CheckIn.Passenger;
 
 /**
  * BookingCollectionTest
@@ -132,8 +129,8 @@ public class BookingCollectionTest {
 	@Test
 	public void testGetPassengerNotCheckedIn() throws Exception {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
-		Passenger notCheckedIn = TestCollection.getPassengerNotCheckedIn();
-		assertEquals(notCheckedIn.isCheckIn(), false);
+		Booking notCheckedIn = TestCollection.getPassengerNotCheckedIn();
+		assertEquals(notCheckedIn.getPassenger().isCheckIn(), false);
 	}
 	
 	/**
