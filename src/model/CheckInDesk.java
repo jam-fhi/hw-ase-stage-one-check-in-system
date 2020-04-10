@@ -73,25 +73,29 @@ public class CheckInDesk implements Runnable {
 		}
 		while(so.hasPassengerInQueue()) {
 			try {
-				Booking aPassenger = so.getPassengerForCheckIn();
-				Booking aBooking = allBookings.getBooking(aPassenger.getBookingCode(), aPassenger.getPassenger().getLastName());
-				this.flightCode = aBooking.getFlightCode();
-				this.bookingCode = aBooking.getBookingCode();
-				this.passengerName = aPassenger.getPassenger().getFirstName() + " " + aPassenger.getPassenger().getLastName();
-				this.baggageWeight = aPassenger.getPassenger().getBaggage().getWeight();
-				this.checkInStatus = aPassenger.getPassenger().isCheckIn();
-				model.notifyObservers();
-				Thread.sleep(3000);
-				this.model.doCheckIn(this.bookingCode, aPassenger.getPassenger(), aPassenger.getPassenger().getBaggage());
-				this.excessFee = String.valueOf(aPassenger.getPassenger().getBaggage().getExcessCharge()); // aPassenger.getPassenger().getBaggage().getExcessCharge();
-				this.checkInStatus = aPassenger.getPassenger().isCheckIn();
-				model.notifyObservers();
-				Thread.sleep(3000);
-				// System.out.println("GOT: " + this.passengerName);
-			} catch (FlightException | BookingException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				Booking aBooking = so.getPassengerForCheckIn();
+				try {
+					this.flightCode = aBooking.getFlightCode();
+					this.bookingCode = aBooking.getBookingCode();
+					this.passengerName = aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName();
+					this.baggageWeight = aBooking.getPassenger().getBaggage().getWeight();
+					this.checkInStatus = aBooking.getPassenger().isCheckIn();
+					model.notifyObservers();
+					Thread.sleep(3000);
+					this.model.doCheckIn(this.bookingCode, aBooking.getPassenger(), aBooking.getPassenger().getBaggage());
+					this.excessFee = String.valueOf(aBooking.getPassenger().getBaggage().getExcessCharge()); // aPassenger.getPassenger().getBaggage().getExcessCharge();
+					this.checkInStatus = aBooking.getPassenger().isCheckIn();
+					model.notifyObservers();
+					Thread.sleep(3000);
+					// System.out.println("GOT: " + this.passengerName);
+				} catch (FlightException | BookingException e) {
+					System.out.println(aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has missed flight " + aBooking.getFlightCode() + " because " + e.getMessage());
+					// e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch(FlightException | BookingException e) {
 				e.printStackTrace();
 			}
 		}
