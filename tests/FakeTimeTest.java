@@ -3,7 +3,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import CheckIn.fakeTime;
+import CheckIn.FakeTime;
 
 public class FakeTimeTest {
 
@@ -19,61 +19,61 @@ public class FakeTimeTest {
 
 	@Test
 	public void testFakeTimeSuccess() {
-		Date currentTime = fakeTime.getCurrentTime();
+		Date currentTime = FakeTime.getCurrentTime();
 		Calendar currentCal = Calendar.getInstance();
 		currentCal.setTime(currentTime);
 		System.out.println("Time one: " + currentCal.get(Calendar.YEAR) + "-" + currentCal.get(Calendar.MONTH) + "-" + currentCal.get(Calendar.DAY_OF_MONTH) + " " + currentCal.get(Calendar.HOUR_OF_DAY) + ":" + + currentCal.get(Calendar.MINUTE));
 		
-		currentTime = fakeTime.getCurrentTime();
+		currentTime = FakeTime.getCurrentTime();
 		currentCal = Calendar.getInstance();
 		currentCal.setTime(currentTime);
 		waitForMilliseconds(validWaitFor);
 		System.out.println("Time two: " + currentCal.get(Calendar.YEAR) + "-" + currentCal.get(Calendar.MONTH) + "-" + currentCal.get(Calendar.DAY_OF_MONTH) + " " + currentCal.get(Calendar.HOUR_OF_DAY) + ":" + + currentCal.get(Calendar.MINUTE));
 		
 		waitForMilliseconds(validWaitFor);
-		currentTime = fakeTime.getCurrentTime();
+		currentTime = FakeTime.getCurrentTime();
 		currentCal = Calendar.getInstance();
 		currentCal.setTime(currentTime);
 		System.out.println("Time three: " + currentCal.get(Calendar.YEAR) + "-" + currentCal.get(Calendar.MONTH) + "-" + currentCal.get(Calendar.DAY_OF_MONTH) + " " + currentCal.get(Calendar.HOUR_OF_DAY) + ":" + + currentCal.get(Calendar.MINUTE));
 		
 		waitForMilliseconds(validWaitFor);
-		currentTime = fakeTime.getCurrentTime();
+		currentTime = FakeTime.getCurrentTime();
 		currentCal = Calendar.getInstance();
 		currentCal.setTime(currentTime);
 		System.out.println("Time four: " + currentCal.get(Calendar.YEAR) + "-" + currentCal.get(Calendar.MONTH) + "-" + currentCal.get(Calendar.DAY_OF_MONTH) + " " + currentCal.get(Calendar.HOUR_OF_DAY) + ":" + + currentCal.get(Calendar.MINUTE));
 		
 		waitForMilliseconds(validWaitFor);
-		currentTime = fakeTime.getCurrentTime();
+		currentTime = FakeTime.getCurrentTime();
 		currentCal = Calendar.getInstance();
 		currentCal.setTime(currentTime);
 		System.out.println("Time five: " + currentCal.get(Calendar.YEAR) + "-" + currentCal.get(Calendar.MONTH) + "-" + currentCal.get(Calendar.DAY_OF_MONTH) + " " + currentCal.get(Calendar.HOUR_OF_DAY) + ":" + + currentCal.get(Calendar.MINUTE));
 		
 		waitForMilliseconds(validWaitFor);
-		currentTime = fakeTime.getCurrentTime();
+		currentTime = FakeTime.getCurrentTime();
 		currentCal = Calendar.getInstance();
 		currentCal.setTime(currentTime);
 		System.out.println("Time six: " + currentCal.get(Calendar.YEAR) + "-" + currentCal.get(Calendar.MONTH) + "-" + currentCal.get(Calendar.DAY_OF_MONTH) + " " + currentCal.get(Calendar.HOUR_OF_DAY) + ":" + + currentCal.get(Calendar.MINUTE));
 		
 		waitForMilliseconds(validWaitFor);
-		currentTime = fakeTime.getCurrentTime();
+		currentTime = FakeTime.getCurrentTime();
 		currentCal = Calendar.getInstance();
 		currentCal.setTime(currentTime);
 		System.out.println("Time seven: " + currentCal.get(Calendar.YEAR) + "-" + currentCal.get(Calendar.MONTH) + "-" + currentCal.get(Calendar.DAY_OF_MONTH) + " " + currentCal.get(Calendar.HOUR_OF_DAY) + ":" + + currentCal.get(Calendar.MINUTE));
 		
 		waitForMilliseconds(validWaitFor);
-		currentTime = fakeTime.getCurrentTime();
+		currentTime = FakeTime.getCurrentTime();
 		currentCal = Calendar.getInstance();
 		currentCal.setTime(currentTime);
 		System.out.println("Time eight: " + currentCal.get(Calendar.YEAR) + "-" + currentCal.get(Calendar.MONTH) + "-" + currentCal.get(Calendar.DAY_OF_MONTH) + " " + currentCal.get(Calendar.HOUR_OF_DAY) + ":" + + currentCal.get(Calendar.MINUTE));
 		
 		waitForMilliseconds(validWaitFor);
-		currentTime = fakeTime.getCurrentTime();
+		currentTime = FakeTime.getCurrentTime();
 		currentCal = Calendar.getInstance();
 		currentCal.setTime(currentTime);
 		System.out.println("Time nine: " + currentCal.get(Calendar.YEAR) + "-" + currentCal.get(Calendar.MONTH) + "-" + currentCal.get(Calendar.DAY_OF_MONTH) + " " + currentCal.get(Calendar.HOUR_OF_DAY) + ":" + + currentCal.get(Calendar.MINUTE));
 		
 		waitForMilliseconds(validWaitFor);
-		currentTime = fakeTime.getCurrentTime();
+		currentTime = FakeTime.getCurrentTime();
 		currentCal = Calendar.getInstance();
 		currentCal.setTime(currentTime);
 		System.out.println("Time ten: " + currentCal.get(Calendar.YEAR) + "-" + currentCal.get(Calendar.MONTH) + "-" + currentCal.get(Calendar.DAY_OF_MONTH) + " " + currentCal.get(Calendar.HOUR_OF_DAY) + ":" + + currentCal.get(Calendar.MINUTE));

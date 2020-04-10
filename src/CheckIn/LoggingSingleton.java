@@ -61,7 +61,7 @@ public class LoggingSingleton {
 	 * Array List.
 	 */
 	public void addLog(String message) {
-		Date currentTime = fakeTime.getCurrentTime();
+		Date currentTime = FakeTime.getCurrentTime();
 		logMessages.add(currentTime.getTime() + ": " + message);
 	}
 
