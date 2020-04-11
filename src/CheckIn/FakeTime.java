@@ -26,15 +26,16 @@ public class FakeTime {
 	 * check in system simulation.
 	 * @return Date of fake current time
 	 */
-	public static Date getCurrentTime(Date startTime, Date currentSystemTime, int speed) {
+	public static Date getCurrentTime() {
 		/**
 		 * Calculate how many milliseconds have passed since the system started and the current time.
 		 * Then convert the number of milliseconds into hours for the simulation.
 		 * 
 		 */
+		SimulationTimeSingleton simTime = SimulationTimeSingleton.getInstance();
 		Date actualSystemTime = new Date(); 
-		long speedDelay = getSpeedDelay(speed);
-		long deltaTimeMS = actualSystemTime.getTime() - startTime.getTime();
+		long speedDelay = getSpeedDelay(simTime.getSpeed());
+		long deltaTimeMS = actualSystemTime.getTime() - simTime.getStartTime().getTime();
 		long deltaTimeFake = deltaTimeMS + (simDelay - speedDelay);
 
 		/**
@@ -48,7 +49,7 @@ public class FakeTime {
 		 * onto the first of march unix time stamp to create a
 		 * fake date/time.
 		 */
-		currentFakeTime.setTimeInMillis(currentSystemTime.getTime() + deltaTimeFake);
+		currentFakeTime.setTimeInMillis(simTime.getCurrentTime().getTime() + deltaTimeFake);
 		return currentFakeTime.getTime();
 	}
 }
