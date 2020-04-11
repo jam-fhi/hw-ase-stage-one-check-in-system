@@ -57,19 +57,8 @@ public class FlightCollection {
 		}
 	}
 
-	public void setNextFlight() {
-		Iterator<Flight> flightIt = flightCollection.iterator();
-		while(flightIt.hasNext()) {
-			Flight aFlight = flightIt.next();
-			if(aFlight.getFlightCode().compareTo(nextFlight.getFlightCode()) == 0) {
-				if(flightIt.hasNext()) {
-					nextFlight = flightIt.next();
-					break;
-				} else {
-					nextFlight = flightCollection.first();
-				}
-			}
-		}
+	public void addFlight(Flight aFlight) {
+		flightCollection.add(aFlight);
 	}
 
 	/**

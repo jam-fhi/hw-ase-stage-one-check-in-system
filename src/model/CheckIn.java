@@ -14,6 +14,7 @@ import CheckIn.CheckInIOException;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.FlightException;
+import CheckIn.LoggingSingleton;
 import CheckIn.Passenger;
 import CheckIn.SimulationTimeSingleton;
 //import CheckIn.ThreadNewPassenger;
@@ -30,17 +31,17 @@ public class CheckIn extends Observable implements Runnable {
 
 	private BookingCollection bookingCollection;
 	private FlightCollection flightCollection;
-	private String simulationTime = "1";
 	private boolean simulationRunning = false;
 	private String simulationDateTime = "";
 	private SimulationTimeSingleton simTime = null;
-	private Date simulationCurrentDateTime = new Date();
+	private LoggingSingleton log = null;
 
 	private ArrayList<CheckInDesk> checkInDesks = new ArrayList<CheckInDesk>();
 	//private ThreadNewPassenger aQueue;
 	
 	public CheckIn() throws CheckInIOException, BookingException {
 		simTime = SimulationTimeSingleton.getInstance();
+		log = LoggingSingleton.getInstance();
 		/*aQueue = aPassengerQueue;
 		
 		this.bookingCollection = new BookingCollection(bookingfile);
@@ -144,6 +145,7 @@ public class CheckIn extends Observable implements Runnable {
 
 	public void setSimulationTime(String simulationTime) {
 		simTime.setSpeed(Integer.parseInt(simulationTime.substring(0, simulationTime.length() - 1)));
+		log.addLog("Simulation speed is " + simulationTime);
 		this.updateView();
 	}
 	
@@ -154,6 +156,7 @@ public class CheckIn extends Observable implements Runnable {
 
 	public synchronized void toggleSimulationRunning() {
 		this.simulationRunning = !this.simulationRunning;
+		log.addLog("Simulation has " + (simulationRunning ? "started" : "ended"));
 		this.updateView();
 	}
 
@@ -167,12 +170,12 @@ public class CheckIn extends Observable implements Runnable {
 
 	private void setSimulationDateTime(String simDateTime) {
 		simulationDateTime = simDateTime;
+		log.addLog("Current simulation time is: " + simDateTime);
 		this.updateView();
 	}
 	
 	private void setSimulationStartDateTime() {
 		simTime.setStartSimulation();
-		simulationCurrentDateTime = new Date();
 		this.updateView();
 	}
 
@@ -187,16 +190,12 @@ public class CheckIn extends Observable implements Runnable {
 	public void run() {
 		this.toggleSimulationRunning();
 		this.setSimulationStartDateTime();
-		System.out.println("Start sim");
-		// simulationCurrentDateTime = FakeTime.getCurrentTime(simulationStartDateTime, simulationCurrentDateTime, Integer.parseInt(simulationTime));
 		while(this.getSimulationRunning()) {
 			this.setSimulationDateTime(simTime.getCurrentTime().toGMTString());
-			this.setSimulationDateTime(simulationCurrentDateTime.toGMTString());
-			System.out.println("Current simulation time is: " + this.getSimulationDateTime());
 			try {
 				Thread.sleep(FakeTime.getSpeedDelay(simTime.getSpeed()));
 			} catch (InterruptedException e) {
-				System.out.println("Thread sleep interrupted.");
+				log.addLog("Thread sleep interrupted.");
 			}
 			simTime.setCurrentTime(FakeTime.getCurrentTime());
 		}
