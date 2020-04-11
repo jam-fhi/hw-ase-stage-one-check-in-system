@@ -3,20 +3,22 @@ package CheckIn;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * FlightCollection
  * Creating a TreeSet using FlightCollection.
  * @author NadiaAbulhawa
  */
-public class FlightCollection {
+public class FlightCollection implements Runnable {
 	
 	/**
 	 * Treeset to hold flight records.
 	 */
-	FlightComparator flightComp = new FlightComparator();
-	TreeSet<Flight> flightCollection = new TreeSet<Flight>(flightComp);
+	private FlightComparator flightComp = new FlightComparator();
+	private TreeSet<Flight> flightCollection = new TreeSet<Flight>(flightComp);
 	public Flight nextFlight = null;
+	private LoggingSingleton log;
 
 	/**
 	 * FlightCollection
@@ -24,8 +26,8 @@ public class FlightCollection {
 	 * @param fileName
 	 * @throws CheckInIOException
 	 */
-	public FlightCollection(String fileName) throws CheckInIOException {
-		loadFlights(fileName);
+	public FlightCollection() throws CheckInIOException {
+		log = LoggingSingleton.getInstance();
 	}
 
 	/**
@@ -88,5 +90,31 @@ public class FlightCollection {
 	 */
 	public TreeSet<Flight> getFlightCollection() {
 		return flightCollection;
+	}
+
+	@Override
+	public void run() {
+		Iterator<Flight> iterator = flightCollection.iterator();
+		int activeFlights = 0;
+		while(iterator.hasNext()) {
+			Flight aFlight = iterator.next();
+			if (aFlight.getFlightStatus().compareTo("waiting") == 0) {
+				activeFlights++;
+			}
+		}
+		if(activeFlights < 4) {
+			int createFlights = 4 - activeFlights;
+			int newFlights = 1;
+			if(createFlights > 1) {
+				newFlights = ThreadLocalRandom.current().nextInt(1, createFlights);
+			}
+			int flightCount = 0;
+			while(flightCount < newFlights) {
+				Flight newFlight = RandomFlightGenerator.getRandomFlight();
+				log.addLog("Added new flight " + newFlight.getFlightCode() + " departs at " + newFlight.getDepartureDate().toGMTString());
+				flightCollection.add(newFlight);
+				flightCount++;
+			}
+		}
 	}
 }

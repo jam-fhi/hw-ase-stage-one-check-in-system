@@ -30,7 +30,7 @@ import CheckIn.FakeTime;
 public class CheckIn extends Observable implements Runnable {
 
 	private BookingCollection bookingCollection;
-	private FlightCollection flightCollection;
+	private FlightCollection flightCollection = new FlightCollection();
 	private boolean simulationRunning = false;
 	private String simulationDateTime = "";
 	private SimulationTimeSingleton simTime = null;
@@ -170,10 +170,19 @@ public class CheckIn extends Observable implements Runnable {
 
 	private void setSimulationDateTime(String simDateTime) {
 		simulationDateTime = simDateTime;
-		log.addLog("Current simulation time is: " + simDateTime);
+		// log.addLog("Current simulation time is: " + simDateTime);
 		this.updateView();
 	}
 	
+	private void resetCheckInSimulation() {
+		try {
+			flightCollection = new FlightCollection();
+			this.updateView();
+		} catch (CheckInIOException e) {
+			log.addLog("Failed to reset flight collection");
+		}
+	}
+
 	private void setSimulationStartDateTime() {
 		simTime.setStartSimulation();
 		this.updateView();
@@ -190,8 +199,10 @@ public class CheckIn extends Observable implements Runnable {
 	public void run() {
 		this.toggleSimulationRunning();
 		this.setSimulationStartDateTime();
+		this.resetCheckInSimulation();
 		while(this.getSimulationRunning()) {
 			this.setSimulationDateTime(simTime.getCurrentTime().toGMTString());
+			new Thread(flightCollection).run();
 			try {
 				Thread.sleep(FakeTime.getSpeedDelay(simTime.getSpeed()));
 			} catch (InterruptedException e) {

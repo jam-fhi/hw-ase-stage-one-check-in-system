@@ -28,6 +28,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 	private CheckIn checkInDesk;
 	private SimControl simControl = null;
 	private ActionListener closeWindow;
+	private FlightSummary flightOverview;
 
 	public CheckInSimulation(CheckIn checkInDesk) {
 		this.checkInDesk = checkInDesk;
@@ -42,6 +43,9 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		simControl = new SimControl(checkInDesk.getSimulationTime() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
 		rightSide.add(simControl, BorderLayout.NORTH);
 		
+		flightOverview = new FlightSummary(checkInDesk.getFlightCollection());
+		rightSide.add(flightOverview, BorderLayout.SOUTH);
+
 		flightSummary.setLayout(new BorderLayout());
 		flightSummary.setName("flightSummary");
 		flightSummary.add(rightSide, BorderLayout.EAST);
@@ -89,6 +93,10 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		 */
 		simControl.updateSimControlDate(checkInDesk.getSimulationTime() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
 		
+		/**
+		 * Flight Summary
+		 */
+		flightOverview.updateSummary(checkInDesk.getFlightCollection());
 		
 		/**
 		 * Add checkin desks
