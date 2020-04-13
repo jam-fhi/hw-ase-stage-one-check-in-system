@@ -15,11 +15,15 @@ public class RandomFlightGenerator {
 	}
 	
 	private static String getFlightCode(int operator) {
-		String flightNumber = String.valueOf(ThreadLocalRandom.current().nextInt(0, 999));
-		while(flightNumber.length() < 3) {
-			flightNumber = "0" + flightNumber;
+		return flightCodes[operator] + "-" + getNumericCode();
+	}
+
+	public static String getNumericCode() {
+		String numericCode = String.valueOf(ThreadLocalRandom.current().nextInt(0, 999));
+		while(numericCode.length() < 3) {
+			numericCode = "0" + numericCode;
 		}
-		return flightCodes[operator] + "-" + flightNumber;
+		return numericCode;
 	}
 
 	private static String getCarrier(int operator) {
@@ -32,7 +36,7 @@ public class RandomFlightGenerator {
 	}
 	
 	private static int getMaximumPassengers() {
-		return ThreadLocalRandom.current().nextInt(0, 999);
+		return ThreadLocalRandom.current().nextInt(0, 300);
 	}
 	
 	private static double getMaxBaggageVolumeOrWeightOrCharge() {

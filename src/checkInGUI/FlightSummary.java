@@ -6,6 +6,8 @@ import java.util.Iterator;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import CheckIn.BookingCollection;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
 
@@ -18,7 +20,7 @@ public class FlightSummary extends JPanel {
 	private JLabel flightTotal = new JLabel();
 	private int flightCount = 0;
 
-	public FlightSummary(FlightCollection allFlights) {
+	public FlightSummary(FlightCollection allFlights, BookingCollection allBookings) {
 
 		this.setLayout(new GridLayout(allFlights.getFlightCollection().size() + 1, 1));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -37,12 +39,12 @@ public class FlightSummary extends JPanel {
 		Iterator<Flight> flightIt = allFlights.getFlightCollection().iterator();
 		while(flightIt.hasNext()) {
 			Flight aFlight = flightIt.next();
-			addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus());
+			addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
 		}
 	}
 	
-	private void addFlightPanel(String flightCode, String destination, String status) {
-		FlightInformation aFlightPanel = new FlightInformation(flightCode, destination, status);
+	private void addFlightPanel(String flightCode, String destination, String status, int bookings, int capacity) {
+		FlightInformation aFlightPanel = new FlightInformation(flightCode, destination, status, bookings, capacity);
 		aFlightPanel.setName(flightCode);
 		aFlightPanel.setSize(500, 150);
 		aFlightPanel.setVisible(true);
@@ -62,7 +64,7 @@ public class FlightSummary extends JPanel {
 		return null;
 	}
 
-	public void updateSummary(FlightCollection allFlights) {
+	public void updateSummary(FlightCollection allFlights, BookingCollection allBookings) {
 		if((allFlights.getFlightCollection().size() + 1) > flightCount) {
 			flightCount = allFlights.getFlightCollection().size() + 1;
 			this.setLayout(new GridLayout(flightCount, 1));
@@ -89,9 +91,9 @@ public class FlightSummary extends JPanel {
 			Flight aFlight = flightIt.next();
 			FlightInformation flightDisplay = getFlightPanel(aFlight.getFlightCode());
 			if(flightDisplay != null) {
-				flightDisplay.updateFlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus());
+				flightDisplay.updateFlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
 			} else {
-				addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus());
+				addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
 			}
 		}
 	}

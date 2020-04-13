@@ -16,6 +16,7 @@ import CheckIn.FlightCollection;
 import CheckIn.FlightException;
 import CheckIn.LoggingSingleton;
 import CheckIn.Passenger;
+import CheckIn.RandomBookingGenerator;
 import CheckIn.SimulationTimeSingleton;
 //import CheckIn.ThreadNewPassenger;
 import CheckIn.FakeTime;
@@ -29,7 +30,7 @@ import CheckIn.FakeTime;
 @SuppressWarnings("deprecation")
 public class CheckIn extends Observable implements Runnable {
 
-	private BookingCollection bookingCollection;
+	private BookingCollection bookingCollection = new BookingCollection();
 	private FlightCollection flightCollection = new FlightCollection();
 	private boolean simulationRunning = false;
 	private String simulationDateTime = "";
@@ -203,6 +204,7 @@ public class CheckIn extends Observable implements Runnable {
 		while(this.getSimulationRunning()) {
 			this.setSimulationDateTime(simTime.getCurrentTime().toGMTString());
 			new Thread(flightCollection).run();
+			new Thread(new RandomBookingGenerator(flightCollection, bookingCollection)).run();
 			try {
 				Thread.sleep(FakeTime.getSpeedDelay(simTime.getSpeed()));
 			} catch (InterruptedException e) {
