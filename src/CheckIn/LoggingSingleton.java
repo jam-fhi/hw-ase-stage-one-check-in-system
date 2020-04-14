@@ -61,8 +61,9 @@ public class LoggingSingleton {
 	 * Array List.
 	 */
 	public void addLog(String message) {
-		Date currentTime = fakeTime.getCurrentTime();
-		logMessages.add(currentTime.getTime() + ": " + message);
+		Date currentTime = FakeTime.getCurrentTime();
+		System.out.println(currentTime.toGMTString() + ": " + message);
+		logMessages.add(currentTime.toGMTString() + ": " + message);
 	}
 
 	public void writelog(String filename) throws CheckInIOException {

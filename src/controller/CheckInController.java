@@ -4,10 +4,12 @@ import model.CheckIn;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
+import CheckIn.FakeTime;
 import checkInGUI.CheckInSimulation;
 
 public class CheckInController {
@@ -15,19 +17,37 @@ public class CheckInController {
 	private CheckInSimulation checkInView;
 
 	private CheckIn checkInModel;
+	private Thread checkInSimulation;
 
 	public CheckInController(CheckInSimulation view, CheckIn model) {
 
 		checkInView = view;
 		checkInModel = model;
 		// specify the listener for the view
-		view.setCheckInDeskAction(new CheckInDeskStatusActionSetter());
-		view.setSimSpeedAction(new SpeedSimulatorActionSetter());
-		checkInView.update(checkInModel);
-		checkInModel.registerObserver(checkInView);
+		checkInView.setStartSimulationAction(new CheckInSimulationStartAction());
+		//view.setCheckInDeskAction(new CheckInDeskStatusActionSetter());
+		checkInView.setSimSpeedAction(new SpeedSimulatorActionSetter());
+		checkInView.setWindowClosingAction(new CheckInDeskCloseWindowAction());
+		//checkInView.update(checkInModel);
+		//checkInModel.registerObserver(checkInView);
+	}
+	
+	public class CheckInSimulationStartAction implements ActionListener {
+		
+		@SuppressWarnings("deprecation")
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(checkInModel.getSimulationRunning() == false) {
+				checkInSimulation = new Thread (checkInModel);
+				checkInSimulation.start();
+			} else {
+				checkInSimulation.stop();
+				checkInModel.toggleSimulationRunning();
+			}
+		}
 	}
 
-	public class CheckInDeskStatusActionSetter implements ActionListener {
+	/*public class CheckInDeskStatusActionSetter implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -37,18 +57,23 @@ public class CheckInController {
 			checkInModel.notifyObservers();
 		}
 
+	}*/
+
+	public class CheckInDeskCloseWindowAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if(checkInModel.getSimulationRunning() == true) {
+				checkInSimulation.stop();
+			}
+		}
 	}
+
 	public class SpeedSimulatorActionSetter implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
 			JComboBox<String> speedList = (JComboBox<String>) e.getSource();
 			String selectedValue = (String) speedList.getSelectedItem();
 			checkInModel.setSimulationTime(selectedValue);
-			checkInModel.notifyObservers();
 		}
-
 	}
-
 }
