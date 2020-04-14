@@ -24,7 +24,7 @@ public class PassengerWithBcode {
 		if (bcode.length() < 8) { 
 			throw new BookingException("Invalid Booking Code");  
 		}else { 
-		this.bcode = bcode; 
+			this.bcode = bcode; 
 		} 
 	} 
 	/** 
