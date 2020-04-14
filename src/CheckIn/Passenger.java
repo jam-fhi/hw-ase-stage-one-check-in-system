@@ -13,7 +13,7 @@ public class Passenger {
 	private Bag baggage;
 	private String firstName;
 	private String lastName;
-	
+	private boolean securityComplete = false;
 	/**
 	 * Passenger creating constructor
 	 * 
@@ -90,5 +90,13 @@ public class Passenger {
 	 */
 	public Bag getBaggage() {
 		return baggage;
+	}
+	
+	public void setSecurityComplete () {
+		securityComplete = true;
+	}
+	
+	public boolean getSecurityComplete() {
+		return securityComplete;
 	}
 }

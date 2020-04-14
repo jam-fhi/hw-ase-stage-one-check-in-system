@@ -155,4 +155,34 @@ public class BookingCollection {
 		}
 		log.addLog("Added " + newBookings.size() + " bookings");
 	}
+	
+	public Booking getPassengerNotSecurityCheckIn() throws Exception {
+		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+			/**
+			 * TODO: What if another thread is using this passenger? 
+			 */
+			if(aBooking.getValue().getPassenger().getSecurityComplete() == false && aBooking.getValue().isInSecurity() == false) {
+				aBooking.getValue().setInSecurity();
+				return aBooking.getValue();
+			}
+		}
+		throw new Exception("No passengers found who are not in the security queue");
+	}
+	
+	public void addBooking(Booking aBooking) {
+			log.addLog("Security queue booking" + aBooking.getBookingCode());
+			Bookings.put(aBooking.getBookingCode(), aBooking);
+		
+	}
+	public ArrayList<Booking> getAllBookings() {
+		
+		ArrayList<Booking> flightBookings = new ArrayList<Booking>();
+		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+			flightBookings.add(aBooking.getValue());
+		
+		}
+		return flightBookings;
+	}
+	
 }
+

@@ -31,6 +31,7 @@ import CheckIn.FakeTime;
 public class CheckIn extends Observable implements Runnable {
 
 	private BookingCollection bookingCollection = new BookingCollection();
+	private BookingCollection securityQueue = new BookingCollection();
 	private FlightCollection flightCollection = new FlightCollection();
 	private boolean simulationRunning = false;
 	private String simulationDateTime = "";
@@ -206,6 +207,7 @@ public class CheckIn extends Observable implements Runnable {
 			this.setSimulationDateTime(simTime.getCurrentTime().toGMTString());
 			new Thread(flightCollection).run();
 			new Thread(new RandomBookingGenerator(flightCollection, bookingCollection)).run();
+			new Thread (new QueueProducer(bookingCollection, securityQueue)).run();
 			try {
 				Thread.sleep(FakeTime.getSpeedDelay(simTime.getSpeed()));
 			} catch (InterruptedException e) {
@@ -213,5 +215,10 @@ public class CheckIn extends Observable implements Runnable {
 			}
 			simTime.setCurrentTime(FakeTime.getCurrentTime());
 		}
+	}
+	
+	public ArrayList<Booking> getSecurityQueue() {
+		return securityQueue.getAllBookings();
+		
 	}
 }
