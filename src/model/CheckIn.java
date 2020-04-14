@@ -178,8 +178,9 @@ public class CheckIn extends Observable implements Runnable {
 	private void resetCheckInSimulation() {
 		try {
 			flightCollection = new FlightCollection();
+			bookingCollection = new BookingCollection();
 			this.updateView();
-		} catch (CheckInIOException e) {
+		} catch (CheckInIOException | BookingException e) {
 			log.addLog("Failed to reset flight collection");
 		}
 	}

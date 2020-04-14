@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class FakeTime {
 
-	private static int simDelay = 2000;
+	private static int simDelay = 200;
 
 	public static int getSpeedDelay(int speed) {
 		return simDelay / speed;

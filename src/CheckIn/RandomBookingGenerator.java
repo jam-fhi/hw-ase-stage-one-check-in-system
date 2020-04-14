@@ -25,6 +25,7 @@ public class RandomBookingGenerator implements Runnable {
 			String firstName = pickRandomFromList(passengerFirstNames);
 			String lastName = pickRandomFromList(passengerLastNames);
 			try {
+				log.addLog("Added booking for " + firstName + " " + lastName + " on flight " + flightCode);
 				randomBookings.add(new Booking(flightCode + "-" + RandomFlightGenerator.getNumericCode(), firstName, lastName, flightCode));
 			} catch (BookingException e) {
 				log.addLog("There was an error creating the random booking " + e.getMessage());
