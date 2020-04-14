@@ -29,6 +29,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 	private SimControl simControl = null;
 	private ActionListener closeWindow;
 	private FlightSummary flightOverview;
+	private PassengerQueue securityQueue;
 
 	public CheckInSimulation(CheckIn checkInDesk) {
 		this.checkInDesk = checkInDesk;
@@ -37,6 +38,10 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		addWindowListener(this);
 		JPanel rightSide = new JPanel();
 		rightSide.setLayout(new BorderLayout());
+		JPanel leftSide = new JPanel();
+		leftSide.setLayout(new BorderLayout());
+		securityQueue = new PassengerQueue(checkInDesk.getSecurityQueue());
+		leftSide.add(securityQueue, BorderLayout.NORTH);
 		/**
 		 * Simulation Controls
 		 */
@@ -49,6 +54,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		flightSummary.setLayout(new BorderLayout());
 		flightSummary.setName("flightSummary");
 		flightSummary.add(rightSide, BorderLayout.EAST);
+		flightSummary.add(leftSide, BorderLayout.WEST);
 		flightSummary.setVisible(true);
 		
 		this.add(flightSummary);
@@ -74,6 +80,8 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 	@Override
 	public synchronized void update(Observable o, Object arg) {
 		
+		//securityQueue = new PassengerQueue(checkInDesk.getBookingCollection().getAllBookings());
+		securityQueue.updatePassengerQueue(checkInDesk.getSecurityQueue());
 		/**
 		 * On update remove any existing components on this JFrame
 		flightSummary.removeAll();
@@ -97,6 +105,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		 * Flight Summary
 		 */
 		flightOverview.updateSummary(checkInDesk.getFlightCollection(), checkInDesk.getBookingCollection());
+		
 		
 		/**
 		 * Add checkin desks

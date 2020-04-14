@@ -1,10 +1,13 @@
 package checkInGUI;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  * 
@@ -39,8 +42,10 @@ public class PassengerSummary extends JPanel{
 	public PassengerSummary() {
 		this.setLayout(new BorderLayout());
 		passengerQueue = new JList<String>(queueModel);
+		JScrollPane sp = new JScrollPane(passengerQueue);
+		passengerQueue.setPreferredSize(new Dimension(200, 200));
 		this.add(passengerDetails, BorderLayout.NORTH);
-		this.add(passengerQueue, BorderLayout.SOUTH);
+		this.add(sp, BorderLayout.SOUTH);
 		this.setVisible(true);
 	}
 	
@@ -53,7 +58,18 @@ public class PassengerSummary extends JPanel{
 	 * @param passengerName
 	 */
 	public void addPassengerList(String bookingCode, String passengerName) {
-		queueModel.addElement(bookingCode + " " + passengerName);
-		passengerDetails.setText("There are currently " + queueModel.getSize() + " passengers waiting in the queue.");
+		int count = 0;
+		boolean found = false;
+		while (count < queueModel.getSize() && found == false) {
+			if (queueModel.get(count).compareTo(bookingCode + " " + passengerName) == 0) {
+				found = true;
+			}
+			count++;
+		}
+		if (found == false) {
+			queueModel.addElement(bookingCode + " " + passengerName);
+			passengerDetails
+					.setText("There are currently " + queueModel.getSize() + " passengers waiting in the queue.");
+		}
 	}
 }

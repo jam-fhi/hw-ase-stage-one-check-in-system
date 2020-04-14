@@ -9,40 +9,25 @@ import CheckIn.ThreadNewPassenger;
 
 public class QueueProducer implements Runnable {
 
-	private ThreadNewPassenger aThread;
-	private BookingCollection allBookings;
-	private FlightCollection allFlights;
-	private CheckIn model;
 	
-	public QueueProducer(ThreadNewPassenger aThread, BookingCollection allBookings, FlightCollection allFlights, CheckIn model) {
-		this.model = model;
-		this.aThread = aThread;
+	private BookingCollection allBookings;
+	private BookingCollection securityQueue;
+	
+	public QueueProducer(BookingCollection allBookings, BookingCollection securityQueue) {
 		this.allBookings = allBookings;
-		this.allFlights = allFlights;
+		this.securityQueue = securityQueue;
+	
 	}
 	
 	@Override
 	public void run() {
-		int count = 0;
-		while(count < 10) {
-			System.out.println("Running put passenger");
 			try {
-				Thread.sleep(1000);
-				Booking aPassenger = allBookings.getPassengerNotCheckedIn();
-				Flight aFlight = this.allFlights.findFlight(aPassenger.getFlightCode());
-				aThread.put(aPassenger, aFlight);
-				model.notifyObservers();
-			} catch(FlightException e) {
-				System.out.println(e.getMessage());
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				Booking aPassenger = allBookings.getPassengerNotSecurityCheckIn();
+				securityQueue.addBooking(aPassenger);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			count++;
-		}
 	}
 
 }
