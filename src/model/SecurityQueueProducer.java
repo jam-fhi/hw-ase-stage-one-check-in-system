@@ -14,7 +14,7 @@ public class SecurityQueueProducer extends QueueProducer {
 			Booking aPassenger = allBookings.getPassengerNotSecurityCheckIn();
 			passengerQueue.addBooking(aPassenger);
 		} catch (Exception e) {
-			log.addLog("Failed to get passengers for queue" + e.getMessage());
+			log.addLog("Failed to get passenger for security queue " + e.getMessage());
 		}
 	}
 }
