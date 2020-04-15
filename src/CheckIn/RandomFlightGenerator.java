@@ -11,7 +11,7 @@ public class RandomFlightGenerator {
 	private static String[] carrier = { "British Airways", "Easy Jet", "Aberdeen Airways", "BMI", "Citiflyer Express", "FlyBe" };
 
 	private static int getRandomOperatorIndex() {
-		return ThreadLocalRandom.current().nextInt(0, flightCodes.length);
+		return ThreadLocalRandom.current().nextInt(0, flightCodes.length-1);
 	}
 	
 	private static String getFlightCode(int operator) {
@@ -31,7 +31,7 @@ public class RandomFlightGenerator {
 	}
 	
 	private static String getDestination() {
-		int destination = ThreadLocalRandom.current().nextInt(0, destinationAirport.length);
+		int destination = ThreadLocalRandom.current().nextInt(0, destinationAirport.length-1);
 		return destinationAirport[destination];
 	}
 	
