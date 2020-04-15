@@ -2,20 +2,19 @@ package model;
 
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
-import CheckIn.Flight;
-import CheckIn.FlightCollection;
-import CheckIn.FlightException;
-import CheckIn.ThreadNewPassenger;
+import CheckIn.LoggingSingleton;
 
 public class QueueProducer implements Runnable {
 
 	
 	private BookingCollection allBookings;
-	private BookingCollection securityQueue;
+	private BookingCollection passengerQueue;
+	private LoggingSingleton log;
 	
-	public QueueProducer(BookingCollection allBookings, BookingCollection securityQueue) {
+	public QueueProducer(BookingCollection allBookings, BookingCollection passengerQueue) {
 		this.allBookings = allBookings;
-		this.securityQueue = securityQueue;
+		this.passengerQueue = passengerQueue;
+		log = LoggingSingleton.getInstance();
 	
 	}
 	
@@ -23,10 +22,9 @@ public class QueueProducer implements Runnable {
 	public void run() {
 			try {
 				Booking aPassenger = allBookings.getPassengerNotSecurityCheckIn();
-				securityQueue.addBooking(aPassenger);
+			passengerQueue.addBooking(aPassenger);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			log.addLog("Failed to get passengers for queue" + e.getMessage());
 			}
 	}
 
