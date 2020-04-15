@@ -181,6 +181,8 @@ public class CheckIn extends Observable implements Runnable {
 		try {
 			flightCollection = new FlightCollection();
 			bookingCollection = new BookingCollection();
+			securityQueue = new BookingCollection();
+			checkInQueue = new BookingCollection();
 			this.updateView();
 		} catch (CheckInIOException | BookingException e) {
 			log.addLog("Failed to reset flight collection");
@@ -209,7 +211,6 @@ public class CheckIn extends Observable implements Runnable {
 			new Thread(flightCollection).run();
 			new Thread(new RandomBookingGenerator(flightCollection, bookingCollection)).run();
 			new Thread(new SecurityQueueProducer(bookingCollection, securityQueue)).run();
-			new Thread(new SecurityQueueProducer(bookingCollection, securityQueue)).run();
 			new Thread(new CheckInQueueProducer(securityQueue, checkInQueue)).run();
 			log.addLog("There are " + checkInQueue.getBookingCollection().size() + " passengers in the check in queue");
 			try {
@@ -223,6 +224,10 @@ public class CheckIn extends Observable implements Runnable {
 	
 	public ArrayList<Booking> getSecurityQueue() {
 		return securityQueue.getAllBookings();
-		
 	}
+
+	public ArrayList<Booking> getCheckInQueue() {
+		return checkInQueue.getAllBookings();
+	}
+
 }

@@ -2,12 +2,16 @@ package checkInGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import CheckIn.Booking;
 
 /**
  * 
@@ -23,6 +27,8 @@ public class PassengerSummary extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private String queueName = "queue";
+
 	/**
 	 * List of passengers in the queue. Uses a default list model to
 	 * store passenger information to display in the list component.
@@ -33,13 +39,13 @@ public class PassengerSummary extends JPanel{
 	/**
 	 * Displays an information list of how many passengers are in the queue.
 	 */
-	private JLabel passengerDetails = new JLabel("There are currently 0 passengers waiting in the queue.");
+	private JLabel passengerDetails = new JLabel(queueName + " queue has 0 passengers.");
 	
 	/**
 	 * PassengerSummary
 	 * Constructor, sets up the list of passengers in the queue.
 	 */
-	public PassengerSummary() {
+	public PassengerSummary(String name) {
 		this.setLayout(new BorderLayout());
 		passengerQueue = new JList<String>(queueModel);
 		JScrollPane sp = new JScrollPane(passengerQueue);
@@ -47,6 +53,7 @@ public class PassengerSummary extends JPanel{
 		this.add(passengerDetails, BorderLayout.NORTH);
 		this.add(sp, BorderLayout.SOUTH);
 		this.setVisible(true);
+		queueName = name;
 	}
 	
 	/**
@@ -57,19 +64,57 @@ public class PassengerSummary extends JPanel{
 	 * @param bookingCode
 	 * @param passengerName
 	 */
-	public void addPassengerList(String bookingCode, String passengerName) {
-		int count = 0;
-		boolean found = false;
-		while (count < queueModel.getSize() && found == false) {
-			if (queueModel.get(count).compareTo(bookingCode + " " + passengerName) == 0) {
-				found = true;
+	public void updatePassengerList(ArrayList<Booking> displayBookings) {
+		addPassengers(displayBookings);
+		removePassengers(displayBookings);
+		passengerDetails
+				.setText(queueName + " queue has " + queueModel.getSize() + " passengers waiting in the queue.");
+	}
+
+	private void addPassengers(ArrayList<Booking> displayBookings) {
+		Iterator<Booking> displayBookingsIt = displayBookings.iterator();
+		while (displayBookingsIt.hasNext()) {
+			Booking aBooking = displayBookingsIt.next();
+			String queueEntry = aBooking.getBookingCode() + " " + aBooking.getPassenger().getFirstName() + " "
+					+ aBooking.getPassenger().getLastName();
+			int count = 0;
+			boolean found = false;
+			while (count < queueModel.getSize() && found == false) {
+				if (queueModel.get(count).compareTo(queueEntry) == 0) {
+					found = true;
+				}
+				count++;
 			}
-			count++;
-		}
-		if (found == false) {
-			queueModel.addElement(bookingCode + " " + passengerName);
-			passengerDetails
-					.setText("There are currently " + queueModel.getSize() + " passengers waiting in the queue.");
+			if (found == false) {
+				queueModel.addElement(queueEntry);
+			}
+
 		}
 	}
+
+	private void removePassengers(ArrayList<Booking> displayBookings) {
+		int count = 0;
+		int found = -1;
+		while (count < queueModel.getSize() && found == -1) {
+			Iterator<Booking> displayBookingsIt = displayBookings.iterator();
+
+			while (displayBookingsIt.hasNext()) {
+				Booking aBooking = displayBookingsIt.next();
+				String queueEntry = aBooking.getBookingCode() + " " + aBooking.getPassenger().getFirstName() + " "
+						+ aBooking.getPassenger().getLastName();
+				if (queueModel.get(count).compareTo(queueEntry) == 0) {
+					found = count;
+				}
+
+			}
+
+			if (found == -1) {
+				queueModel.remove(count);
+			}
+
+			count++;
+		}
+
+	}
+
 }

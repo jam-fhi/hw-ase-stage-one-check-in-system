@@ -2,8 +2,9 @@ package checkInGUI;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-import java.util.Iterator;
+
 import javax.swing.JPanel;
+
 import CheckIn.Booking;
 
 public class PassengerQueue extends JPanel {
@@ -16,7 +17,7 @@ public class PassengerQueue extends JPanel {
 	/**
 	 * Element that displays the passenger queue.
 	 */
-	PassengerSummary passengers = new PassengerSummary();
+	PassengerSummary passengers;
 	
 	/**
 	 * PassengerQueue
@@ -24,22 +25,15 @@ public class PassengerQueue extends JPanel {
 	 * a queue and displays them.
 	 * @param allBookings
 	 */
-	public PassengerQueue(ArrayList<Booking> passengerQueue) {
-		Iterator<Booking> queueIt = passengerQueue.iterator();
-		while(queueIt.hasNext()) {
-			Booking aBooking = queueIt.next();
-			passengers.addPassengerList(aBooking.getBookingCode(), aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName());		    
-		}
+	public PassengerQueue(ArrayList<Booking> passengerQueue, String queueName) {
+		passengers = new PassengerSummary(queueName);
+		updatePassengerQueue(passengerQueue);
 		this.add(passengers, BorderLayout.NORTH);
 		this.setVisible(true);
 	}
 	
 	public void updatePassengerQueue(ArrayList<Booking> passengerQueue) {
-		Iterator<Booking> queueIt = passengerQueue.iterator();
-		while(queueIt.hasNext()) {
-			Booking aBooking = queueIt.next();
-			passengers.addPassengerList(aBooking.getBookingCode(), aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName());		    
-		}
+		passengers.updatePassengerList(passengerQueue);
 		
 	}
 }
