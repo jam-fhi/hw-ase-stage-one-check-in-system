@@ -11,6 +11,8 @@ import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
 import CheckIn.CheckInIOException;
+//import CheckIn.ThreadNewPassenger;
+import CheckIn.FakeTime;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.FlightException;
@@ -18,8 +20,6 @@ import CheckIn.LoggingSingleton;
 import CheckIn.Passenger;
 import CheckIn.RandomBookingGenerator;
 import CheckIn.SimulationTimeSingleton;
-//import CheckIn.ThreadNewPassenger;
-import CheckIn.FakeTime;
 
 /**
  * 
@@ -32,6 +32,7 @@ public class CheckIn extends Observable implements Runnable {
 
 	private BookingCollection bookingCollection = new BookingCollection();
 	private BookingCollection securityQueue = new BookingCollection();
+	private BookingCollection checkInQueue = new BookingCollection();
 	private FlightCollection flightCollection = new FlightCollection();
 	private boolean simulationRunning = false;
 	private String simulationDateTime = "";
@@ -180,6 +181,8 @@ public class CheckIn extends Observable implements Runnable {
 		try {
 			flightCollection = new FlightCollection();
 			bookingCollection = new BookingCollection();
+			securityQueue = new BookingCollection();
+			checkInQueue = new BookingCollection();
 			this.updateView();
 		} catch (CheckInIOException | BookingException e) {
 			log.addLog("Failed to reset flight collection");
@@ -207,7 +210,9 @@ public class CheckIn extends Observable implements Runnable {
 			this.setSimulationDateTime(simTime.getCurrentTime().toGMTString());
 			new Thread(flightCollection).run();
 			new Thread(new RandomBookingGenerator(flightCollection, bookingCollection)).run();
-			new Thread (new QueueProducer(bookingCollection, securityQueue)).run();
+			new Thread(new SecurityQueueProducer(bookingCollection, securityQueue)).run();
+			new Thread(new CheckInQueueProducer(securityQueue, checkInQueue)).run();
+			log.addLog("There are " + checkInQueue.getBookingCollection().size() + " passengers in the check in queue");
 			try {
 				Thread.sleep(FakeTime.getSpeedDelay(simTime.getSpeed()));
 			} catch (InterruptedException e) {
@@ -219,6 +224,10 @@ public class CheckIn extends Observable implements Runnable {
 	
 	public ArrayList<Booking> getSecurityQueue() {
 		return securityQueue.getAllBookings();
-		
 	}
+
+	public ArrayList<Booking> getCheckInQueue() {
+		return checkInQueue.getAllBookings();
+	}
+
 }

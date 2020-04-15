@@ -184,5 +184,9 @@ public class BookingCollection {
 		return flightBookings;
 	}
 	
+	public void removeBooking(String bookingCode) {
+		Bookings.remove(bookingCode);
+	}
+
 }
 

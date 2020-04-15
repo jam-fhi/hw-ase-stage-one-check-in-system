@@ -7,7 +7,9 @@ import java.awt.event.WindowListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import model.CheckIn;
 
 /**
@@ -30,6 +32,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 	private ActionListener closeWindow;
 	private FlightSummary flightOverview;
 	private PassengerQueue securityQueue;
+	private PassengerQueue checkInQueue;
 
 	public CheckInSimulation(CheckIn checkInDesk) {
 		this.checkInDesk = checkInDesk;
@@ -40,8 +43,10 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		rightSide.setLayout(new BorderLayout());
 		JPanel leftSide = new JPanel();
 		leftSide.setLayout(new BorderLayout());
-		securityQueue = new PassengerQueue(checkInDesk.getSecurityQueue());
-		leftSide.add(securityQueue, BorderLayout.NORTH);
+		securityQueue = new PassengerQueue(checkInDesk.getSecurityQueue(), "Security");
+		checkInQueue = new PassengerQueue(checkInDesk.getCheckInQueue(), "Check In");
+		leftSide.add(checkInQueue, BorderLayout.NORTH);
+		leftSide.add(securityQueue, BorderLayout.SOUTH);
 		/**
 		 * Simulation Controls
 		 */
@@ -82,6 +87,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		
 		//securityQueue = new PassengerQueue(checkInDesk.getBookingCollection().getAllBookings());
 		securityQueue.updatePassengerQueue(checkInDesk.getSecurityQueue());
+		checkInQueue.updatePassengerQueue(checkInDesk.getCheckInQueue());
 		/**
 		 * On update remove any existing components on this JFrame
 		flightSummary.removeAll();
