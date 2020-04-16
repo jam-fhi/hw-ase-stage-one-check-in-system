@@ -28,7 +28,7 @@ public class RandomBookingGenerator implements Runnable {
 			try {
 				log.addLog("Added booking for " + firstName + " " + lastName + " on flight " + flightCode);
 				Booking newBooking = new Booking(flightCode + "-" + bookingNumber, firstName, lastName, flightCode);
-				if (Integer.parseInt(bookingNumber)%15==0) {
+				if (Integer.parseInt(bookingNumber)%5==0) {
 					newBooking.setFirstClass();
 					log.addLog("Added first class to booking " + newBooking.getBookingCode() );
 				}

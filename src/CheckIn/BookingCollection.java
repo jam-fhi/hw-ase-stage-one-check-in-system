@@ -128,12 +128,12 @@ public class BookingCollection {
 	 * @return Passenger
 	 * @throws Exception
 	 */
-	public Booking getPassengerNotCheckedIn() throws Exception {
+	public Booking getPassengerNotCheckedIn(boolean firstClass) throws Exception {
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
 			/**
 			 * TODO: What if another thread is using this passenger? 
 			 */
-			if(aBooking.getValue().getPassenger().isCheckIn() == false && aBooking.getValue().getInQueue() == false) {
+			if(aBooking.getValue().isFirstClass() == firstClass && aBooking.getValue().getPassenger().isCheckIn() == false && aBooking.getValue().getInQueue() == false) {
 				aBooking.getValue().setInQueue();
 				return aBooking.getValue();
 			}
