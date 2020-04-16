@@ -21,6 +21,8 @@ public class Flight {
 	private double maximumBaggageVolume;
 	private double excessCharge;
 	private Date departureDate;
+	private boolean isDeparted = false;
+	private LoggingSingleton log;
 	
 	/**
 	 * Flight Creating constructor
@@ -36,6 +38,7 @@ public class Flight {
 	 */
 	public Flight(String flightCode, String destinationAirport, String carrier, int maximumPassengers,
 			double maximumBaggageWeight, double maximumBaggageVolume, double excessCharge,String departureTime, String departureDate) {
+		log = LoggingSingleton.getInstance();
 		this.flightCode = flightCode;
 		this.destinationAirport = destinationAirport;
 		this.carrier = carrier;
@@ -152,4 +155,36 @@ public class Flight {
 		long closingTime = departureDate.getTime() - hourInMs;
 		return new Date(closingTime);
 	}
+	 
+	public String getFlightStatus() {
+		if(isDeparted == false) {
+			long hourInMs = 3600000;
+			long sixHrInMs = hourInMs * 6;
+			long departureTime = getDepartureDate().getTime();
+			long boardingStarts = departureTime - sixHrInMs;
+			long checkinClosed = departureTime - hourInMs;
+			if (FakeTime.getCurrentTime().getTime() > departureTime) {
+				log.addLog("Flight " + getFlightCode() + " has departed");
+				isDeparted = true;
+				return "departed";
+			} else {
+			
+				if (FakeTime.getCurrentTime().getTime() > checkinClosed) {
+					log.addLog("Flight " + getFlightCode() + " has boarding closed");
+					return "closed";
+				} else {
+					if(FakeTime.getCurrentTime().getTime() > boardingStarts) {
+						log.addLog("Flight " + getFlightCode() + " is boarding");
+						return "boarding";
+					} else {
+						log.addLog("Flight " + getFlightCode() + " is waiting for check in to open");
+						return "waiting";						
+					}
+				}
+			}
+		} else {
+			return "departed";
+		}
+	}
+	
 }

@@ -5,19 +5,20 @@ import java.util.Date;
 
 /**
  * 
- * fakeTime
+ * FakeTime
  * Simulates hours passing for thread
  * based simulation of check in system.
  * @author jamiehill and Haikah Ghoghari
  *
  */
-public class fakeTime {
+public class FakeTime {
 
-	/**
-	 *  When the system starts get the current system start time, from a new date object.
-	 */
-	private static Date systemTime = new Date();
-	
+	private static int simDelay = 200;
+
+	public static int getSpeedDelay(int speed) {
+		return simDelay / speed;
+	}
+
 	/**
 	 * getCurrentTime
 	 * Returns a new date object that is a
@@ -27,26 +28,16 @@ public class fakeTime {
 	 */
 	public static Date getCurrentTime() {
 		/**
-		 * When we call getCurrentTime, get the current system time, from a new date object.
-		 */
-		Date currentSystemTime = new Date();
-		/**
 		 * Calculate how many milliseconds have passed since the system started and the current time.
 		 * Then convert the number of milliseconds into hours for the simulation.
+		 * 
 		 */
-		long deltaTimeMS = currentSystemTime.getTime() - systemTime.getTime();
-		long deltaTimeHr = deltaTimeMS * 60 * 60 * 1000;
-		
-		/**
-		 * We assume our simulation begins on the first of march.
-		 */
-		Calendar startDate = Calendar.getInstance();
-		startDate.set(2020, 3, 1, 0, 0, 0);
-		/**
-		 * Get unix time stamp of the first of march 2020
-		 */
-		long firstMarch = startDate.getTime().getTime();
-		
+		SimulationTimeSingleton simTime = SimulationTimeSingleton.getInstance();
+		Date actualSystemTime = new Date(); 
+		long speedDelay = getSpeedDelay(simTime.getSpeed());
+		long deltaTimeMS = actualSystemTime.getTime() - simTime.getStartTime().getTime();
+		long deltaTimeFake = deltaTimeMS + (simDelay - speedDelay);
+
 		/**
 		 * Create a calendar to hold our fake simulation time.
 		 */
@@ -58,7 +49,7 @@ public class fakeTime {
 		 * onto the first of march unix time stamp to create a
 		 * fake date/time.
 		 */
-		currentFakeTime.setTimeInMillis(firstMarch + deltaTimeHr);
+		currentFakeTime.setTimeInMillis(simTime.getCurrentTime().getTime() + deltaTimeFake);
 		return currentFakeTime.getTime();
 	}
 }

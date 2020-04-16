@@ -17,7 +17,7 @@ public class BookingCollection {
 	 *  Initialise the hash map.
 	 */
 	private HashMap<String, Booking> Bookings = new HashMap<String, Booking>(); 
-	
+	private LoggingSingleton log;
 	/**
 	 * BookingCollection
 	 * The constructor calls load bookings to fill the hash map.
@@ -25,8 +25,8 @@ public class BookingCollection {
 	 * @throws CheckInIOException
 	 * @throws BookingException
 	 */
-	public BookingCollection(String fileName) throws CheckInIOException, BookingException { 
-		loadBookings(fileName);
+	public BookingCollection() throws CheckInIOException, BookingException { 
+		log = LoggingSingleton.getInstance();
 	}
 
 	/**
@@ -128,15 +128,65 @@ public class BookingCollection {
 	 * @return Passenger
 	 * @throws Exception
 	 */
-	public Passenger getPassengerNotCheckedIn() throws Exception {
+	public Booking getPassengerNotCheckedIn() throws Exception {
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
 			/**
 			 * TODO: What if another thread is using this passenger? 
 			 */
-			if(aBooking.getValue().getPassenger().isCheckIn() == false) {
-				return aBooking.getValue().getPassenger();
+			if(aBooking.getValue().getPassenger().isCheckIn() == false && aBooking.getValue().getInQueue() == false) {
+				aBooking.getValue().setInQueue();
+				return aBooking.getValue();
 			}
 		}
 		throw new Exception("No passengers found who are not checked in");
 	}
+	
+	
+	public HashMap<String, Booking> getBookingCollection() {
+		return Bookings;
+	}
+
+	public void addBatchBookings(ArrayList<Booking> newBookings) {
+		Iterator<Booking> newBookingsIt = newBookings.iterator();
+		while(newBookingsIt.hasNext()) {
+			Booking aBooking = newBookingsIt.next();
+			log.addLog("Saved booking " + aBooking.getBookingCode());
+			Bookings.put(aBooking.getBookingCode(), aBooking);
+		}
+		log.addLog("Added " + newBookings.size() + " bookings");
+	}
+	
+	public Booking getPassengerNotSecurityCheckIn() throws Exception {
+		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+			/**
+			 * TODO: What if another thread is using this passenger? 
+			 */
+			if(aBooking.getValue().getPassenger().getSecurityComplete() == false && aBooking.getValue().isInSecurity() == false) {
+				aBooking.getValue().setInSecurity();
+				return aBooking.getValue();
+			}
+		}
+		throw new Exception("No passengers found who are not in the security queue");
+	}
+	
+	public void addBooking(Booking aBooking) {
+			log.addLog("Security queue booking" + aBooking.getBookingCode());
+			Bookings.put(aBooking.getBookingCode(), aBooking);
+		
+	}
+	public ArrayList<Booking> getAllBookings() {
+		
+		ArrayList<Booking> flightBookings = new ArrayList<Booking>();
+		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+			flightBookings.add(aBooking.getValue());
+		
+		}
+		return flightBookings;
+	}
+	
+	public void removeBooking(String bookingCode) {
+		Bookings.remove(bookingCode);
+	}
+
 }
+
