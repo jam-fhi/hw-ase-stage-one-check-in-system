@@ -17,8 +17,11 @@ public class Booking {
 	private String flightCode;
 	private boolean inQueue = false;
 	private boolean inSecurity = false;
+	private boolean firstClass = false;
 
 	
+
+
 
 	/**
 	 * Booking
@@ -92,5 +95,13 @@ public class Booking {
 
 	public void setInSecurity() {
 		this.inSecurity = true;
+	}
+	
+	public boolean isFirstClass() {
+		return firstClass;
+	}
+
+	public void setFirstClass() {
+		this.firstClass = true;
 	}
 }
