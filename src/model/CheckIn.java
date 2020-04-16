@@ -231,5 +231,9 @@ public class CheckIn extends Observable implements Runnable {
 	public ArrayList<Booking> getCheckInQueue() {
 		return checkInQueue.getAllBookings();
 	}
+	
+	public ArrayList<Booking> getPriorityQueue() {
+		return priorityQueue.getAllBookings();
+	}
 
 }
