@@ -33,6 +33,7 @@ public class CheckIn extends Observable implements Runnable {
 	private BookingCollection bookingCollection = new BookingCollection();
 	private BookingCollection securityQueue = new BookingCollection();
 	private BookingCollection checkInQueue = new BookingCollection();
+	private BookingCollection priorityQueue = new BookingCollection();
 	private FlightCollection flightCollection = new FlightCollection();
 	private boolean simulationRunning = false;
 	private String simulationDateTime = "";
@@ -212,7 +213,8 @@ public class CheckIn extends Observable implements Runnable {
 			new Thread(new RandomBookingGenerator(flightCollection, bookingCollection)).run();
 			new Thread(new SecurityQueueProducer(bookingCollection, securityQueue)).run();
 			new Thread(new CheckInQueueProducer(securityQueue, checkInQueue)).run();
-			log.addLog("There are " + checkInQueue.getBookingCollection().size() + " passengers in the check in queue");
+			new Thread(new PriorityQueueProducer(securityQueue, priorityQueue)).run();
+			log.addLog("There are " + priorityQueue.getBookingCollection().size() + " passengers in the priority queue");
 			try {
 				Thread.sleep(FakeTime.getSpeedDelay(simTime.getSpeed()));
 			} catch (InterruptedException e) {
@@ -228,6 +230,10 @@ public class CheckIn extends Observable implements Runnable {
 
 	public ArrayList<Booking> getCheckInQueue() {
 		return checkInQueue.getAllBookings();
+	}
+	
+	public ArrayList<Booking> getPriorityQueue() {
+		return priorityQueue.getAllBookings();
 	}
 
 }
