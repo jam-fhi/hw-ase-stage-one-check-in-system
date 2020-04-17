@@ -22,32 +22,20 @@ public class FlightSummary extends JPanel {
 
 	public FlightSummary(FlightCollection allFlights, BookingCollection allBookings) {
 
-		this.setLayout(new GridLayout(allFlights.getFlightCollection().size() + 1, 1));
+		this.setLayout(new GridLayout(flightCount + 1, 1));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
-		flightTotal = new JLabel("There are " + allFlights.getFlightCollection().size() + " flights.");
 		this.add(flightTotal);
 
-		/**
-		 * Iterate through the flights collection
-		 * Add a new flight panel for each flight
-		 * in our system
-		 * Check if the flight status isn't equal departed then it will show the flight details. If it is departed 
-		 * it wont show on the GUI. 
-		 */
-
-		Iterator<Flight> flightIt = allFlights.getFlightCollection().iterator();
-		while(flightIt.hasNext()) {
-			Flight aFlight = flightIt.next();
-			addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
-		}
+		updateSummary(allFlights, allBookings);
 	}
 	
 	private void addFlightPanel(String flightCode, String destination, String status, int bookings, int capacity) {
 		FlightInformation aFlightPanel = new FlightInformation(flightCode, destination, status, bookings, capacity);
 		aFlightPanel.setName(flightCode);
-		aFlightPanel.setSize(500, 150);
 		aFlightPanel.setVisible(true);
+		flightCount++;
+		flightTotal.setText("There are " + flightCount + " flights.");
 		this.add(aFlightPanel);
 	}
 	
@@ -65,18 +53,15 @@ public class FlightSummary extends JPanel {
 	}
 
 	public void updateSummary(FlightCollection allFlights, BookingCollection allBookings) {
-		if((allFlights.getFlightCollection().size() + 1) > flightCount) {
-			flightCount = allFlights.getFlightCollection().size() + 1;
-			this.setLayout(new GridLayout(flightCount, 1));
-		} else {
+		
+		if((allFlights.getFlightCollection().size() + 1) < flightCount) {
 			// Assume less flights means the simulation has been reset.
 			this.removeAll();
 			this.revalidate();
 			this.repaint();
 			this.add(flightTotal);
+			flightCount = 0;
 		}
-		
-		flightTotal.setText("There are " + allFlights.getFlightCollection().size() + " flights.");
 
 		/**
 		 * Iterate through the flights collection
@@ -96,5 +81,7 @@ public class FlightSummary extends JPanel {
 				addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
 			}
 		}
+		
+		this.setLayout(new GridLayout(flightCount + 1, 1));
 	}
 }
