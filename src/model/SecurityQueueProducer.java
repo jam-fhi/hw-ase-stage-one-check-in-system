@@ -22,7 +22,7 @@ public class SecurityQueueProducer extends QueueProducer {
 			}
 
 		} catch (Exception e) {
-			log.addLog("Failed to get passenger for security queue " + e.getMessage());
+			log.addLog("Failed to get passenger for security queue " + e.getMessage(), "log");
 		}
 	}
 }

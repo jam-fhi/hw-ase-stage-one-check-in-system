@@ -62,7 +62,7 @@ public class FlightSummary extends JPanel {
 			this.add(flightTotal);
 			flightCount = 0;
 		}
-
+		allFlights.setInUse();
 		/**
 		 * Iterate through the flights collection
 		 * Add a new flight panel for each flight
@@ -81,7 +81,7 @@ public class FlightSummary extends JPanel {
 				addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
 			}
 		}
-		
+		allFlights.setInUse();
 		this.setLayout(new GridLayout(flightCount + 1, 1));
 	}
 }

@@ -95,7 +95,7 @@ public class CheckInGUI extends JFrame implements ActionListener, WindowListener
 		saveReport(this);
 		// log event
 		LoggingSingleton logger = LoggingSingleton.getInstance();
-		logger.addLog("Report generated and window closed");
+		logger.addLog("Report generated and window closed", "log");
 		try {
 			logger.writelog("Logs.txt");
 		} catch (CheckInIOException e1) {

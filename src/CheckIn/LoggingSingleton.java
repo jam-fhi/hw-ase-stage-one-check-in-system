@@ -59,10 +59,13 @@ public class LoggingSingleton {
 	 * Initial add log method, it takes a string
 	 * log message and adds it to the log messages
 	 * Array List.
+	 * @param logType TODO
 	 */
-	public void addLog(String message) {
+	public void addLog(String message, String logType) {
 		Date currentTime = FakeTime.getCurrentTime();
-		System.out.println(currentTime.toGMTString() + ": " + message);
+		if(logType.compareTo("checkin") == 0) {
+			System.out.println(currentTime.toGMTString() + ": " + message);
+		}
 		logMessages.add(currentTime.toGMTString() + ": " + message);
 	}
 

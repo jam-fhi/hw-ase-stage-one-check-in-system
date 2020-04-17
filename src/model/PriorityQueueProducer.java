@@ -15,7 +15,7 @@ public class PriorityQueueProducer extends QueueProducer {
 			passengerQueue.addBooking(aPassenger);
 			allBookings.removeBooking(aPassenger.getBookingCode());
 		} catch (Exception e) {
-			log.addLog("Failed to get passenger for priority queue " + e.getMessage());
+			log.addLog("Failed to get passenger for priority queue " + e.getMessage(), "log");
 		}
 	}
 }

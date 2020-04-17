@@ -45,8 +45,8 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		JPanel leftSide = new JPanel();
 		leftSide.setLayout(new BorderLayout());
 		securityQueue = new PassengerQueue(checkInDesk.getSecurityQueue(), "Security");
-		checkInQueue = new PassengerQueue(checkInDesk.getCheckInQueue(), "Check In");
-		priorityQueue = new PassengerQueue(checkInDesk.getPriorityQueue(), "Priority");
+		checkInQueue = new PassengerQueue(checkInDesk.getCheckInQueue(), "Economy");
+		priorityQueue = new PassengerQueue(checkInDesk.getPriorityQueue(), "Business");
 		leftSide.add(priorityQueue, BorderLayout.NORTH);
 		leftSide.add(checkInQueue, BorderLayout.CENTER);
 		leftSide.add(securityQueue, BorderLayout.SOUTH);
@@ -55,7 +55,6 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		 */
 		simControl = new SimControl(checkInDesk.getSimulationTime() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
 		rightSide.add(simControl, BorderLayout.NORTH);
-		
 		flightOverview = new FlightSummary(checkInDesk.getFlightCollection(), checkInDesk.getBookingCollection());
 		rightSide.add(flightOverview, BorderLayout.SOUTH);
 

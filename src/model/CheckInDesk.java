@@ -1,14 +1,24 @@
 package model;
 
+import java.util.Iterator;
+
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
-import CheckIn.BookingException;
-import CheckIn.FlightException;
-import CheckIn.ThreadNewPassenger;
+import CheckIn.CheckInDeskCountSingleton;
+import CheckIn.FakeTime;
+//import CheckIn.Booking;
+//import CheckIn.BookingCollection;
+//import CheckIn.BookingException;
+import CheckIn.Flight;
+import CheckIn.FlightCollection;
+import CheckIn.LoggingSingleton;
+//import CheckIn.FlightException;
+//import CheckIn.ThreadNewPassenger;
+import CheckIn.SimulationTimeSingleton;
 
 public class CheckInDesk implements Runnable {
 
-	private String flightCode;
+	/*private String flightCode;
 	private String bookingCode;
 	private String passengerName;
 	private double baggageWeight;
@@ -17,43 +27,83 @@ public class CheckInDesk implements Runnable {
 	private boolean closestatus = false;
 	private ThreadNewPassenger so;
 	private BookingCollection allBookings;
-	private CheckIn model;
-
-	public CheckInDesk(ThreadNewPassenger so, BookingCollection allBookings, CheckIn model) {
-		this.so = so;
-		this.allBookings = allBookings;
-		this.model = model;
+	private CheckIn model;*/
+	private LoggingSingleton log;
+	private CheckInDeskCountSingleton deskCount;
+	private SimulationTimeSingleton simTime = null;
+	private BookingCollection economyQueue;
+	private BookingCollection businessQueue;
+	private Flight boardingFlight;
+	private int deskNumber;
+	
+	public CheckInDesk(Flight boardingFlight, BookingCollection economyQueue, BookingCollection businessQueue, int deskNumber) {
+		log = LoggingSingleton.getInstance();
+		deskCount = CheckInDeskCountSingleton.getInstance();
+		simTime = SimulationTimeSingleton.getInstance();
+		this.boardingFlight = boardingFlight;
+		this.economyQueue = economyQueue;
+		this.businessQueue = businessQueue;
+		this.deskNumber = deskNumber;
 	}
 
 	public String getFlightCode() {
-		return flightCode;
+		return boardingFlight.getFlightCode();
+	}
+	
+	public String getFlightDestination() {
+		return boardingFlight.getDestinationAirport();
 	}
 
-	public String getBookingCode() {
-		return bookingCode;
+	@Override
+	public void run() {
+		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has opened.", "checkin");
+		while(boardingFlight.getFlightStatus().compareTo("boarding") == 0 && simTime.isSimRunning()) {
+			
+			log.addLog("Processing passengers on Desk " + deskNumber, "checkin");
+			Booking nextPassenger = businessQueue.getNextPassenger(boardingFlight.getFlightCode());
+			if(nextPassenger == null) {
+				nextPassenger = economyQueue.getNextPassenger(boardingFlight.getFlightCode());
+			}
+			
+			if(nextPassenger != null) {
+				log.addLog("Processing passenger " + nextPassenger.getPassenger().getFirstName() + " " + nextPassenger.getPassenger().getLastName() + " on booking " + nextPassenger.getBookingCode(), "checkin");
+			}
+
+			try {
+				Thread.sleep(FakeTime.getSpeedDelay(simTime.getSpeed()));
+			} catch (InterruptedException e) {
+				log.addLog("Thread sleep interrupted.", "log");
+			}
+		}
+		deskCount.decActiveDesks();
+		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has closed.", "checkin");
 	}
 
-	public String getPassengerName() {
+	/*public String getBookingCode() {
+		return boardingFlight.get;
+	}*/
+
+	/*public String getPassengerName() {
 		return passengerName;
-	}
+	}*/
 
-	public double getBaggageWeight() {
+	/*public double getBaggageWeight() {
 		return baggageWeight;
-	}
+	}*/
 
-	public String getExcessFee() {
+	/*public String getExcessFee() {
 		return excessFee;
-	}
+	}*/
 	
-	public boolean isClosestatus() {
+	/*public boolean isClosestatus() {
 		return closestatus;
-	}
+	}*/
 	
-	public boolean getCheckInStatus() {
+	/*public boolean getCheckInStatus() {
 		return checkInStatus;
-	}
+	}*/
 	
-	public void toggleclosestatus() {
+	/*public void toggleclosestatus() {
 		if(closestatus == true) {
 			closestatus = false;
 		}
@@ -61,8 +111,8 @@ public class CheckInDesk implements Runnable {
 			closestatus = true;
 		}
 		
-	}
-
+	}*/
+/*
 	@Override
 	public void run() {
 		try {
@@ -99,5 +149,5 @@ public class CheckInDesk implements Runnable {
 				e.printStackTrace();
 			}
 		}
-	}
+	}*/
 }

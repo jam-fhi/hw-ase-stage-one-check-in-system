@@ -26,16 +26,16 @@ public class RandomBookingGenerator implements Runnable {
 			String lastName = pickRandomFromList(passengerLastNames);
 			String bookingNumber = RandomFlightGenerator.getNumericCode();
 			try {
-				log.addLog("Added booking for " + firstName + " " + lastName + " on flight " + flightCode);
+				log.addLog("Added booking for " + firstName + " " + lastName + " on flight " + flightCode, "log");
 				Booking newBooking = new Booking(flightCode + "-" + bookingNumber, firstName, lastName, flightCode);
 				if (Integer.parseInt(bookingNumber)%5==0) {
 					newBooking.setFirstClass();
-					log.addLog("Added first class to booking " + newBooking.getBookingCode() );
+					log.addLog("Added first class to booking " + newBooking.getBookingCode(), "log" );
 				}
 					
 				randomBookings.add(newBooking);
 			} catch (BookingException e) {
-				log.addLog("There was an error creating the random booking " + e.getMessage());
+				log.addLog("There was an error creating the random booking " + e.getMessage(), "log");
 			}
 			count++;
 		}
@@ -49,19 +49,21 @@ public class RandomBookingGenerator implements Runnable {
 
 	@Override
 	public void run() {
-		log.addLog("Creating bookings");
+		log.addLog("Creating bookings", "log");
 		Iterator<Flight> flightsIt = flights.getFlightCollection().iterator();
 		while(flightsIt.hasNext()) {
 			Flight aFlight = flightsIt.next();
 			ArrayList<Booking> allBookings = bookings.getBookingByFlightCode(aFlight.getFlightCode());
-			log.addLog("Flight " + aFlight.getFlightCode() + " has " + allBookings.size() + " bookings with a total capacity of " + aFlight.getMaximumPassengers());
+			log.addLog("Flight " + aFlight.getFlightCode() + " has " + allBookings.size() + " bookings with a total capacity of " + aFlight.getMaximumPassengers(), "log");
 			if(bookings.getBookingByFlightCode(aFlight.getFlightCode()).size() <= 0) {
 				int thirtyPercCapacity = (int) ((int) aFlight.getMaximumPassengers() * 0.3);
 				int createBookings = ThreadLocalRandom.current().nextInt(thirtyPercCapacity, aFlight.getMaximumPassengers());
-				log.addLog("Creating " + createBookings + " for flight " + aFlight.getFlightCode());
+				log.addLog("Creating " + createBookings + " bookings for flight " + aFlight.getFlightCode(), "log");
 				ArrayList<Booking> newBookings = getRandomBookings(aFlight.getFlightCode(), createBookings);
 				bookings.addBatchBookings(newBookings);
 			}
 		}
+		flights.setInUse();
+		bookings.setDone(true);
 	}
 }

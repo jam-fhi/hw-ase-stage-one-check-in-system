@@ -18,6 +18,12 @@ public class BookingCollection {
 	 */
 	private HashMap<String, Booking> Bookings = new HashMap<String, Booking>(); 
 	private LoggingSingleton log;
+	
+	private boolean empty;
+	private boolean done;
+	private String type;
+	private boolean inUse;
+
 	/**
 	 * BookingCollection
 	 * The constructor calls load bookings to fill the hash map.
@@ -25,8 +31,9 @@ public class BookingCollection {
 	 * @throws CheckInIOException
 	 * @throws BookingException
 	 */
-	public BookingCollection() throws CheckInIOException, BookingException { 
+	public BookingCollection(String type) throws CheckInIOException, BookingException { 
 		log = LoggingSingleton.getInstance();
+		this.type = type;
 	}
 
 	/**
@@ -146,40 +153,43 @@ public class BookingCollection {
 		return Bookings;
 	}
 
-	public void addBatchBookings(ArrayList<Booking> newBookings) {
+	public synchronized void addBatchBookings(ArrayList<Booking> newBookings) {
+		takeInUse();
 		Iterator<Booking> newBookingsIt = newBookings.iterator();
 		while(newBookingsIt.hasNext()) {
 			Booking aBooking = newBookingsIt.next();
-			log.addLog("Saved booking " + aBooking.getBookingCode());
+			log.addLog("Saved booking " + aBooking.getBookingCode(), "log");
 			Bookings.put(aBooking.getBookingCode(), aBooking);
 		}
-		log.addLog("Added " + newBookings.size() + " bookings");
+		log.addLog("Added " + newBookings.size() + " bookings", "log");
+		freeInUse();
 	}
 	
-	public Booking getPassengerNotSecurityCheckIn() throws Exception {
+	public synchronized Booking getPassengerNotSecurityCheckIn() throws Exception {
+		takeInUse();
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
-			/**
-			 * TODO: What if another thread is using this passenger? 
-			 */
 			if(aBooking.getValue().getPassenger().getSecurityComplete() == false && aBooking.getValue().isInSecurity() == false) {
 				aBooking.getValue().setInSecurity();
+				freeInUse();
 				return aBooking.getValue();
 			}
 		}
+		freeInUse();
 		throw new Exception("No passengers found who are not in the security queue");
 	}
 	
 	public void addBooking(Booking aBooking) {
-			log.addLog("Security queue booking" + aBooking.getBookingCode());
-			Bookings.put(aBooking.getBookingCode(), aBooking);
-		
+		takeInUse();
+		log.addLog(type + " added booking " + aBooking.getBookingCode(), "log");
+		Bookings.put(aBooking.getBookingCode(), aBooking);
+		freeInUse();
 	}
+
 	public ArrayList<Booking> getAllBookings() {
 		
 		ArrayList<Booking> flightBookings = new ArrayList<Booking>();
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
 			flightBookings.add(aBooking.getValue());
-		
 		}
 		return flightBookings;
 	}
@@ -188,5 +198,42 @@ public class BookingCollection {
 		Bookings.remove(bookingCode);
 	}
 
+	public Booking getNextPassenger(String flightCode) {
+		takeInUse();
+		if(Bookings.size() > 0) {
+			ArrayList<Booking> allBookings = getBookingByFlightCode(flightCode);
+			Booking nextBooking = Bookings.remove(allBookings.get(0).getBookingCode());
+			log.addLog("Passenger " + nextBooking.getPassenger().getFirstName() + " " + nextBooking.getPassenger().getLastName() + " has moved to Check In.", "log");
+			freeInUse();
+			return nextBooking;
+		}
+		freeInUse();
+		return null;
+	}
+	
+	public void setDone(boolean isDone) {
+		done = isDone;
+	}
+
+	public boolean getDone() {
+		return done;
+	}
+	
+	private synchronized void takeInUse() {
+		while (inUse) {
+			try {
+				log.addLog("Wait for bookings to be free", "log");
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		inUse = true;
+	}
+	
+	public synchronized void freeInUse() {
+		inUse = false;
+		notifyAll();
+	}
 }
 

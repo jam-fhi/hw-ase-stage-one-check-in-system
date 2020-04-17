@@ -15,7 +15,7 @@ public class CheckInQueueProducer extends QueueProducer {
 			passengerQueue.addBooking(aPassenger);
 			allBookings.removeBooking(aPassenger.getBookingCode());
 		} catch (Exception e) {
-			log.addLog("Failed to get passenger for check in queue " + e.getMessage());
+			log.addLog("Failed to get passenger for check in queue " + e.getMessage(), "log");
 		}
 	}
 }

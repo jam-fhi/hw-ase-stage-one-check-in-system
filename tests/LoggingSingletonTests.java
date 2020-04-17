@@ -22,8 +22,8 @@ public class LoggingSingletonTests {
 	public void testSingletonIsSingleton() {
 		LoggingSingleton LoggingSingletonOne = LoggingSingleton.getInstance();
 		LoggingSingleton LoggingSingletonTwo = LoggingSingleton.getInstance();
-		LoggingSingletonOne.addLog("Log Message One");
-		LoggingSingletonTwo.addLog("Log Message Two");
+		LoggingSingletonOne.addLog("Log Message One", "log");
+		LoggingSingletonTwo.addLog("Log Message Two", "log");
 		assertEquals(LoggingSingletonOne, LoggingSingletonTwo);
 	}
 }

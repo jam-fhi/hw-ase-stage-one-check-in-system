@@ -23,6 +23,8 @@ public class Flight {
 	private Date departureDate;
 	private boolean isDeparted = false;
 	private LoggingSingleton log;
+	private boolean hasCheckInDesk = false;
+	private long delayFlight = 0;
 	
 	/**
 	 * Flight Creating constructor
@@ -144,6 +146,14 @@ public class Flight {
 		return departureDate;
 	}
 	
+	public boolean getHasCheckInDesk() {
+		return hasCheckInDesk;
+	}
+	
+	public void setHasCheckInDesk() {
+		hasCheckInDesk = true;
+	}
+
 	/**
 	 * checkInClosingTime
 	 * Returns the flight departure time minus one hour
@@ -155,30 +165,48 @@ public class Flight {
 		long closingTime = departureDate.getTime() - hourInMs;
 		return new Date(closingTime);
 	}
+	
+	public void addDelay() {
+		long hourInMs = 3600000;
+		delayFlight += hourInMs;
+	}
 	 
 	public String getFlightStatus() {
 		if(isDeparted == false) {
 			long hourInMs = 3600000;
 			long sixHrInMs = hourInMs * 6;
-			long departureTime = getDepartureDate().getTime();
+			long departureTime = getDepartureDate().getTime() + delayFlight;
 			long boardingStarts = departureTime - sixHrInMs;
 			long checkinClosed = departureTime - hourInMs;
 			if (FakeTime.getCurrentTime().getTime() > departureTime) {
-				log.addLog("Flight " + getFlightCode() + " has departed");
+				log.addLog("Flight " + getFlightCode() + " has departed", "log");
 				isDeparted = true;
 				return "departed";
 			} else {
 			
 				if (FakeTime.getCurrentTime().getTime() > checkinClosed) {
-					log.addLog("Flight " + getFlightCode() + " has boarding closed");
+					log.addLog("Flight " + getFlightCode() + " has boarding closed", "log");
 					return "closed";
 				} else {
 					if(FakeTime.getCurrentTime().getTime() > boardingStarts) {
-						log.addLog("Flight " + getFlightCode() + " is boarding");
-						return "boarding";
+						
+						if(hasCheckInDesk == false) {
+							log.addLog("Flight " + getFlightCode() + " is ready for boarding", "log");
+							return "ready";
+						} else {
+							log.addLog("Flight " + getFlightCode() + " is boarding", "log");
+							return "boarding";
+						}
+					
+					
 					} else {
-						log.addLog("Flight " + getFlightCode() + " is waiting for check in to open");
-						return "waiting";						
+						if(delayFlight == 0) {
+							log.addLog("Flight " + getFlightCode() + " is waiting for check in to open", "log");
+							return "waiting";
+						} else {
+							log.addLog("Flight " + getFlightCode() + " is delayed by " + (delayFlight / hourInMs) + " hours", "log");
+							return "delay";
+						}
 					}
 				}
 			}

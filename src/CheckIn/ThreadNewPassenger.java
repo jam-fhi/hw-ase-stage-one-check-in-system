@@ -42,7 +42,7 @@ public class ThreadNewPassenger extends Thread {
 		this.list.add(queuePassenger);		
 		String name = queuePassenger.getPassenger().getFirstName() + " " + queuePassenger.getPassenger().getLastName();
 		LoggingSingleton logger = LoggingSingleton.getInstance();
-		logger.addLog(name + " added to Checkin queue.");
+		logger.addLog(name + " added to Checkin queue.", "log");
 		notifyAll();
 	}
 

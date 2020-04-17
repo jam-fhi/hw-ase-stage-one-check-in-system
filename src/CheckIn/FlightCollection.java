@@ -19,7 +19,8 @@ public class FlightCollection implements Runnable {
 	private TreeSet<Flight> flightCollection = new TreeSet<Flight>(flightComp);
 	public Flight nextFlight = null;
 	private LoggingSingleton log;
-
+	private boolean inUse = false;
+	
 	/**
 	 * FlightCollection
 	 * Constructor to create the flight collection onject.
@@ -88,12 +89,26 @@ public class FlightCollection implements Runnable {
 	 * Method to return list of flights.
 	 * @return flightCollection returning flightCollection
 	 */
-	public TreeSet<Flight> getFlightCollection() {
+	public synchronized TreeSet<Flight> getFlightCollection() {
+		takeInUse();
 		return flightCollection;
 	}
 
+	private void takeInUse() {
+		while (inUse) {
+			try {
+				log.addLog("Wait for flights to be free", "log");
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		inUse = true;
+	}
+
 	@Override
-	public void run() {
+	public synchronized void run() {
+		takeInUse();
 		Iterator<Flight> iterator = flightCollection.iterator();
 		int activeFlights = 0;
 		while(iterator.hasNext()) {
@@ -104,8 +119,14 @@ public class FlightCollection implements Runnable {
 		}
 		if(activeFlights < 4) {
 			Flight newFlight = RandomFlightGenerator.getRandomFlight();
-			log.addLog("Added new flight " + newFlight.getFlightCode() + " departs at " + newFlight.getDepartureDate().toGMTString());
+			log.addLog("Added new flight " + newFlight.getFlightCode() + " departs at " + newFlight.getDepartureDate().toGMTString(), "log");
 			flightCollection.add(newFlight);
 		}
+		setInUse();
+	}
+	
+	public synchronized void setInUse() {
+		inUse = false;
+		notifyAll();
 	}
 }

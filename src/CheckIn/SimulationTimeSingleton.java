@@ -7,6 +7,7 @@ public class SimulationTimeSingleton {
 	private Date startTime = new Date();
 	private Date currentTime = new Date();
 	private int simSpeed = 1;
+	private boolean simRunning = false;
 	private static SimulationTimeSingleton simTimeInstance = null;
 		
 	private SimulationTimeSingleton() {
@@ -51,5 +52,13 @@ public class SimulationTimeSingleton {
 	public void setStartSimulation() {
 		startTime = new Date();
 		currentTime = new Date();
+	}
+	
+	public boolean isSimRunning() {
+		return simRunning;
+	}
+	
+	public void toggleSimRunning() {
+		simRunning = !simRunning;
 	}
 }

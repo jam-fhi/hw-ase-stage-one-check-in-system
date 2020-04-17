@@ -30,58 +30,26 @@ import CheckIn.SimulationTimeSingleton;
 @SuppressWarnings("deprecation")
 public class CheckIn extends Observable implements Runnable {
 
-	private BookingCollection bookingCollection = new BookingCollection();
-	private BookingCollection securityQueue = new BookingCollection();
-	private BookingCollection checkInQueue = new BookingCollection();
-	private BookingCollection priorityQueue = new BookingCollection();
-	private FlightCollection flightCollection = new FlightCollection();
-	private boolean simulationRunning = false;
+	private BookingCollection bookingCollection;
+	private BookingCollection securityQueue;
+	private BookingCollection economyQueue;
+	private BookingCollection businessQueue;
+	private FlightCollection flightCollection;
 	private String simulationDateTime = "";
 	private SimulationTimeSingleton simTime = null;
 	private LoggingSingleton log = null;
-
-	private ArrayList<CheckInDesk> checkInDesks = new ArrayList<CheckInDesk>();
-	//private ThreadNewPassenger aQueue;
+	private CheckInDeskCollection checkInDeskCollection;
+	private Thread checkInDesksThread;
 	
 	public CheckIn() throws CheckInIOException, BookingException {
-		simTime = SimulationTimeSingleton.getInstance();
 		log = LoggingSingleton.getInstance();
-		/*aQueue = aPassengerQueue;
-		
-		this.bookingCollection = new BookingCollection(bookingfile);
-		this.flightCollection = new FlightCollection(flightfile);
-		
-		CheckInDesk aDesk1 = new CheckInDesk(aQueue, this.bookingCollection, this);
-		CheckInDesk aDesk2 = new CheckInDesk(aQueue, this.bookingCollection, this);
-		CheckInDesk aDesk3 = new CheckInDesk(aQueue, this.bookingCollection, this);
-		CheckInDesk aDesk4 = new CheckInDesk(aQueue, this.bookingCollection, this);*/
-		
-		/*Thread producerThread = new Thread(new QueueProducer(aQueue, bookingCollection, flightCollection, this));
-		producerThread.start();*/
-		
-		// create a consumer thread and start it
-		/*Thread consumerThread1 = new Thread(aDesk1);
-		consumerThread1.start();
-		
-		Thread consumerThread2 = new Thread(aDesk2);
-		consumerThread2.start();
-		
-		Thread consumerThread3 = new Thread(aDesk3);
-		consumerThread3.start();
-		
-		Thread consumerThread4 = new Thread(aDesk4);
-		consumerThread4.start();
-		
-		checkInDesks.add(aDesk4);
-		checkInDesks.add(aDesk3);
-		checkInDesks.add(aDesk2);
-		checkInDesks.add(aDesk1);*/
+		resetCheckInSimulation();
+		simTime = SimulationTimeSingleton.getInstance();
 	}
 
 	public boolean isCheckInClosed(Flight aFlight) {
 
 		Date flightCheckInClosed = aFlight.checkInClosingTime();
-		//simulationCurrentDateTime = FakeTime.getCurrentTime(simulationStartDateTime, simulationCurrentDateTime, Integer.parseInt(simulationTime));
 
 		if (simTime.getCurrentTime().getTime() > flightCheckInClosed.getTime()) {
 			return true;
@@ -112,36 +80,6 @@ public class CheckIn extends Observable implements Runnable {
 		return flightCollection;
 
 	}
-
-	public ArrayList<CheckInDesk> getCheckInDesk() {
-		return checkInDesks;
-	}
-	
-	/*public ArrayList<Booking> getPassengerQueue() {
-		return aQueue.getList();
-	}*/
-
- 	// OBSERVER PATTERN
-	// SUBJECT must be able to register, remove and notify observers
-	// list to hold any observers
-	/*private List<observer.Observer> registeredObservers = new LinkedList<observer.Observer>();
-
-	public void notifyObservers() {
-		for (observer.Observer obs : registeredObservers) {
-			obs.update(this);
-		}
-	}*/
-
-	/*@Override
-	public void registerObserver(observer.Observer obs) {
-		registeredObservers.add(obs);
-		
-	}
-
-	@Override
-	public void removeObserver(observer.Observer obs) {
-		registeredObservers.remove(obs);
-	}*/
 	
 	public String getSimulationTime() {
 		return String.valueOf(simTime.getSpeed());
@@ -149,23 +87,18 @@ public class CheckIn extends Observable implements Runnable {
 
 	public void setSimulationTime(String simulationTime) {
 		simTime.setSpeed(Integer.parseInt(simulationTime.substring(0, simulationTime.length() - 1)));
-		log.addLog("Simulation speed is " + simulationTime);
+		log.addLog("Simulation speed is " + simulationTime, "log");
 		this.updateView();
-	}
-	
-	public CheckInDesk getCheckInDesk(int index) {
-		return checkInDesks.get(index);
-		
 	}
 
 	public synchronized void toggleSimulationRunning() {
-		this.simulationRunning = !this.simulationRunning;
-		log.addLog("Simulation has " + (simulationRunning ? "started" : "ended"));
+		simTime.toggleSimRunning();
+		log.addLog("Simulation has " + (simTime.isSimRunning() ? "started" : "ended"), "log");
 		this.updateView();
 	}
 
 	public boolean getSimulationRunning() {
-		return simulationRunning;
+		return simTime.isSimRunning();
 	}
 
 	public String getSimulationDateTime() {
@@ -181,12 +114,14 @@ public class CheckIn extends Observable implements Runnable {
 	private void resetCheckInSimulation() {
 		try {
 			flightCollection = new FlightCollection();
-			bookingCollection = new BookingCollection();
-			securityQueue = new BookingCollection();
-			checkInQueue = new BookingCollection();
+			bookingCollection = new BookingCollection("All bookings");
+			securityQueue = new BookingCollection("Security queue");
+			economyQueue = new BookingCollection("Economy queue");
+			businessQueue = new BookingCollection("Business queue");
+			checkInDeskCollection = new CheckInDeskCollection(flightCollection, economyQueue, businessQueue);
 			this.updateView();
 		} catch (CheckInIOException | BookingException e) {
-			log.addLog("Failed to reset flight collection");
+			log.addLog("Failed to reset flight collection", "log");
 		}
 	}
 
@@ -208,32 +143,45 @@ public class CheckIn extends Observable implements Runnable {
 		this.setSimulationStartDateTime();
 		this.resetCheckInSimulation();
 		while(this.getSimulationRunning()) {
+			log.addLog("Main control loop", "checkin");
 			this.setSimulationDateTime(simTime.getCurrentTime().toGMTString());
-			new Thread(flightCollection).run();
-			new Thread(new RandomBookingGenerator(flightCollection, bookingCollection)).run();
-			new Thread(new SecurityQueueProducer(bookingCollection, securityQueue)).run();
-			new Thread(new CheckInQueueProducer(securityQueue, checkInQueue)).run();
-			new Thread(new PriorityQueueProducer(securityQueue, priorityQueue)).run();
-			log.addLog("There are " + priorityQueue.getBookingCollection().size() + " passengers in the priority queue");
+			new Thread(flightCollection).start();
+			new Thread(new RandomBookingGenerator(flightCollection, bookingCollection)).start();
+			new Thread(new SecurityQueueProducer(bookingCollection, securityQueue)).start();
+			new Thread(new CheckInQueueProducer(securityQueue, economyQueue)).start();
+			new Thread(new PriorityQueueProducer(securityQueue, businessQueue)).start();
+			new Thread(checkInDeskCollection).start();
+			
 			try {
 				Thread.sleep(FakeTime.getSpeedDelay(simTime.getSpeed()));
 			} catch (InterruptedException e) {
-				log.addLog("Thread sleep interrupted.");
+				log.addLog("Thread sleep interrupted.", "log");
 			}
 			simTime.setCurrentTime(FakeTime.getCurrentTime());
 		}
 	}
 	
 	public ArrayList<Booking> getSecurityQueue() {
-		return securityQueue.getAllBookings();
+		try {
+			return securityQueue.getAllBookings();
+		} catch(NullPointerException e) {
+			return new ArrayList<Booking>();
+		}
 	}
 
 	public ArrayList<Booking> getCheckInQueue() {
-		return checkInQueue.getAllBookings();
+		try {
+			return economyQueue.getAllBookings();
+		} catch(NullPointerException e) {
+			return new ArrayList<Booking>();
+		}
 	}
 	
 	public ArrayList<Booking> getPriorityQueue() {
-		return priorityQueue.getAllBookings();
+		try {
+			return businessQueue.getAllBookings();
+		} catch(NullPointerException e) {
+			return new ArrayList<Booking>();
+		}
 	}
-
 }
