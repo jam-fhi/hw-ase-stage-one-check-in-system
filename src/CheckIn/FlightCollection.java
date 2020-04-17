@@ -103,18 +103,9 @@ public class FlightCollection implements Runnable {
 			}
 		}
 		if(activeFlights < 4) {
-			int createFlights = 4 - activeFlights;
-			int newFlights = 1;
-			if(createFlights > 1) {
-				newFlights = ThreadLocalRandom.current().nextInt(1, createFlights);
-			}
-			int flightCount = 0;
-			while(flightCount < newFlights) {
-				Flight newFlight = RandomFlightGenerator.getRandomFlight();
-				log.addLog("Added new flight " + newFlight.getFlightCode() + " departs at " + newFlight.getDepartureDate().toGMTString());
-				flightCollection.add(newFlight);
-				flightCount++;
-			}
+			Flight newFlight = RandomFlightGenerator.getRandomFlight();
+			log.addLog("Added new flight " + newFlight.getFlightCode() + " departs at " + newFlight.getDepartureDate().toGMTString());
+			flightCollection.add(newFlight);
 		}
 	}
 }
