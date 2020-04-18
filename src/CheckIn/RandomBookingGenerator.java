@@ -29,7 +29,7 @@ public class RandomBookingGenerator {
 				log.addLog("Added booking for " + firstName + " " + lastName + " on flight " + flightCode, "log");
 				Booking newBooking = new Booking(flightCode + "-" + bookingNumber, firstName, lastName, flightCode);
 				if (Integer.parseInt(bookingNumber)%5==0) {
-					newBooking.setFirstClass();
+					newBooking.setBusinessClass();
 					log.addLog("Added first class to booking " + newBooking.getBookingCode(), "log" );
 				}
 					

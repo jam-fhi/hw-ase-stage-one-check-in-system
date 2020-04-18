@@ -132,12 +132,12 @@ public class BookingCollection {
 	 */
 	public Booking getPassengerNotCheckedIn(boolean firstClass) throws Exception {
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
-			if(aBooking.getValue().isFirstClass() == firstClass && aBooking.getValue().getInQueue().compareTo("Security") == 0) {
+			if(aBooking.getValue().isBusinessClass() == firstClass && aBooking.getValue().getPassenger().getInQueue().compareTo("Security") == 0) {
 				String queue = "Economy";
 				if(firstClass == true) {
 					queue = "Business";
 				}
-				aBooking.getValue().setInQueue(queue);
+				aBooking.getValue().getPassenger().setInQueue(queue);
 				return aBooking.getValue();
 			}
 		}
@@ -164,8 +164,8 @@ public class BookingCollection {
 	public synchronized Booking getPassengerNotSecurityCheckIn() throws Exception {
 		takeInUse();
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
-			if(aBooking.getValue().getInQueue().compareTo("") == 0) {
-				aBooking.getValue().setInQueue("Security");
+			if(aBooking.getValue().getPassenger().getInQueue().compareTo("") == 0) {
+				aBooking.getValue().getPassenger().setInQueue("Security");
 				freeInUse();
 				return aBooking.getValue();
 			}
@@ -178,7 +178,7 @@ public class BookingCollection {
 		takeInUse();
 		ArrayList<Booking> queue = new ArrayList<Booking>(); 
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
-			if(aBooking.getValue().getInQueue().compareTo(queueName) == 0) {
+			if(aBooking.getValue().getPassenger().getInQueue().compareTo(queueName) == 0) {
 				queue.add(aBooking.getValue());
 			}
 		}
@@ -206,8 +206,8 @@ public class BookingCollection {
 			Iterator<Booking> allBookingsIt = allBookings.iterator();
 			while(allBookingsIt.hasNext()) {
 				Booking aBooking = allBookingsIt.next();
-				if(aBooking.getInQueue().compareTo(queueName) == 0) {
-					aBooking.setInQueue("checkin");
+				if(aBooking.getPassenger().getInQueue().compareTo(queueName) == 0) {
+					aBooking.getPassenger().setInQueue("checkin");
 					log.addLog("Passenger " + aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has moved to Check In.", "log");
 					freeInUse();
 					return aBooking;
