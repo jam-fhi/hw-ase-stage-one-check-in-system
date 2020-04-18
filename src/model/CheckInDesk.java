@@ -5,33 +5,15 @@ import java.util.Iterator;
 import CheckIn.Bag;
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
-import CheckIn.CheckInDeskCountSingleton;
 import CheckIn.FakeTime;
-//import CheckIn.Booking;
-//import CheckIn.BookingCollection;
-//import CheckIn.BookingException;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.LoggingSingleton;
 import CheckIn.RandomBagGenerator;
-//import CheckIn.FlightException;
-//import CheckIn.ThreadNewPassenger;
 import CheckIn.SimulationTimeSingleton;
 
 public class CheckInDesk implements Runnable {
-
-	/*private String flightCode;
-	private String bookingCode;
-	private String passengerName;
-	private double baggageWeight;
-	private boolean checkInStatus = false;
-	private String excessFee;
-	private boolean closestatus = false;
-	private ThreadNewPassenger so;
-	private BookingCollection allBookings;
-	private CheckIn model;*/
 	private LoggingSingleton log;
-	private CheckInDeskCountSingleton deskCount;
 	private SimulationTimeSingleton simTime = null;
 	private BookingCollection allBookings;
 	private Flight boardingFlight;
@@ -39,7 +21,6 @@ public class CheckInDesk implements Runnable {
 	
 	public CheckInDesk(Flight boardingFlight, BookingCollection allBookings, int deskNumber) {
 		log = LoggingSingleton.getInstance();
-		deskCount = CheckInDeskCountSingleton.getInstance();
 		simTime = SimulationTimeSingleton.getInstance();
 		this.boardingFlight = boardingFlight;
 		this.allBookings = allBookings;
@@ -85,7 +66,6 @@ public class CheckInDesk implements Runnable {
 				log.addLog("Thread sleep interrupted.", "log");
 			}
 		}
-		deskCount.decActiveDesks();
 		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has closed.", "checkin13");
 	}
 

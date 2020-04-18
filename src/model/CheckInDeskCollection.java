@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import CheckIn.BookingCollection;
-import CheckIn.CheckInDeskCountSingleton;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.LoggingSingleton;
 
 public class CheckInDeskCollection implements Runnable {
 
-	private CheckInDeskCountSingleton deskCount;
 	private FlightCollection allFlights;
 	private BookingCollection allBookings;
 	private LoggingSingleton log;
@@ -21,7 +19,6 @@ public class CheckInDeskCollection implements Runnable {
 	
 	public CheckInDeskCollection(FlightCollection allFlights, BookingCollection allBookings) {
 		log = LoggingSingleton.getInstance();
-		deskCount = CheckInDeskCountSingleton.getInstance();
 		this.allFlights = allFlights;
 		this.allBookings = allBookings;
 	}
