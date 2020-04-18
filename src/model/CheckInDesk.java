@@ -66,8 +66,9 @@ public class CheckInDesk implements Runnable {
 			}
 			
 			if(nextPassenger != null) {
-				
-				Bag baggage = RandomBagGenerator.getRandomBag(boardingFlight.getAllowedBaggageWeightPerPassenger(), boardingFlight.getAllowedBaggageVolumePerPassenger(), 23);
+				double weight = boardingFlight.getAllowedBaggageWeightPerPassenger() < 1 ? 1 : boardingFlight.getAllowedBaggageWeightPerPassenger();
+				int volume = boardingFlight.getAllowedBaggageVolumePerPassenger() < 1 ? 1 : (int)boardingFlight.getAllowedBaggageVolumePerPassenger();
+				Bag baggage = RandomBagGenerator.getRandomBag(weight, volume);
 				nextPassenger.getPassenger().addBaggage(baggage);
 				nextPassenger.getPassenger().setCheckIn();
 				double allowedBaggageWeight = boardingFlight.getAllowedBaggageWeightPerPassenger();
