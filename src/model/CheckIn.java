@@ -31,9 +31,6 @@ import CheckIn.SimulationTimeSingleton;
 public class CheckIn extends Observable implements Runnable {
 
 	private BookingCollection bookingCollection;
-	private BookingCollection securityQueue;
-	private BookingCollection economyQueue;
-	private BookingCollection businessQueue;
 	private FlightCollection flightCollection;
 	private String simulationDateTime = "";
 	private SimulationTimeSingleton simTime = null;
@@ -107,17 +104,13 @@ public class CheckIn extends Observable implements Runnable {
 
 	private void setSimulationDateTime(String simDateTime) {
 		simulationDateTime = simDateTime;
-		// log.addLog("Current simulation time is: " + simDateTime);
 		this.updateView();
 	}
 	
 	private void resetCheckInSimulation() {
 		try {
 			flightCollection = new FlightCollection();
-			bookingCollection = new BookingCollection("All bookings");
-			securityQueue = new BookingCollection("Security queue");
-			economyQueue = new BookingCollection("Economy queue");
-			businessQueue = new BookingCollection("Business queue");
+			bookingCollection = new BookingCollection();
 			checkInDeskCollection = new CheckInDeskCollection(flightCollection, bookingCollection);
 			this.updateView();
 		} catch (CheckInIOException | BookingException e) {
@@ -163,30 +156,6 @@ public class CheckIn extends Observable implements Runnable {
 				log.addLog("Thread sleep interrupted.", "log");
 			}
 			simTime.setCurrentTime(FakeTime.getCurrentTime());
-		}
-	}
-	
-	public ArrayList<Booking> getSecurityQueue() {
-		try {
-			return securityQueue.getAllBookings();
-		} catch(NullPointerException e) {
-			return new ArrayList<Booking>();
-		}
-	}
-
-	public ArrayList<Booking> getCheckInQueue() {
-		try {
-			return economyQueue.getAllBookings();
-		} catch(NullPointerException e) {
-			return new ArrayList<Booking>();
-		}
-	}
-	
-	public ArrayList<Booking> getPriorityQueue() {
-		try {
-			return businessQueue.getAllBookings();
-		} catch(NullPointerException e) {
-			return new ArrayList<Booking>();
 		}
 	}
 }

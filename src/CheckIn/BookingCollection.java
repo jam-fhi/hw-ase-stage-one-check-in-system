@@ -18,9 +18,6 @@ public class BookingCollection {
 	 */
 	private HashMap<String, Booking> Bookings = new HashMap<String, Booking>(); 
 	private LoggingSingleton log;
-	private boolean empty;
-	private boolean done;
-	private String type;
 	private boolean inUse;
 
 	/**
@@ -30,9 +27,8 @@ public class BookingCollection {
 	 * @throws CheckInIOException
 	 * @throws BookingException
 	 */
-	public BookingCollection(String type) throws CheckInIOException, BookingException { 
+	public BookingCollection() throws CheckInIOException, BookingException { 
 		log = LoggingSingleton.getInstance();
-		this.type = type;
 	}
 
 	/**
@@ -136,9 +132,6 @@ public class BookingCollection {
 	 */
 	public Booking getPassengerNotCheckedIn(boolean firstClass) throws Exception {
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
-			/**
-			 * TODO: What if another thread is using this passenger? 
-			 */
 			if(aBooking.getValue().isFirstClass() == firstClass && aBooking.getValue().getInQueue().compareTo("Security") == 0) {
 				String queue = "Economy";
 				if(firstClass == true) {
@@ -192,13 +185,6 @@ public class BookingCollection {
 		freeInUse();
 		return queue;
 	}
-	
-	public void addBooking(Booking aBooking) {
-		takeInUse();
-		log.addLog(type + " added booking " + aBooking.getBookingCode(), "log");
-		Bookings.put(aBooking.getBookingCode(), aBooking);
-		freeInUse();
-	}
 
 	public ArrayList<Booking> getAllBookings() {
 		
@@ -230,14 +216,6 @@ public class BookingCollection {
 		}
 		freeInUse();
 		return null;
-	}
-	
-	public void setDone(boolean isDone) {
-		done = isDone;
-	}
-
-	public boolean getDone() {
-		return done;
 	}
 	
 	private synchronized void takeInUse() {
