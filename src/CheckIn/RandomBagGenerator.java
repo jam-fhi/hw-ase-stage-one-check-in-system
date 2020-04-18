@@ -18,14 +18,14 @@ public class RandomBagGenerator {
 	 * @param weightlimit
 	 * @param illegalweight
 	 */
-	private static  int randomvolume(int volumelimit , boolean illegal) {
+	private static int randomvolume(double volumelimit, boolean illegal) {
 		/**
 		 *  Checks if an illegal value or legal value is to be created then returns appropriate value.
 		 */
 		if(illegal) {
-			return ThreadLocalRandom.current().nextInt(volumelimit/3, volumelimit); 
+			return ThreadLocalRandom.current().nextInt(((int)volumelimit), ((int)volumelimit*2)); 
 		} else {
-			return ThreadLocalRandom.current().nextInt(volumelimit/30 , volumelimit/3);
+			return ThreadLocalRandom.current().nextInt(1, ((int)volumelimit));
 		}
 	}
 
@@ -55,7 +55,7 @@ public class RandomBagGenerator {
 	 * @param volumelimit
 	 * @param illegalbagchange
 	 */
-	public static Bag getRandomBag(double weightlimit , int volumelimit , double illegalbagchance ) {
+	public static Bag getRandomBag(double weightlimit, double volumelimit, double illegalbagchance ) {
 		/**
 		 * Determines legality of bag.
 		 */

@@ -15,11 +15,8 @@ public class Booking {
 	private String bookingCode;
 	private Passenger passenger;
 	private String flightCode;
-	private boolean inQueue = false;
-	private boolean inSecurity = false;
 	private boolean firstClass = false;
-
-	
+	private String inQueueName = "";
 
 
 
@@ -81,20 +78,12 @@ public class Booking {
 		return passenger;
 	}
 	
-	public void setInQueue() {
-		inQueue = true;
+	public void setInQueue(String name) {
+		inQueueName = name;
 	}
 	
-	public boolean getInQueue() {
-		return inQueue;
-	}
-	
-	public boolean isInSecurity() {
-		return inSecurity;
-	}
-
-	public void setInSecurity() {
-		this.inSecurity = true;
+	public String getInQueue() {
+		return inQueueName;
 	}
 	
 	public boolean isFirstClass() {

@@ -6,8 +6,8 @@ import CheckIn.Booking;
 import CheckIn.BookingCollection;
 
 public class SecurityQueueProducer extends QueueProducer {
-	public SecurityQueueProducer(BookingCollection allBookings, BookingCollection passengerQueue) {
-		super(allBookings, passengerQueue);
+	public SecurityQueueProducer(BookingCollection allBookings) {
+		super(allBookings);
 	}
 
 	@Override
@@ -16,8 +16,7 @@ public class SecurityQueueProducer extends QueueProducer {
 			int addPassengerCount = ThreadLocalRandom.current().nextInt(0, 3);
 			int count = 0;
 			while (count < addPassengerCount) {
-				Booking aPassenger = allBookings.getPassengerNotSecurityCheckIn();
-				passengerQueue.addBooking(aPassenger);
+				allBookings.getPassengerNotSecurityCheckIn();
 				count++;
 			}
 

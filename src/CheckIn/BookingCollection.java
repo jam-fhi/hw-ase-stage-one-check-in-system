@@ -18,7 +18,6 @@ public class BookingCollection {
 	 */
 	private HashMap<String, Booking> Bookings = new HashMap<String, Booking>(); 
 	private LoggingSingleton log;
-	
 	private boolean empty;
 	private boolean done;
 	private String type;
@@ -140,8 +139,12 @@ public class BookingCollection {
 			/**
 			 * TODO: What if another thread is using this passenger? 
 			 */
-			if(aBooking.getValue().isFirstClass() == firstClass && aBooking.getValue().getPassenger().isCheckIn() == false && aBooking.getValue().getInQueue() == false) {
-				aBooking.getValue().setInQueue();
+			if(aBooking.getValue().isFirstClass() == firstClass && aBooking.getValue().getInQueue().compareTo("Security") == 0) {
+				String queue = "Economy";
+				if(firstClass == true) {
+					queue = "Business";
+				}
+				aBooking.getValue().setInQueue(queue);
 				return aBooking.getValue();
 			}
 		}
@@ -168,14 +171,26 @@ public class BookingCollection {
 	public synchronized Booking getPassengerNotSecurityCheckIn() throws Exception {
 		takeInUse();
 		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
-			if(aBooking.getValue().getPassenger().getSecurityComplete() == false && aBooking.getValue().isInSecurity() == false) {
-				aBooking.getValue().setInSecurity();
+			if(aBooking.getValue().getInQueue().compareTo("") == 0) {
+				aBooking.getValue().setInQueue("Security");
 				freeInUse();
 				return aBooking.getValue();
 			}
 		}
 		freeInUse();
 		throw new Exception("No passengers found who are not in the security queue");
+	}
+
+	public synchronized ArrayList<Booking> getPassengersInQueue(String queueName) throws Exception {
+		takeInUse();
+		ArrayList<Booking> queue = new ArrayList<Booking>(); 
+		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+			if(aBooking.getValue().getInQueue().compareTo(queueName) == 0) {
+				queue.add(aBooking.getValue());
+			}
+		}
+		freeInUse();
+		return queue;
 	}
 	
 	public void addBooking(Booking aBooking) {
@@ -198,14 +213,20 @@ public class BookingCollection {
 		Bookings.remove(bookingCode);
 	}
 
-	public Booking getNextPassenger(String flightCode) {
+	public Booking getNextPassenger(String flightCode, String queueName) {
 		takeInUse();
 		if(Bookings.size() > 0) {
 			ArrayList<Booking> allBookings = getBookingByFlightCode(flightCode);
-			Booking nextBooking = Bookings.remove(allBookings.get(0).getBookingCode());
-			log.addLog("Passenger " + nextBooking.getPassenger().getFirstName() + " " + nextBooking.getPassenger().getLastName() + " has moved to Check In.", "log");
-			freeInUse();
-			return nextBooking;
+			Iterator<Booking> allBookingsIt = allBookings.iterator();
+			while(allBookingsIt.hasNext()) {
+				Booking aBooking = allBookingsIt.next();
+				if(aBooking.getInQueue().compareTo(queueName) == 0) {
+					aBooking.setInQueue("checkin");
+					log.addLog("Passenger " + aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has moved to Check In.", "log");
+					freeInUse();
+					return aBooking;
+				}
+			}
 		}
 		freeInUse();
 		return null;

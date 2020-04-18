@@ -4,16 +4,14 @@ import CheckIn.Booking;
 import CheckIn.BookingCollection;
 
 public class CheckInQueueProducer extends QueueProducer {
-	public CheckInQueueProducer(BookingCollection allBookings, BookingCollection passengerQueue) {
-		super(allBookings, passengerQueue);
+	public CheckInQueueProducer(BookingCollection allBookings) {
+		super(allBookings);
 	}
 
 	@Override
 	public void run() {
 		try {
-			Booking aPassenger = allBookings.getPassengerNotCheckedIn(false);
-			passengerQueue.addBooking(aPassenger);
-			allBookings.removeBooking(aPassenger.getBookingCode());
+			allBookings.getPassengerNotCheckedIn(false);
 		} catch (Exception e) {
 			log.addLog("Failed to get passenger for check in queue " + e.getMessage(), "log");
 		}

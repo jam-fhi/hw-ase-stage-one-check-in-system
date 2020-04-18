@@ -4,16 +4,14 @@ import CheckIn.Booking;
 import CheckIn.BookingCollection;
 
 public class PriorityQueueProducer extends QueueProducer {
-	public PriorityQueueProducer(BookingCollection allBookings, BookingCollection passengerQueue) {
-		super(allBookings, passengerQueue);
+	public PriorityQueueProducer(BookingCollection allBookings) {
+		super(allBookings);
 	}
 
 	@Override
 	public void run() {
 		try {
-			Booking aPassenger = allBookings.getPassengerNotCheckedIn(true);
-			passengerQueue.addBooking(aPassenger);
-			allBookings.removeBooking(aPassenger.getBookingCode());
+			allBookings.getPassengerNotCheckedIn(true);
 		} catch (Exception e) {
 			log.addLog("Failed to get passenger for priority queue " + e.getMessage(), "log");
 		}

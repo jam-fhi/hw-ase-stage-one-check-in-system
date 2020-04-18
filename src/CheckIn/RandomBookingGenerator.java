@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RandomBookingGenerator implements Runnable {
+public class RandomBookingGenerator {
 
 	private LoggingSingleton log;
 	private String[] passengerFirstNames = { "John", "Sally", "Haikah", "Nadia", "Sam", "Amy", "Jamie", "Kira", "Isambard", "Tyler" };
@@ -47,8 +47,7 @@ public class RandomBookingGenerator implements Runnable {
 		return passengerNames[index];
 	}
 
-	@Override
-	public void run() {
+	public synchronized void generateBookings() {
 		log.addLog("Creating bookings", "log");
 		Iterator<Flight> flightsIt = flights.getFlightCollection().iterator();
 		while(flightsIt.hasNext()) {

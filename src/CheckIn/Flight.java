@@ -25,6 +25,7 @@ public class Flight {
 	private LoggingSingleton log;
 	private boolean hasCheckInDesk = false;
 	private long delayFlight = 0;
+	private long hourInMs = 3600000;
 	
 	/**
 	 * Flight Creating constructor
@@ -161,19 +162,16 @@ public class Flight {
 	 * @return
 	 */
 	public Date checkInClosingTime() {
-		long hourInMs = 60 * 60 * 1000;
 		long closingTime = departureDate.getTime() - hourInMs;
 		return new Date(closingTime);
 	}
 	
 	public void addDelay() {
-		long hourInMs = 3600000;
 		delayFlight += hourInMs;
 	}
 	 
 	public String getFlightStatus() {
 		if(isDeparted == false) {
-			long hourInMs = 3600000;
 			long sixHrInMs = hourInMs * 6;
 			long departureTime = getDepartureDate().getTime() + delayFlight;
 			long boardingStarts = departureTime - sixHrInMs;
@@ -215,4 +213,10 @@ public class Flight {
 		}
 	}
 	
+	public void setDelayedToBoarding() {
+		long currentTime = FakeTime.getCurrentTime().getTime();
+		long departureTime = getDepartureDate().getTime();		
+		long newDepartureTime = currentTime + (hourInMs * 5);
+		delayFlight = newDepartureTime - departureTime;
+	}
 }

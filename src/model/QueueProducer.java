@@ -10,9 +10,8 @@ public abstract class QueueProducer implements Runnable {
 	protected BookingCollection passengerQueue;
 	protected LoggingSingleton log;
 	
-	public QueueProducer(BookingCollection allBookings, BookingCollection passengerQueue) {
+	public QueueProducer(BookingCollection allBookings) {
 		this.allBookings = allBookings;
-		this.passengerQueue = passengerQueue;
 		log = LoggingSingleton.getInstance();
 	
 	}

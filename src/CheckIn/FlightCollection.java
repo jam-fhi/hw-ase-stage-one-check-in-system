@@ -3,14 +3,13 @@ package CheckIn;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * FlightCollection
  * Creating a TreeSet using FlightCollection.
  * @author NadiaAbulhawa
  */
-public class FlightCollection implements Runnable {
+public class FlightCollection {
 	
 	/**
 	 * Treeset to hold flight records.
@@ -106,8 +105,7 @@ public class FlightCollection implements Runnable {
 		inUse = true;
 	}
 
-	@Override
-	public synchronized void run() {
+	public synchronized void generateFlights() {
 		takeInUse();
 		Iterator<Flight> iterator = flightCollection.iterator();
 		int activeFlights = 0;

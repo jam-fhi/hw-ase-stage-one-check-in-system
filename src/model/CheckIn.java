@@ -118,7 +118,7 @@ public class CheckIn extends Observable implements Runnable {
 			securityQueue = new BookingCollection("Security queue");
 			economyQueue = new BookingCollection("Economy queue");
 			businessQueue = new BookingCollection("Business queue");
-			checkInDeskCollection = new CheckInDeskCollection(flightCollection, economyQueue, businessQueue);
+			checkInDeskCollection = new CheckInDeskCollection(flightCollection, bookingCollection);
 			this.updateView();
 		} catch (CheckInIOException | BookingException e) {
 			log.addLog("Failed to reset flight collection", "log");
@@ -142,14 +142,19 @@ public class CheckIn extends Observable implements Runnable {
 		this.toggleSimulationRunning();
 		this.setSimulationStartDateTime();
 		this.resetCheckInSimulation();
+		RandomBookingGenerator bookingGen = new RandomBookingGenerator(flightCollection, bookingCollection);
 		while(this.getSimulationRunning()) {
 			log.addLog("Main control loop", "checkin");
 			this.setSimulationDateTime(simTime.getCurrentTime().toGMTString());
-			new Thread(flightCollection).start();
-			new Thread(new RandomBookingGenerator(flightCollection, bookingCollection)).start();
-			new Thread(new SecurityQueueProducer(bookingCollection, securityQueue)).start();
-			new Thread(new CheckInQueueProducer(securityQueue, economyQueue)).start();
-			new Thread(new PriorityQueueProducer(securityQueue, businessQueue)).start();
+			flightCollection.generateFlights();
+			bookingGen.generateBookings();
+			try {
+				bookingCollection.getPassengerNotSecurityCheckIn();
+				bookingCollection.getPassengerNotCheckedIn(false);
+				bookingCollection.getPassengerNotCheckedIn(true);
+			} catch (Exception e1) {
+				log.addLog(e1.getMessage(), "error");
+			}
 			new Thread(checkInDeskCollection).start();
 			
 			try {

@@ -44,9 +44,14 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		rightSide.setLayout(new BorderLayout());
 		JPanel leftSide = new JPanel();
 		leftSide.setLayout(new BorderLayout());
-		securityQueue = new PassengerQueue(checkInDesk.getSecurityQueue(), "Security");
-		checkInQueue = new PassengerQueue(checkInDesk.getCheckInQueue(), "Economy");
-		priorityQueue = new PassengerQueue(checkInDesk.getPriorityQueue(), "Business");
+		try {
+			securityQueue = new PassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Security"), "Security");
+			checkInQueue = new PassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Economy"), "Economy");
+			priorityQueue = new PassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Business"), "Business");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		leftSide.add(priorityQueue, BorderLayout.NORTH);
 		leftSide.add(checkInQueue, BorderLayout.CENTER);
 		leftSide.add(securityQueue, BorderLayout.SOUTH);
@@ -87,10 +92,15 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 	@Override
 	public synchronized void update(Observable o, Object arg) {
 		
-		//securityQueue = new PassengerQueue(checkInDesk.getBookingCollection().getAllBookings());
-		securityQueue.updatePassengerQueue(checkInDesk.getSecurityQueue());
-		checkInQueue.updatePassengerQueue(checkInDesk.getCheckInQueue());
-		priorityQueue.updatePassengerQueue(checkInDesk.getPriorityQueue());
+		try {
+			securityQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Security"));
+			checkInQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Economy"));
+			priorityQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Business"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		/**
 		 * On update remove any existing components on this JFrame
 		flightSummary.removeAll();

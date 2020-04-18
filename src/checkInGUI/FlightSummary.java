@@ -76,9 +76,16 @@ public class FlightSummary extends JPanel {
 			Flight aFlight = flightIt.next();
 			FlightInformation flightDisplay = getFlightPanel(aFlight.getFlightCode());
 			if(flightDisplay != null) {
-				flightDisplay.updateFlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
+				if(aFlight.getFlightStatus().compareTo("departed") == 0) {
+					flightCount--;
+					this.remove(flightDisplay);
+				} else {
+					flightDisplay.updateFlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
+				}
 			} else {
-				addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
+				if(aFlight.getFlightStatus().compareTo("departed") != 0) {
+					addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
+				}
 			}
 		}
 		allFlights.setInUse();

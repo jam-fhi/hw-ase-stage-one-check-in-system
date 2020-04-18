@@ -2,6 +2,7 @@ package model;
 
 import java.util.Iterator;
 
+import CheckIn.Bag;
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.CheckInDeskCountSingleton;
@@ -12,6 +13,7 @@ import CheckIn.FakeTime;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.LoggingSingleton;
+import CheckIn.RandomBagGenerator;
 //import CheckIn.FlightException;
 //import CheckIn.ThreadNewPassenger;
 import CheckIn.SimulationTimeSingleton;
@@ -31,18 +33,16 @@ public class CheckInDesk implements Runnable {
 	private LoggingSingleton log;
 	private CheckInDeskCountSingleton deskCount;
 	private SimulationTimeSingleton simTime = null;
-	private BookingCollection economyQueue;
-	private BookingCollection businessQueue;
+	private BookingCollection allBookings;
 	private Flight boardingFlight;
 	private int deskNumber;
 	
-	public CheckInDesk(Flight boardingFlight, BookingCollection economyQueue, BookingCollection businessQueue, int deskNumber) {
+	public CheckInDesk(Flight boardingFlight, BookingCollection allBookings, int deskNumber) {
 		log = LoggingSingleton.getInstance();
 		deskCount = CheckInDeskCountSingleton.getInstance();
 		simTime = SimulationTimeSingleton.getInstance();
 		this.boardingFlight = boardingFlight;
-		this.economyQueue = economyQueue;
-		this.businessQueue = businessQueue;
+		this.allBookings = allBookings;
 		this.deskNumber = deskNumber;
 	}
 
@@ -60,13 +60,22 @@ public class CheckInDesk implements Runnable {
 		while(boardingFlight.getFlightStatus().compareTo("boarding") == 0 && simTime.isSimRunning()) {
 			
 			log.addLog("Processing passengers on Desk " + deskNumber, "checkin");
-			Booking nextPassenger = businessQueue.getNextPassenger(boardingFlight.getFlightCode());
+			Booking nextPassenger = allBookings.getNextPassenger(boardingFlight.getFlightCode(), "Business");
 			if(nextPassenger == null) {
-				nextPassenger = economyQueue.getNextPassenger(boardingFlight.getFlightCode());
+				nextPassenger = allBookings.getNextPassenger(boardingFlight.getFlightCode(), "Economy");
 			}
 			
 			if(nextPassenger != null) {
-				log.addLog("Processing passenger " + nextPassenger.getPassenger().getFirstName() + " " + nextPassenger.getPassenger().getLastName() + " on booking " + nextPassenger.getBookingCode(), "checkin");
+				
+				Bag baggage = RandomBagGenerator.getRandomBag(boardingFlight.getAllowedBaggageWeightPerPassenger(), boardingFlight.getAllowedBaggageVolumePerPassenger(), 23);
+				nextPassenger.getPassenger().addBaggage(baggage);
+				nextPassenger.getPassenger().setCheckIn();
+				double allowedBaggageWeight = boardingFlight.getAllowedBaggageWeightPerPassenger();
+				double excessCharge = boardingFlight.getExcessCharge();
+				nextPassenger.getPassenger().getBaggage().setExcessCharge(allowedBaggageWeight, excessCharge);
+				double charge = nextPassenger.getPassenger().getBaggage().getExcessCharge();
+				
+				log.addLog("Processing passenger " + nextPassenger.getPassenger().getFirstName() + " " + nextPassenger.getPassenger().getLastName() + " on booking " + nextPassenger.getBookingCode() + " who has a excess charge of £" + charge, "checkin");
 			}
 
 			try {
