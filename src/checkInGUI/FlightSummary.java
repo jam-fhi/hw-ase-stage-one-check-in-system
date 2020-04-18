@@ -189,14 +189,14 @@ public class FlightSummary extends JPanel {
 					flightCount--;
 					this.remove(flightDisplay);
 				} else {
-					flightDisplay.updateFlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
+					flightDisplay.updateFlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingsByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
 				}
 			} else {
 				/**
 				 * Flight not found. If it's not departed, add it to the view.
 				 */
 				if(aFlight.getFlightStatus().compareTo("departed") != 0) {
-					addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
+					addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingsByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
 				}
 			}
 		}

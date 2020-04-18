@@ -1,5 +1,8 @@
 package CheckIn;
 
+/**
+ * Import data structure packages.
+ */
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,56 +19,24 @@ public class BookingCollection {
 	/**
 	 *  Initialise the hash map.
 	 */
-	private HashMap<String, Booking> Bookings = new HashMap<String, Booking>(); 
+	private HashMap<String, Booking> allBookings = new HashMap<String, Booking>();
+	
+	/**
+	 * Logging Singleton holds our event logs.
+	 */
 	private LoggingSingleton log;
+	
+	/**
+	 * Thread blocking boolean, for data manipulation across threads.
+	 */
 	private boolean inUse;
 
 	/**
 	 * BookingCollection
-	 * The constructor calls load bookings to fill the hash map.
-	 * @param fileName
-	 * @throws CheckInIOException
-	 * @throws BookingException
+	 * Creates the booking collection object, gets the log singleton instance.
 	 */
-	public BookingCollection() throws CheckInIOException, BookingException { 
+	public BookingCollection() { 
 		log = LoggingSingleton.getInstance();
-	}
-
-	/**
-	 * loadBookings
-	 * Reads the booking CSV file and loads the data into booking objects which are put into a collection.
-	 * @param fileName
-	 * @throws BookingException
-	 * @throws CheckInIOException
-	 */
-	public void loadBookings(String fileName) throws BookingException, CheckInIOException {
-		CSVProcessor csv = new CSVProcessor();
-		/**
-		 *  Calls CSV processor to convert to string array.
-		 */
-		ArrayList<String[]> fileContents = csv.parseCSVToStringArray(fileName);
-		/**
-		 * Initialise a new iterator for this file.
-		 */
-		Iterator<String[]> fileLinesIt = fileContents.iterator(); 
-		/**
-		 *  Run until the file has been completely ran through.
-		 */
-		while(fileLinesIt.hasNext()) { 
-			/**
-			 *  Set to next line of file.
-			 */
-			String[] loadBooking = fileLinesIt.next(); 
-			Booking loadBookingObj = new Booking(
-				loadBooking[3].trim(), 	// Booking code.
-				loadBooking[1].trim(), 	// Guest first name.
-				loadBooking[2].trim(), 	// Guest last name.
-				loadBooking[0].trim()); // Flight code.
-			 /**
-			  *  Add to hash map with booking code as the key.
-			  */
-			Bookings.put(loadBooking[3], loadBookingObj);
-		}
 	}
 
 	/**
@@ -76,43 +47,60 @@ public class BookingCollection {
 	 * @return Booking
 	 * @throws BookingException
 	 */
-	public Booking getBooking(String Bookingid, String lastName) throws BookingException {
+	public synchronized Booking getBooking(String bookingId, String lastName) throws BookingException {
+		/**
+		 * Get exclusive access to the booking hash map, so
+		 * that no other thread modifies it during this operation.
+		 */
+		takeInUse();
+
 		/**
 		 *  Throws the booking exception back to the caller when booking hasn't been loaded yet and when the booking code doesn't exist.
 		 */
-		if(Bookings.isEmpty()) {
-			throw new BookingException("There are no bookings loaded");
+		if(allBookings.isEmpty()) {
+			throw new BookingException("There are no bookings loaded.");
 		}
 
 		Booking foundBooking = null;
 		
-		
-		foundBooking = Bookings.get(Bookingid);
+		foundBooking = allBookings.get(bookingId);
 		if(foundBooking == null) {
-			throw new BookingException("Booking not found");
+			throw new BookingException("Booking not found.");
 		}
+
+		/**
+		 * Release access to the booking hash map.
+		 */
+		freeInUse();
+
 		/**
 		 *  Additionally throws the booking when the last name is erroneous. 
 		 */
 		if (foundBooking.getPassenger().doesLastNameMatch(lastName)) {
 			return foundBooking;
 		} else {
-			throw new BookingException("Passenger for '" + lastName + "' does not match booking");
+			throw new BookingException("Passenger for '" + lastName + "' does not match booking passenger last name.");
 		}
 	}
 	
 	/**
-	 * getBookingByFlightCode
+	 * getBookingsByFlightCode
 	 * Gets all bookings for a given flight code.
 	 * @param flightCode
 	 * @return ArrayList<Booking>
 	 */
-	public ArrayList<Booking> getBookingByFlightCode(String flightCode) {
+	public synchronized ArrayList<Booking> getBookingsByFlightCode(String flightCode) {
+		/**
+		 * Get exclusive access to the booking hash map, so
+		 * that no other thread modifies it during this operation.
+		 */
+		takeInUse();
+
 		/**
 		 *  Can be called to retrieve all bookings with a certain flight code.
 		 */
 		ArrayList<Booking> flightBookings = new ArrayList<Booking>();
-		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+		for(Map.Entry<String, Booking> aBooking: allBookings.entrySet()) {
 			/**
 			 * If the flight codes match.
 			 */
@@ -120,104 +108,180 @@ public class BookingCollection {
 				flightBookings.add(aBooking.getValue());
 			}
 		}
+		
+		/**
+		 * Release access to the booking hash map.
+		 */
+		freeInUse();
 		return flightBookings;
 	}
 	
 	/**
 	 * 
-	 * getPassengerNotCheckedIn
-	 * Will find and return the first passenger not checked in.
-	 * @return Passenger
-	 * @throws Exception
+	 * progressBookingPassedSecurity
+	 * Will find the first booking that is in the security
+	 * queue and progress them to the queue they should be in.
 	 */
-	public Booking getPassengerNotCheckedIn(boolean firstClass) throws Exception {
-		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
-			if(aBooking.getValue().isBusinessClass() == firstClass && aBooking.getValue().getPassenger().getInQueue().compareTo("Security") == 0) {
-				String queue = "Economy";
-				if(firstClass == true) {
-					queue = "Business";
-				}
+	public synchronized void progressBookingPassedSecurity(boolean bookingClass) {
+		/**
+		 * Get exclusive access to the booking hash map, so
+		 * that no other thread modifies it during this operation.
+		 */
+		takeInUse();
+		for(Map.Entry<String, Booking> aBooking: allBookings.entrySet()) {
+			if(aBooking.getValue().isBusinessClass() == bookingClass && aBooking.getValue().getPassenger().getInQueue().compareTo("Security") == 0) {
+				/**
+				 * Set the name of the queue that the
+				 * passenger for this booking will join.
+				 */
+				String queue = bookingClass == true ? "Business" : "Economy";
 				aBooking.getValue().getPassenger().setInQueue(queue);
-				return aBooking.getValue();
+				break;
 			}
 		}
-		throw new Exception("No passengers found who are not checked in");
-	}
-	
-	
-	public HashMap<String, Booking> getBookingCollection() {
-		return Bookings;
+		/**
+		 * Release access to the booking hash map.
+		 */
+		freeInUse();
 	}
 
+	/**
+	 * addBatchBookings
+	 * Adds a batch of bookings from an array list.
+	 * @param newBookings
+	 */
 	public synchronized void addBatchBookings(ArrayList<Booking> newBookings) {
+		/**
+		 * Get exclusive access to the booking hash map, so
+		 * that no other thread modifies it during this operation.
+		 */
 		takeInUse();
 		Iterator<Booking> newBookingsIt = newBookings.iterator();
 		while(newBookingsIt.hasNext()) {
+			/**
+			 * Iterate through all provided bookings in the array list parameter
+			 * and add them, one by one, to the booking hash map.
+			 */
 			Booking aBooking = newBookingsIt.next();
 			log.addLog("Saved booking " + aBooking.getBookingCode(), "log");
-			Bookings.put(aBooking.getBookingCode(), aBooking);
+			allBookings.put(aBooking.getBookingCode(), aBooking);
 		}
 		log.addLog("Added " + newBookings.size() + " bookings", "log");
+		/**
+		 * Release access to the booking hash map.
+		 */
 		freeInUse();
 	}
 	
-	public synchronized Booking getPassengerNotSecurityCheckIn() throws Exception {
+	/**
+	 * progressBookingToSecurity
+	 * Finds the first booking not in the security queue and
+	 * adds them to that queue.
+	 */
+	public synchronized void progressBookingToSecurity() {
+		/**
+		 * Get exclusive access to the booking hash map, so
+		 * that no other thread modifies it during this operation.
+		 */
 		takeInUse();
-		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+		for(Map.Entry<String, Booking> aBooking: allBookings.entrySet()) {
 			if(aBooking.getValue().getPassenger().getInQueue().compareTo("") == 0) {
 				aBooking.getValue().getPassenger().setInQueue("Security");
-				freeInUse();
-				return aBooking.getValue();
+				/**
+				 * We don't want to add all our bookings to the
+				 * security queue in one go, so break out of the
+				 * loop and end after one.
+				 */
+				break;
 			}
 		}
+		/**
+		 * Release access to the booking hash map.
+		 */
 		freeInUse();
-		throw new Exception("No passengers found who are not in the security queue");
 	}
 
-	public synchronized ArrayList<Booking> getPassengersInQueue(String queueName) throws Exception {
+	/**
+	 * getBookingsInQueue
+	 * Takes a string queue name and finds all
+	 * the bookings that have a passenger in 
+	 * that queue. Returns an ArrayList of booking 
+	 * objects.
+	 * @param queueName
+	 * @return ArrayList Bookings
+	 */
+	public synchronized ArrayList<Booking> getBookingsInQueue(String queueName) {
+		/**
+		 * Get exclusive access to the booking hash map, so
+		 * that no other thread modifies it during this operation.
+		 */
 		takeInUse();
 		ArrayList<Booking> queue = new ArrayList<Booking>(); 
-		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
+		for(Map.Entry<String, Booking> aBooking: allBookings.entrySet()) {
+			/**
+			 * Loop through all entries within the hash map and
+			 * if it has a passenger in the queue matching the
+			 * provided name, add it to the queue array list for
+			 * return.
+			 */
 			if(aBooking.getValue().getPassenger().getInQueue().compareTo(queueName) == 0) {
 				queue.add(aBooking.getValue());
 			}
 		}
+		/**
+		 * Release access to the booking hash map.
+		 */
 		freeInUse();
 		return queue;
 	}
 
-	public ArrayList<Booking> getAllBookings() {
-		
-		ArrayList<Booking> flightBookings = new ArrayList<Booking>();
-		for(Map.Entry<String, Booking> aBooking: Bookings.entrySet()) {
-			flightBookings.add(aBooking.getValue());
-		}
-		return flightBookings;
-	}
-	
-	public void removeBooking(String bookingCode) {
-		Bookings.remove(bookingCode);
-	}
-
-	public Booking getNextPassenger(String flightCode, String queueName) {
+	/**
+	 * getNextBooking
+	 * Returns the first booking that has a passenger in
+	 * the specified queue for the specified flight code.
+	 * @param flightCode
+	 * @param queueName
+	 * @return Booking object
+	 */
+	public synchronized Booking getNextBooking(String flightCode, String queueName) {
+		/**
+		 * Get exclusive access to the booking hash map, so
+		 * that no other thread modifies it during this operation.
+		 */
 		takeInUse();
-		if(Bookings.size() > 0) {
-			ArrayList<Booking> allBookings = getBookingByFlightCode(flightCode);
-			Iterator<Booking> allBookingsIt = allBookings.iterator();
-			while(allBookingsIt.hasNext()) {
-				Booking aBooking = allBookingsIt.next();
-				if(aBooking.getPassenger().getInQueue().compareTo(queueName) == 0) {
-					aBooking.getPassenger().setInQueue("checkin");
-					log.addLog("Passenger " + aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has moved to Check In.", "log");
-					freeInUse();
-					return aBooking;
-				}
+		ArrayList<Booking> allBookings = getBookingsByFlightCode(flightCode);
+		Iterator<Booking> allBookingsIt = allBookings.iterator();
+		while(allBookingsIt.hasNext()) {
+			Booking aBooking = allBookingsIt.next();
+			if(aBooking.getPassenger().getInQueue().compareTo(queueName) == 0) {
+				/**
+				 * Loop through the bookings that matched the
+				 * specified flight code and if that passenger
+				 * matches the specified queue, move them to
+				 * the check in queue.
+				 */
+				aBooking.getPassenger().setInQueue("checkin");
+				log.addLog("Passenger " + aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has moved to Check In.", "log");
+				/**
+				 * Release access to the booking hash map.
+				 */
+				freeInUse();
+				return aBooking;
 			}
 		}
+		/**
+		 * Release access to the booking hash map.
+		 */
 		freeInUse();
 		return null;
 	}
 	
+	/**
+	 * takeInUse
+	 * Waits for the inUse flag to be false and then
+	 * sets it to true so other lines can be executed
+	 * in a thread safe way.
+	 */
 	private synchronized void takeInUse() {
 		while (inUse) {
 			try {
@@ -230,6 +294,10 @@ public class BookingCollection {
 		inUse = true;
 	}
 	
+	/**
+	 * freeInUse
+	 * Sets the inUse flag to false and notifies all other threads.
+	 */
 	public synchronized void freeInUse() {
 		inUse = false;
 		notifyAll();

@@ -60,9 +60,9 @@ public class CheckInDesk implements Runnable {
 		while(boardingFlight.getFlightStatus().compareTo("boarding") == 0 && simTime.isSimRunning()) {
 			
 			log.addLog("Processing passengers on Desk " + deskNumber, "checkin");
-			Booking nextPassenger = allBookings.getNextPassenger(boardingFlight.getFlightCode(), "Business");
+			Booking nextPassenger = allBookings.getNextBooking(boardingFlight.getFlightCode(), "Business");
 			if(nextPassenger == null) {
-				nextPassenger = allBookings.getNextPassenger(boardingFlight.getFlightCode(), "Economy");
+				nextPassenger = allBookings.getNextBooking(boardingFlight.getFlightCode(), "Economy");
 			}
 			
 			if(nextPassenger != null) {

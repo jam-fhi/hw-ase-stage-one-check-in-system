@@ -113,7 +113,7 @@ public class CheckIn extends Observable implements Runnable {
 			bookingCollection = new BookingCollection();
 			checkInDeskCollection = new CheckInDeskCollection(flightCollection, bookingCollection);
 			this.updateView();
-		} catch (CheckInIOException | BookingException e) {
+		} catch (CheckInIOException e) {
 			log.addLog("Failed to reset flight collection", "log");
 		}
 	}
@@ -142,9 +142,9 @@ public class CheckIn extends Observable implements Runnable {
 			flightCollection.generateFlights();
 			bookingGen.generateBookings();
 			try {
-				bookingCollection.getPassengerNotSecurityCheckIn();
-				bookingCollection.getPassengerNotCheckedIn(false);
-				bookingCollection.getPassengerNotCheckedIn(true);
+				bookingCollection.progressBookingToSecurity();
+				bookingCollection.progressBookingPassedSecurity(false);
+				bookingCollection.progressBookingPassedSecurity(true);
 			} catch (Exception e1) {
 				log.addLog(e1.getMessage(), "error");
 			}

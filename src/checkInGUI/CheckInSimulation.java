@@ -120,9 +120,9 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		leftSide.setLayout(new BorderLayout());
 	
 		try {
-			securityQueue = new PassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Security"), "Security");
-			economyQueue = new PassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Economy"), "Economy");
-			businessQueue = new PassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Business"), "Business");
+			securityQueue = new PassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Security"), "Security");
+			economyQueue = new PassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Economy"), "Economy");
+			businessQueue = new PassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Business"), "Business");
 			leftSide.add(businessQueue, BorderLayout.NORTH);
 			leftSide.add(economyQueue, BorderLayout.CENTER);
 			leftSide.add(securityQueue, BorderLayout.SOUTH);
@@ -213,9 +213,9 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		 * Passenger queue updates.
 		 */
 		try {
-			securityQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Security"));
-			economyQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Economy"));
-			businessQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getPassengersInQueue("Business"));
+			securityQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Security"));
+			economyQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Economy"));
+			businessQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Business"));
 		} catch (Exception e) {
 			log.addLog("There was an error updating the queues " + e.getMessage(), "error");
 		}
