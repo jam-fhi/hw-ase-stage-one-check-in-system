@@ -88,7 +88,6 @@ public class Bag {
 			this.excessCharge = excessWeight * excessCharge;
 		}
 	}
-	
 
 	/**
 	 * getExcessCharge
