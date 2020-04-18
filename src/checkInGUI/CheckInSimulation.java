@@ -223,7 +223,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		/**
 		 * Simulation controls
 		 */
-		simControl.updateSimControlDate(checkInDesk.getSimulationTime() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
+		simControl.updateSimControl(checkInDesk.getSimulationTime() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
 		
 		/**
 		 * Flight Summary
