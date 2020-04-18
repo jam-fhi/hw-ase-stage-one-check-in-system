@@ -1,16 +1,31 @@
 package checkInGUI;
 
+/**
+ * Import packages to display options.
+ */
 import javax.swing.JOptionPane;
+
+/**
+ * Import our system exceptions.
+ */
 import CheckIn.BookingException;
 import CheckIn.CheckInIOException;
 import CheckIn.FlightException;
+
+/**
+ * Import our controller.
+ */
 import controller.CheckInController;
+
+/**
+ * Import our model.
+ */
 import model.CheckIn;
 
 /**
+ * CheckInApp
  * @author amymcfarland
  */
-
 public class CheckInApp {
    
     /**
