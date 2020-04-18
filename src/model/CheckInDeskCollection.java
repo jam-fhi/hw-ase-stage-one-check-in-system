@@ -16,10 +16,8 @@ public class CheckInDeskCollection implements Runnable {
 	private BookingCollection allBookings;
 	private LoggingSingleton log;
 	private boolean inUse;
-	private Thread deskOne = new Thread();
-	private Thread deskTwo = new Thread();
-	private Thread deskThree = new Thread();
-	private Thread deskFour = new Thread();
+	private volatile ArrayList<Thread> checkInDesks = new ArrayList<Thread>();
+	private int totalCheckInDesks = 4;
 	
 	public CheckInDeskCollection(FlightCollection allFlights, BookingCollection allBookings) {
 		log = LoggingSingleton.getInstance();
@@ -34,7 +32,8 @@ public class CheckInDeskCollection implements Runnable {
  		allFlights.setInUse();
  		int delayFlights = 0;
  		log.addLog("Processing " + allFlights.getFlightCollection().size() + " flights for check in", "checkin");
-		while(allFlightsIt.hasNext()) {
+		takeInUse();
+ 		while(allFlightsIt.hasNext()) {
 			Flight aFlight = allFlightsIt.next();
 			String status = aFlight.getFlightStatus();
 			log.addLog("Processing flight " + aFlight.getFlightCode() + " which is " + status, "checkin");
@@ -43,17 +42,18 @@ public class CheckInDeskCollection implements Runnable {
 			}
 			if(status.compareTo("ready") == 0) {
 				int freeThread = getFreeDesk();
-				if(freeThread > 0) {
+				if(freeThread > -1) {
 					aFlight.setHasCheckInDesk();
-					addDesk(new Thread(new CheckInDesk(aFlight, allBookings, freeThread)), freeThread);
-					log.addLog("Opened Check In Desk for flight " + aFlight.getFlightCode(), "checkin1");
+					addDesk(new Thread(new CheckInDesk(aFlight, allBookings, freeThread)));
+					log.addLog("Opened Check In Desk for flight " + aFlight.getFlightCode() + " at " + freeThread, "checkin13");
 				} else {
 					log.addLog("Added delay to flight " + aFlight.getFlightCode(), "checkin1");
 					aFlight.addDelay();
 				}
 			}
 		}
-	
+ 		freeInUse();
+ 		
 		/*int freeThread = getFreeDesk();
 		log.addLog("There are " + delayFlights + " delayed and desks is " + freeThread, "checkin1");
 		if(delayFlights > 0 && freeThread > 0) {
@@ -72,58 +72,46 @@ public class CheckInDeskCollection implements Runnable {
 				
 			}
 		}*/
+		removeDepartedCheckInDesk();
 		allFlights.setInUse();
 	}
 
 	private synchronized int getFreeDesk() {
-		takeInUse();
+		//takeInUse();
 
 		int free = -1;
-		
-		if(deskOne.isAlive() == false) {
-			free = 1;
+		if(checkInDesks.size() < totalCheckInDesks) {
+			free = checkInDesks.size();
 		}
 	
-		if(deskTwo.isAlive() == false) {
-			free = 2;
-		}
-		
-		if(deskThree.isAlive() == false) {
-			free = 3;
-		}
-		
-		if(deskFour.isAlive() == false) {
-			free = 4;
-		}
-	
-		freeInUse();
+		//freeInUse();
 		return free;
 	}
-
-	private synchronized void addDesk(Thread newDesk, int slot) {
+	
+	private synchronized void removeDepartedCheckInDesk() {
 		takeInUse();
 		
-		if(slot == 1) {
-			deskOne = newDesk;
-			deskOne.start();
+		int count = 0;
+		while(count < checkInDesks.size()) {
+			Thread aDesk = checkInDesks.get(count);
+			if(aDesk.getState() == Thread.State.TERMINATED) {
+				checkInDesks.remove(count);
+			}
+			count++;
 		}
-		
-		if(slot == 2) {
-			deskTwo = newDesk;
-			deskTwo.start();
-		}
-		
-		if(slot == 3) {
-			deskThree = newDesk;
-			deskThree.start();
-		}
-		
-		if(slot == 4) {
-			deskFour = newDesk;
-			deskFour.start();
-		}
-		
+	
 		freeInUse();
+	}
+
+	private synchronized void addDesk(Thread newDesk) {
+		//takeInUse();
+		
+		if(checkInDesks.size() < totalCheckInDesks) {
+			checkInDesks.add(newDesk);
+			checkInDesks.get(checkInDesks.size() - 1).start();
+		}
+		
+		//freeInUse();
 	}
 	
 	private synchronized void takeInUse() {

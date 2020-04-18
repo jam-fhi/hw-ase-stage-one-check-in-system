@@ -85,7 +85,7 @@ public class CheckInDesk implements Runnable {
 			}
 		}
 		deskCount.decActiveDesks();
-		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has closed.", "checkin");
+		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has closed.", "checkin13");
 	}
 
 	/*public String getBookingCode() {
