@@ -19,7 +19,7 @@ public class BookingCollection {
 	/**
 	 *  Initialise the hash map.
 	 */
-	private HashMap<String, Booking> allBookings = new HashMap<String, Booking>();
+	private volatile HashMap<String, Booking> allBookings = new HashMap<String, Booking>();
 	
 	/**
 	 * Logging Singleton holds our event logs.
@@ -29,7 +29,7 @@ public class BookingCollection {
 	/**
 	 * Thread blocking boolean, for data manipulation across threads.
 	 */
-	private boolean inUse;
+	private volatile boolean inUse;
 
 	/**
 	 * BookingCollection
@@ -39,50 +39,6 @@ public class BookingCollection {
 		log = LoggingSingleton.getInstance();
 	}
 
-	/**
-	 * getBooking
-	 * Returns the booking object matching the id and last name.
-	 * @param Bookingid
-	 * @param lastName
-	 * @return Booking
-	 * @throws BookingException
-	 */
-	public synchronized Booking getBooking(String bookingId, String lastName) throws BookingException {
-		/**
-		 * Get exclusive access to the booking hash map, so
-		 * that no other thread modifies it during this operation.
-		 */
-		takeInUse();
-
-		/**
-		 *  Throws the booking exception back to the caller when booking hasn't been loaded yet and when the booking code doesn't exist.
-		 */
-		if(allBookings.isEmpty()) {
-			throw new BookingException("There are no bookings loaded.");
-		}
-
-		Booking foundBooking = null;
-		
-		foundBooking = allBookings.get(bookingId);
-		if(foundBooking == null) {
-			throw new BookingException("Booking not found.");
-		}
-
-		/**
-		 * Release access to the booking hash map.
-		 */
-		freeInUse();
-
-		/**
-		 *  Additionally throws the booking when the last name is erroneous. 
-		 */
-		if (foundBooking.getPassenger().doesLastNameMatch(lastName)) {
-			return foundBooking;
-		} else {
-			throw new BookingException("Passenger for '" + lastName + "' does not match booking passenger last name.");
-		}
-	}
-	
 	/**
 	 * getBookingsByFlightCode
 	 * Gets all bookings for a given flight code.
@@ -163,10 +119,10 @@ public class BookingCollection {
 			 * and add them, one by one, to the booking hash map.
 			 */
 			Booking aBooking = newBookingsIt.next();
-			log.addLog("Saved booking " + aBooking.getBookingCode(), "log");
+			log.addLog("Saved booking " + aBooking.getBookingCode(), "BookingCollection");
 			allBookings.put(aBooking.getBookingCode(), aBooking);
 		}
-		log.addLog("Added " + newBookings.size() + " bookings", "log");
+		log.addLog("Added " + newBookings.size() + " bookings", "BookingCollection");
 		/**
 		 * Release access to the booking hash map.
 		 */
@@ -244,11 +200,6 @@ public class BookingCollection {
 	 * @return Booking object
 	 */
 	public synchronized Booking getNextBooking(String flightCode, String queueName) {
-		/**
-		 * Get exclusive access to the booking hash map, so
-		 * that no other thread modifies it during this operation.
-		 */
-		takeInUse();
 		ArrayList<Booking> allBookings = getBookingsByFlightCode(flightCode);
 		Iterator<Booking> allBookingsIt = allBookings.iterator();
 		while(allBookingsIt.hasNext()) {
@@ -261,7 +212,7 @@ public class BookingCollection {
 				 * the check in queue.
 				 */
 				aBooking.getPassenger().setInQueue("checkin");
-				log.addLog("Passenger " + aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has moved to Check In.", "log");
+				log.addLog("Passenger " + aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has moved to Check In.", "BookingCollection");
 				/**
 				 * Release access to the booking hash map.
 				 */
@@ -269,10 +220,6 @@ public class BookingCollection {
 				return aBooking;
 			}
 		}
-		/**
-		 * Release access to the booking hash map.
-		 */
-		freeInUse();
 		return null;
 	}
 	
@@ -285,7 +232,7 @@ public class BookingCollection {
 	private synchronized void takeInUse() {
 		while (inUse) {
 			try {
-				log.addLog("Wait for bookings to be free", "log");
+				log.addLog("Wait for bookings to be free", "BookingCollection");
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
