@@ -4,6 +4,10 @@ package checkInGUI;
  * Import packages that are used to make our User Interface work.
  */
 import java.awt.GridLayout;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 /**
  * Import packages to use data structures.
  */
@@ -41,8 +45,10 @@ public class FlightSummary extends JPanel {
 	private int flightCount = 0;
 
 	/**
-	 * Constructor Creates the flight summary object which is a collection of flight
-	 * information custom JPanels.
+	 * Constructor 
+	 * Creates the flight summary object which
+	 * is a collection of flight information 
+	 * custom JPanels.
 	 * 
 	 * @param allFlights
 	 * @param allBookings
@@ -71,7 +77,8 @@ public class FlightSummary extends JPanel {
 	}
 	
 	/**
-	 * addFlightPanel Adds a new custom flight information JPanel to this panel.
+	 * addFlightPanel 
+	 * Adds a new custom flight information JPanel to this panel.
 	 * 
 	 * @param flightCode
 	 * @param destination
@@ -109,8 +116,9 @@ public class FlightSummary extends JPanel {
 	}
 	
 	/**
-	 * getFlightPanel Finds a flight information JPanel using the name set when
-	 * added.
+	 * getFlightPanel 
+	 * Finds a flight information JPanel 
+	 * using the name set when added.
 	 * 
 	 * @param name
 	 * @return FlightInformation object
@@ -118,7 +126,8 @@ public class FlightSummary extends JPanel {
 	private FlightInformation getFlightPanel(String name) {
 
 		/**
-		 * Only look for flight information panels if there's more than one component,
+		 * Only look for flight information panels 
+		 * if there's more than one component,
 		 * as flight total will always be there.
 		 */
 		if(this.getComponents().length > 1) {
@@ -129,7 +138,8 @@ public class FlightSummary extends JPanel {
 			while(panelCount < this.getComponents().length) {
 
 				/**
-				 * Return a flight information panel if a component's name matches the name that
+				 * Return a flight information panel if a 
+				 * component's name matches the name that
 				 * is specified in the method parameter.
 				 */
 				if(this.getComponent(panelCount).getName().compareTo(name) == 0) {
@@ -145,7 +155,8 @@ public class FlightSummary extends JPanel {
 	}
 
 	/**
-	 * updateSummary Update the flight information for provided flights.
+	 * updateSummary 
+	 * Update the flight information for provided flights.
 	 * 
 	 * @param allFlights
 	 * @param allBookings
@@ -154,8 +165,9 @@ public class FlightSummary extends JPanel {
 		
 		if((allFlights.getFlightCollection().size() + 1) < flightCount) {
 			/**
-			 * Assume less flights means the simulation has been reset. Remove everything
-			 * and add flight total again.
+			 * Assume less flights means the simulation 
+			 * has been reset. Remove everything and add 
+			 * flight total again.
 			 */
 			this.removeAll();
 			this.revalidate();
@@ -165,7 +177,8 @@ public class FlightSummary extends JPanel {
 		}
 
 		/**
-		 * Iterate through the flights collection Add a new flight panel for each flight
+		 * Iterate through the flights collection 
+		 * Add a new flight panel for each flight
 		 * in our system
 		 */
 		Iterator<Flight> flightIt = allFlights.getFlightCollection().iterator();
@@ -175,8 +188,8 @@ public class FlightSummary extends JPanel {
 			if(flightDisplay != null) {
 
 				/**
-				 * If flight found and not departed, update the flight information. Otherwise,
-				 * remove the flight from the view.
+				 * If flight found and not departed, update the flight 
+				 * information. Otherwise, remove the flight from the view.
 				 */
 				if(aFlight.getFlightStatus().compareTo("departed") == 0) {
 					flightCount--;

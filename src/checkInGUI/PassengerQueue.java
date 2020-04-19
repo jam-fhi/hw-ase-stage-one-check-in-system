@@ -1,16 +1,30 @@
 package checkInGUI;
 
+/**
+ * Import packages that are used to make our User Interface work.
+ */
 import java.awt.BorderLayout;
+import javax.swing.JPanel;
+
+/**
+ * Import packages to use data structures.
+ */
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import checkInModel.Booking;
 
+/**
+ * This class displays a passenger queue. 
+ * 
+ * @author amymcfarland, jamiehill
+ *
+ */
 public class PassengerQueue extends JPanel {
 
 	/**
-	 * Default required for eclipse/JAVA compatibility
+	 * Required by Java for compatibility.
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -26,15 +40,37 @@ public class PassengerQueue extends JPanel {
 	 * @param allBookings
 	 */
 	public PassengerQueue(ArrayList<Booking> passengerQueue, String queueName) {
+		
+		/**
+		 * Creates a new passenger summary,
+		 * taking in the parameter queueName.
+		 */
 		passengers = new PassengerSummary(queueName);
+		
+		/**
+		 * Adds a new passenger to the passenger queue.
+		 */
 		updatePassengerQueue(passengerQueue);
+		
+		/**
+		 * Adds the passenger custom JPanel to this JPanel.
+		 */
 		this.add(passengers, BorderLayout.NORTH);
+		
+		/**
+		 * Makes sure the information is visible.
+		 */
 		this.setVisible(true);
 	}
 	
+	/**
+	 * updatePassengerQueue
+	 * Passes an updated queue into the passenger 
+	 * custom JPanel.
+	 * 
+	 * @param passengerQueue
+	 */
 	public void updatePassengerQueue(ArrayList<Booking> passengerQueue) {
-		passengers.updatePassengerList(passengerQueue);
-		
+		passengers.updatePassengerList(passengerQueue);		
 	}
 }
-

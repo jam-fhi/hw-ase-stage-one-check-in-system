@@ -4,7 +4,6 @@ package checkInGUI;
  * Import packages that are used to make our User Interface work.
  */
 import java.awt.GridLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -20,7 +19,8 @@ class FlightInformation extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * JLabels for flight code, flight status, destination, and flight capacity.
+	 * JLabels for flight code, flight status, 
+	 * destination, and flight capacity.
 	 */
 	private JLabel flightCodeLbl = new JLabel();
 	private JLabel flightStatus = new JLabel();
@@ -28,7 +28,8 @@ class FlightInformation extends JPanel {
 	private JLabel flightCapacity = new JLabel();
 	
 	/**
-	 * Constructor Creates the flight information object
+	 * Constructor 
+	 * Creates the flight information object
 	 * 
 	 * @param flightCode  - the flight code to display
 	 * @param destination - destination airport
@@ -62,7 +63,8 @@ class FlightInformation extends JPanel {
 	}
 	
 	/**
-	 * updateFlightInformation Set flight information text on JLabels.
+	 * updateFlightInformation 
+	 * Set flight information text on JLabels.
 	 * 
 	 * @param flightCode
 	 * @param destination
