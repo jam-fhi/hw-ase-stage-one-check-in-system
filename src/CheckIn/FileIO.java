@@ -1,11 +1,18 @@
 package CheckIn;
 
+/**
+ * Import File IO packages.
+ */
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+/**
+ * Import data structure packages.
+ */
 import java.util.ArrayList;
 import java.util.Iterator;
 
