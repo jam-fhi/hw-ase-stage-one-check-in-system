@@ -1,5 +1,8 @@
 package CheckIn;
 
+/**
+ * Import Comparator package
+ */
 import java.util.Comparator;
 
 /**
@@ -11,7 +14,7 @@ import java.util.Comparator;
 public class FlightComparator implements Comparator<Flight> {
 	/**
 	 * compare
-	 * Will compare two flights to determin if they
+	 * Will compare two flights to determine if they
 	 * are equal.
 	 * return int 0 is equal
 	 */
