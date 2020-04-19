@@ -85,6 +85,7 @@ public class FlightCollection {
 	 * This will generate random flight data to add to
 	 * the flight collection so the simulation can run.
 	 */
+	@SuppressWarnings("deprecation")
 	public synchronized void generateFlights() {
 		/**
 		 * Get exclusive access to the flight collection, so
