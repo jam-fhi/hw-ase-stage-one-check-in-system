@@ -2,7 +2,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import CheckIn.LoggingSingleton;
+import checkInModel.LoggingSingleton;
 
 /**
  * LoggingSingletonTests

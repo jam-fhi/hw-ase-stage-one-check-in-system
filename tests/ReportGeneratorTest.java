@@ -3,13 +3,14 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.util.ArrayList;
 import org.junit.Test;
-import CheckIn.Bag;
-import CheckIn.BookingCollection;
-import CheckIn.BookingException;
-import CheckIn.CSVProcessor;
-import CheckIn.CheckInIOException;
-import CheckIn.FlightCollection;
-import CheckIn.ReportGenerator;
+
+import checkInModel.Bag;
+import checkInModel.BookingCollection;
+import checkInModel.BookingException;
+import checkInModel.CSVProcessor;
+import checkInModel.CheckInIOException;
+import checkInModel.FlightCollection;
+import checkInModel.ReportGenerator;
 
 /**
  * ReportGeneratorTest

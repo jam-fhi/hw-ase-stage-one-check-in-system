@@ -13,12 +13,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- * Import our packages to use our model data.
- */
-import CheckIn.BookingCollection;
-import CheckIn.Flight;
-import CheckIn.FlightCollection;
+import checkInModel.BookingCollection;
+import checkInModel.Flight;
+import checkInModel.FlightCollection;
 
 /**
  * This class displays the flight summary.

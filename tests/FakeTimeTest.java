@@ -3,7 +3,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import CheckIn.SimulationTimeSingleton;
+import checkInModel.SimulationTimeSingleton;
 
 public class FakeTimeTest {
 

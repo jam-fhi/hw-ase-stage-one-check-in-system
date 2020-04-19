@@ -3,10 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import CheckIn.BookingCollection;
-import CheckIn.Flight;
-import CheckIn.FlightCollection;
-import CheckIn.LoggingSingleton;
+import checkInModel.BookingCollection;
+import checkInModel.Flight;
+import checkInModel.FlightCollection;
+import checkInModel.LoggingSingleton;
 
 public class CheckInDeskCollection implements Runnable {
 

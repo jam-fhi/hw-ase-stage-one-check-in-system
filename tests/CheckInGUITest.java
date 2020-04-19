@@ -2,11 +2,11 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import CheckIn.BookingCollection;
-import CheckIn.BookingException;
-import CheckIn.CheckInIOException;
-import CheckIn.FlightCollection;
 import checkInGUI.CheckInGUI;
+import checkInModel.BookingCollection;
+import checkInModel.BookingException;
+import checkInModel.CheckInIOException;
+import checkInModel.FlightCollection;
 
 public class CheckInGUITest {
 

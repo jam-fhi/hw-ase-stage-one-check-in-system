@@ -59,6 +59,7 @@ public class CheckInController {
 		public void actionPerformed(ActionEvent e) {
 			if(checkInModel.getSimulationRunning() == true) {
 				checkInSimulation.stop();
+				// write log file
 			}
 		}
 	}

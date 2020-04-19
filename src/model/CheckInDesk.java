@@ -2,14 +2,14 @@ package model;
 
 import java.util.Iterator;
 
-import CheckIn.Bag;
-import CheckIn.Booking;
-import CheckIn.BookingCollection;
-import CheckIn.Flight;
-import CheckIn.FlightCollection;
-import CheckIn.LoggingSingleton;
-import CheckIn.RandomBagGenerator;
-import CheckIn.SimulationTimeSingleton;
+import checkInModel.Bag;
+import checkInModel.Booking;
+import checkInModel.BookingCollection;
+import checkInModel.Flight;
+import checkInModel.FlightCollection;
+import checkInModel.LoggingSingleton;
+import checkInModel.RandomBagGenerator;
+import checkInModel.SimulationTimeSingleton;
 
 public class CheckInDesk implements Runnable {
 	private LoggingSingleton log;

@@ -5,13 +5,9 @@ package checkInGUI;
  */
 import javax.swing.JOptionPane;
 
-/**
- * Import our system exceptions.
- */
-import CheckIn.BookingException;
-import CheckIn.CheckInIOException;
-import CheckIn.FlightException;
-
+import checkInModel.BookingException;
+import checkInModel.CheckInIOException;
+import checkInModel.FlightException;
 /**
  * Import our controller.
  */

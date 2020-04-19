@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import CheckIn.Booking;
+import checkInModel.Booking;
 
 public class PassengerQueue extends JPanel {
 

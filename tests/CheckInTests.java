@@ -7,16 +7,16 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import CheckIn.Bag;
-import CheckIn.Booking;
-import CheckIn.BookingCollection;
-import CheckIn.BookingException;
-import CheckIn.CheckInIOException;
-import CheckIn.Flight;
-import CheckIn.FlightCollection;
-import CheckIn.FlightException;
-import CheckIn.Passenger;
-import CheckIn.ThreadNewPassenger;
+import checkInModel.Bag;
+import checkInModel.Booking;
+import checkInModel.BookingCollection;
+import checkInModel.BookingException;
+import checkInModel.CheckInIOException;
+import checkInModel.Flight;
+import checkInModel.FlightCollection;
+import checkInModel.FlightException;
+import checkInModel.Passenger;
+import checkInModel.ThreadNewPassenger;
 import model.CheckIn;
 
 

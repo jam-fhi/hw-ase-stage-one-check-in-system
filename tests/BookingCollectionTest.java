@@ -8,10 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.junit.Test;
-import CheckIn.Booking;
-import CheckIn.BookingCollection;
-import CheckIn.BookingException;
-import CheckIn.CheckInIOException;
+
+import checkInModel.Booking;
+import checkInModel.BookingCollection;
+import checkInModel.BookingException;
+import checkInModel.CheckInIOException;
 
 /**
  * BookingCollectionTest

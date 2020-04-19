@@ -6,18 +6,18 @@ import java.util.Date;
 //import java.util.List;
 import java.util.Observable;
 
-import CheckIn.Bag;
-import CheckIn.Booking;
-import CheckIn.BookingCollection;
-import CheckIn.BookingException;
-import CheckIn.CheckInIOException;
-import CheckIn.Flight;
-import CheckIn.FlightCollection;
-import CheckIn.FlightException;
-import CheckIn.LoggingSingleton;
-import CheckIn.Passenger;
-import CheckIn.RandomBookingGenerator;
-import CheckIn.SimulationTimeSingleton;
+import checkInModel.Bag;
+import checkInModel.Booking;
+import checkInModel.BookingCollection;
+import checkInModel.BookingException;
+import checkInModel.CheckInIOException;
+import checkInModel.Flight;
+import checkInModel.FlightCollection;
+import checkInModel.FlightException;
+import checkInModel.LoggingSingleton;
+import checkInModel.Passenger;
+import checkInModel.RandomBookingGenerator;
+import checkInModel.SimulationTimeSingleton;
 
 /**
  * 
@@ -28,13 +28,12 @@ import CheckIn.SimulationTimeSingleton;
 @SuppressWarnings("deprecation")
 public class CheckIn extends Observable implements Runnable {
 
-	private BookingCollection bookingCollection;
-	private FlightCollection flightCollection;
-	private String simulationDateTime = "";
-	private SimulationTimeSingleton simTime = null;
-	private LoggingSingleton log = null;
-	private CheckInDeskCollection checkInDeskCollection;
-	private Thread checkInDesksThread;
+	private volatile BookingCollection bookingCollection;
+	private volatile FlightCollection flightCollection;
+	private volatile String simulationDateTime = "";
+	private volatile SimulationTimeSingleton simTime = null;
+	private volatile LoggingSingleton log = null;
+	private volatile CheckInDeskCollection checkInDeskCollection;
 	
 	public CheckIn() throws CheckInIOException, BookingException {
 		log = LoggingSingleton.getInstance();

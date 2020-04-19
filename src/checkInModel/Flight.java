@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInModel;
 
 /**
  * Import classes to manage data and time.

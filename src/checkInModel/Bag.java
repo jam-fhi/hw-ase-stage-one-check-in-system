@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInModel;
 
 /**
  * Bag creating width, length, height, weight, and excessCharge.

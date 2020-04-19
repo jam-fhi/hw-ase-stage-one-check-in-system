@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInModel;
 
 /**
  * Import Comparator package

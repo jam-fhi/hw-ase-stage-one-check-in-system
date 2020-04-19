@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInModel;
 
 import java.util.ArrayList;
 import java.util.Date;

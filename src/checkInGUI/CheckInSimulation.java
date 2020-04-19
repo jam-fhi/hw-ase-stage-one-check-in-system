@@ -11,6 +11,8 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import checkInModel.LoggingSingleton;
+
 /**
  * Import the Observer pattern classes that allows our UI to
  * be updated when data in the model changes.
@@ -18,11 +20,6 @@ import javax.swing.JPanel;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * Import our own classes to log events in our system and
- * to access our data model.
- */
-import CheckIn.LoggingSingleton;
 import model.CheckIn;
 
 /**
