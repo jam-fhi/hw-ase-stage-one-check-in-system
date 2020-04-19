@@ -1,6 +1,8 @@
 package CheckIn;
 
-import java.util.ArrayList;
+/**
+ * Import packages to manage data structures.
+ */
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -16,51 +18,24 @@ public class FlightCollection {
 	 */
 	private FlightComparator flightComp = new FlightComparator();
 	private TreeSet<Flight> flightCollection = new TreeSet<Flight>(flightComp);
-	public Flight nextFlight = null;
+	
+	/**
+	 * Logging singleton instance.
+	 */
 	private LoggingSingleton log;
+	
+	/**
+	 * Thread blocking boolean, for data manipulation across threads.
+	 */
 	private boolean inUse = false;
 	
 	/**
 	 * FlightCollection
 	 * Constructor to create the flight collection onject.
 	 * @param fileName
-	 * @throws CheckInIOException
 	 */
-	public FlightCollection() throws CheckInIOException {
+	public FlightCollection() {
 		log = LoggingSingleton.getInstance();
-	}
-
-	/**
-	 * loadFlights
-	 * Creating a method to load flights from the flight.csv file the method does
-	 * this by iterating through the list of flights and uses the parseCSVToStringArray
-	 * to split each line into parts. A flight object is created and added to the list.
-	 * @param fileName using the flight.csv file
-	 * @throws CheckInIOException
-	 */
-	public void loadFlights(String fileName) throws CheckInIOException {
-		CSVProcessor csvProc = new CSVProcessor ();
-		ArrayList<String[]> rawFlights = csvProc.parseCSVToStringArray(fileName);
-		Iterator<String[]> flightIt = rawFlights.iterator();
-		while(flightIt.hasNext()) {
-			String[] aFlight = flightIt.next();
-			String flightCode = aFlight[2];
-			String destinationAirport = aFlight[0];
-			String carrier = aFlight[1];
-			int maximumPassengers = Integer.parseInt(aFlight[3]);
-			double maximumBaggageWeight = Double.parseDouble(aFlight[4]);
-			double maximumBaggageVolume = Double.parseDouble(aFlight[5]);
-			double excessCharge = Double.parseDouble(aFlight[6]);
-			String addDepartureTime = aFlight[7];
-			String addDepartureDate = aFlight[8];
-			Flight addFlight = new Flight(flightCode, destinationAirport, carrier, maximumPassengers, maximumBaggageWeight, maximumBaggageVolume, excessCharge, addDepartureTime, addDepartureDate);
-			flightCollection.add(addFlight);
-			nextFlight = addFlight;
-		}
-	}
-
-	public void addFlight(Flight aFlight) {
-		flightCollection.add(aFlight);
 	}
 
 	/**
@@ -72,14 +47,27 @@ public class FlightCollection {
 	 * @return aFlight returning a flight
 	 * @throws FlightException
 	 */
-	public Flight findFlight(String flightCode) throws FlightException {
+	public synchronized Flight findFlight(String flightCode) throws FlightException {
+		/**
+		 * Get exclusive access to the flight collection, so
+		 * that no other thread modifies it during this operation.
+		 */
+		takeInUse();
 		Iterator<Flight> iterator = flightCollection.iterator();
 		while(iterator.hasNext()) {
 			Flight aFlight = iterator.next();
 			if (aFlight.getFlightCode().compareTo(flightCode) == 0) {
+				/**
+				 * Release access to the flight collection.
+				 */
+				freeInUse();
 				return aFlight;
 			}
 		}
+		/**
+		 * Release access to the flight collection.
+		 */
+		freeInUse();
 		throw new FlightException("Flight not found");
 	}
 	
@@ -88,12 +76,53 @@ public class FlightCollection {
 	 * Method to return list of flights.
 	 * @return flightCollection returning flightCollection
 	 */
-	public synchronized TreeSet<Flight> getFlightCollection() {
-		takeInUse();
+	public TreeSet<Flight> getFlightCollection() {
 		return flightCollection;
 	}
 
-	private void takeInUse() {
+	/**
+	 * generateFlights
+	 * This will generate random flight data to add to
+	 * the flight collection so the simulation can run.
+	 */
+	public synchronized void generateFlights() {
+		/**
+		 * Get exclusive access to the flight collection, so
+		 * that no other thread modifies it during this operation.
+		 */
+		takeInUse();
+		/**
+		 * Loop through flights in our system and count how many are waiting.
+		 */
+		Iterator<Flight> iterator = flightCollection.iterator();
+		int waitingFlights = 0;
+		while(iterator.hasNext()) {
+			Flight aFlight = iterator.next();
+			if (aFlight.getFlightStatus().compareTo("waiting") == 0) {
+				waitingFlights++;
+			}
+		}
+		/**
+		 * When there are less than 4 waiting flights, add a new random flight.
+		 */
+		if(waitingFlights < 4) {
+			Flight newFlight = RandomFlightGenerator.getRandomFlight();
+			log.addLog("Added new flight " + newFlight.getFlightCode() + " departs at " + newFlight.getDepartureDate().toGMTString(), "log");
+			flightCollection.add(newFlight);
+		}
+		/**
+		 * Release access to the flight collection.
+		 */
+		freeInUse();
+	}
+	
+	/**
+	 * takeInUse
+	 * Waits for the inUse flag to be false and then
+	 * sets it to true so other lines can be executed
+	 * in a thread safe way.
+	 */
+	private synchronized void takeInUse() {
 		while (inUse) {
 			try {
 				log.addLog("Wait for flights to be free", "log");
@@ -105,25 +134,11 @@ public class FlightCollection {
 		inUse = true;
 	}
 
-	public synchronized void generateFlights() {
-		takeInUse();
-		Iterator<Flight> iterator = flightCollection.iterator();
-		int activeFlights = 0;
-		while(iterator.hasNext()) {
-			Flight aFlight = iterator.next();
-			if (aFlight.getFlightStatus().compareTo("waiting") == 0) {
-				activeFlights++;
-			}
-		}
-		if(activeFlights < 4) {
-			Flight newFlight = RandomFlightGenerator.getRandomFlight();
-			log.addLog("Added new flight " + newFlight.getFlightCode() + " departs at " + newFlight.getDepartureDate().toGMTString(), "log");
-			flightCollection.add(newFlight);
-		}
-		setInUse();
-	}
-	
-	public synchronized void setInUse() {
+	/**
+	 * freeInUse
+	 * Sets the inUse flag to false and notifies all other threads.
+	 */
+	public synchronized void freeInUse() {
 		inUse = false;
 		notifyAll();
 	}

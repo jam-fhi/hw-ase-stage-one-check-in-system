@@ -26,7 +26,6 @@ public class CheckInDeskCollection implements Runnable {
 	@Override
 	public synchronized void run() {
  		Iterator<Flight> allFlightsIt = allFlights.getFlightCollection().iterator();
- 		allFlights.setInUse();
  		int delayFlights = 0;
  		log.addLog("Processing " + allFlights.getFlightCollection().size() + " flights for check in", "checkin");
 		takeInUse();
@@ -70,7 +69,6 @@ public class CheckInDeskCollection implements Runnable {
 			}
 		}*/
 		removeDepartedCheckInDesk();
-		allFlights.setInUse();
 	}
 
 	private synchronized int getFreeDesk() {

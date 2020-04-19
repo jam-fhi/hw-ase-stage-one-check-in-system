@@ -62,6 +62,5 @@ public class RandomBookingGenerator {
 				bookings.addBatchBookings(newBookings);
 			}
 		}
-		flights.setInUse();
 	}
 }

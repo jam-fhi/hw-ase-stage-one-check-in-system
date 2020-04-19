@@ -166,10 +166,6 @@ public class FlightSummary extends JPanel {
 			this.add(flightTotal);
 			flightCount = 0;
 		}
-		/**
-		 * Free in use status on flights so waiting threads can use the data structure.
-		 */
-		allFlights.setInUse();
 
 		/**
 		 * Iterate through the flights collection Add a new flight panel for each flight
@@ -200,11 +196,6 @@ public class FlightSummary extends JPanel {
 				}
 			}
 		}
-
-		/**
-		 * Free in use status on flights so waiting threads can use the data structure.
-		 */
-		allFlights.setInUse();
 
 		/**
 		 * Update number of rows to display.
