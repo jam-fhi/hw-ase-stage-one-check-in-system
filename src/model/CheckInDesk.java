@@ -6,7 +6,6 @@ import checkInModel.Bag;
 import checkInModel.Booking;
 import checkInModel.BookingCollection;
 import checkInModel.Flight;
-import checkInModel.FlightCollection;
 import checkInModel.LoggingSingleton;
 import checkInModel.RandomBagGenerator;
 import checkInModel.SimulationTimeSingleton;
@@ -14,9 +13,15 @@ import checkInModel.SimulationTimeSingleton;
 public class CheckInDesk implements Runnable {
 	private LoggingSingleton log;
 	private SimulationTimeSingleton simTime = null;
-	private BookingCollection allBookings;
+	private volatile BookingCollection allBookings;
 	private Flight boardingFlight;
 	private int deskNumber;
+	private Thread myDesk;
+	private String currentBookingCode;
+	private String currentPassengerName;
+	private String currentBagWeight = "0.0";
+	private String currentExcessFee = "0.00";
+	private boolean closedStatus = false;
 	
 	public CheckInDesk(Flight boardingFlight, BookingCollection allBookings, int deskNumber) {
 		log = LoggingSingleton.getInstance();
@@ -24,6 +29,8 @@ public class CheckInDesk implements Runnable {
 		this.boardingFlight = boardingFlight;
 		this.allBookings = allBookings;
 		this.deskNumber = deskNumber;
+		myDesk = new Thread(this);
+		myDesk.start();
 	}
 
 	public String getFlightCode() {
@@ -32,6 +39,10 @@ public class CheckInDesk implements Runnable {
 	
 	public String getFlightDestination() {
 		return boardingFlight.getDestinationAirport();
+	}
+
+	public Thread.State getThreadState() {
+		return myDesk.getState();
 	}
 
 	@Override
@@ -46,16 +57,19 @@ public class CheckInDesk implements Runnable {
 			}
 			
 			if(nextPassenger != null) {
+				currentBookingCode = nextPassenger.getBookingCode();
+				currentPassengerName = nextPassenger.getPassenger().getFirstName() + " " + nextPassenger.getPassenger().getLastName();
 				double weight = boardingFlight.getAllowedBaggageWeightPerPassenger() < 1 ? 1 : boardingFlight.getAllowedBaggageWeightPerPassenger();
 				int volume = boardingFlight.getAllowedBaggageVolumePerPassenger() < 1 ? 1 : (int)boardingFlight.getAllowedBaggageVolumePerPassenger();
 				Bag baggage = RandomBagGenerator.getRandomBag(weight, volume);
+				currentBagWeight = String.valueOf(weight);
 				nextPassenger.getPassenger().addBaggage(baggage);
 				nextPassenger.getPassenger().setCheckIn();
 				double allowedBaggageWeight = boardingFlight.getAllowedBaggageWeightPerPassenger();
 				double excessCharge = boardingFlight.getExcessCharge();
 				nextPassenger.getPassenger().getBaggage().setExcessCharge(allowedBaggageWeight, excessCharge);
 				double charge = nextPassenger.getPassenger().getBaggage().getExcessCharge();
-				
+				currentExcessFee = String.valueOf(charge);
 				log.addLog("Processing passenger " + nextPassenger.getPassenger().getFirstName() + " " + nextPassenger.getPassenger().getLastName() + " on booking " + nextPassenger.getBookingCode() + " who has a excess charge of £" + charge, "checkin");
 			}
 
@@ -68,25 +82,29 @@ public class CheckInDesk implements Runnable {
 		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has closed.", "checkin13");
 	}
 
-	/*public String getBookingCode() {
-		return boardingFlight.get;
-	}*/
+	public String getBookingCode() {
+		return currentBookingCode;
+	}
 
-	/*public String getPassengerName() {
-		return passengerName;
-	}*/
+	public String getPassengerName() {
+		return currentPassengerName;
+	}
 
-	/*public double getBaggageWeight() {
-		return baggageWeight;
-	}*/
+	public String getBaggageWeight() {
+		return currentBagWeight;
+	}
 
-	/*public String getExcessFee() {
-		return excessFee;
-	}*/
+	public String getExcessFee() {
+		return currentExcessFee;
+	}
 	
-	/*public boolean isClosestatus() {
-		return closestatus;
-	}*/
+	public boolean isClosed() {
+		return closedStatus;
+	}
+	
+	public int getCheckInDeskNumber() {
+		return deskNumber;
+	}
 	
 	/*public boolean getCheckInStatus() {
 		return checkInStatus;
@@ -100,43 +118,5 @@ public class CheckInDesk implements Runnable {
 			closestatus = true;
 		}
 		
-	}*/
-/*
-	@Override
-	public void run() {
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		while(so.hasPassengerInQueue()) {
-			try {
-				Booking aBooking = so.getPassengerForCheckIn();
-				try {
-					this.flightCode = aBooking.getFlightCode();
-					this.bookingCode = aBooking.getBookingCode();
-					this.passengerName = aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName();
-					this.baggageWeight = aBooking.getPassenger().getBaggage().getWeight();
-					this.checkInStatus = aBooking.getPassenger().isCheckIn();
-					model.notifyObservers();
-					Thread.sleep(3000);
-					this.model.doCheckIn(this.bookingCode, aBooking.getPassenger(), aBooking.getPassenger().getBaggage());
-					this.excessFee = String.valueOf(aBooking.getPassenger().getBaggage().getExcessCharge()); // aPassenger.getPassenger().getBaggage().getExcessCharge();
-					this.checkInStatus = aBooking.getPassenger().isCheckIn();
-					model.notifyObservers();
-					Thread.sleep(3000);
-					// System.out.println("GOT: " + this.passengerName);
-				} catch (FlightException | BookingException e) {
-					System.out.println(aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has missed flight " + aBooking.getFlightCode() + " because " + e.getMessage());
-					// e.printStackTrace();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} catch(FlightException | BookingException e) {
-				e.printStackTrace();
-			}
-		}
 	}*/
 }

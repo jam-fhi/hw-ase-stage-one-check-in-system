@@ -13,10 +13,6 @@ import javax.swing.JPanel;
  */
 import java.util.Iterator;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import checkInModel.BookingCollection;
 import checkInModel.Flight;
 import checkInModel.FlightCollection;

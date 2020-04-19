@@ -26,11 +26,9 @@ public class RandomBagGenerator {
 	public static Bag getRandomBag(double weightLimit, int volumeLimit) {
 		long time = SimulationTimeSingleton.getCurrentTime().getTime();
 		boolean excessBag = time % 23 == 0 ? true : false;
-		System.out.println(volumeLimit + " bound at " + (volumeLimit * 2));
 		int width = excessBag ? ThreadLocalRandom.current().nextInt(volumeLimit, volumeLimit * 2) : ThreadLocalRandom.current().nextInt(0, volumeLimit);
 		int height = excessBag ? ThreadLocalRandom.current().nextInt(volumeLimit, volumeLimit * 2) : ThreadLocalRandom.current().nextInt(0, volumeLimit);
 		int length = excessBag ? ThreadLocalRandom.current().nextInt(volumeLimit, volumeLimit * 2) : ThreadLocalRandom.current().nextInt(0, volumeLimit);
-		System.out.println((int)weightLimit + " bound at " + ((int)weightLimit * 2));
 		double weight = excessBag ? ThreadLocalRandom.current().nextInt(((int) weightLimit), ((int) weightLimit * 2)) : ThreadLocalRandom.current().nextInt(0, ((int) weightLimit));
 		return new Bag(width, length, height, weight);
 	}

@@ -10,12 +10,12 @@ import checkInModel.LoggingSingleton;
 
 public class CheckInDeskCollection implements Runnable {
 
-	private FlightCollection allFlights;
-	private BookingCollection allBookings;
+	private volatile FlightCollection allFlights;
+	private volatile BookingCollection allBookings;
 	private LoggingSingleton log;
-	private boolean inUse;
-	private volatile ArrayList<Thread> checkInDesks = new ArrayList<Thread>();
-	private int totalCheckInDesks = 4;
+	private volatile boolean inUse;
+	private volatile ArrayList<CheckInDesk> checkInDesks = new ArrayList<CheckInDesk>();
+	private int totalCheckInDesks = 5;
 	
 	public CheckInDeskCollection(FlightCollection allFlights, BookingCollection allBookings) {
 		log = LoggingSingleton.getInstance();
@@ -26,21 +26,17 @@ public class CheckInDeskCollection implements Runnable {
 	@Override
 	public synchronized void run() {
  		Iterator<Flight> allFlightsIt = allFlights.getFlightCollection().iterator();
- 		int delayFlights = 0;
  		log.addLog("Processing " + allFlights.getFlightCollection().size() + " flights for check in", "checkin");
 		takeInUse();
  		while(allFlightsIt.hasNext()) {
 			Flight aFlight = allFlightsIt.next();
 			String status = aFlight.getFlightStatus();
 			log.addLog("Processing flight " + aFlight.getFlightCode() + " which is " + status, "checkin");
-			if(status.compareTo("delay") == 0) {
-				delayFlights++;
-			}
 			if(status.compareTo("ready") == 0) {
 				int freeThread = getFreeDesk();
 				if(freeThread > -1) {
 					aFlight.setHasCheckInDesk();
-					addDesk(new Thread(new CheckInDesk(aFlight, allBookings, freeThread)));
+					addDesk(new CheckInDesk(aFlight, allBookings, freeThread));
 					log.addLog("Opened Check In Desk for flight " + aFlight.getFlightCode() + " at " + freeThread, "checkin13");
 				} else {
 					log.addLog("Added delay to flight " + aFlight.getFlightCode(), "checkin1");
@@ -49,37 +45,14 @@ public class CheckInDeskCollection implements Runnable {
 			}
 		}
  		freeInUse();
- 		
-		/*int freeThread = getFreeDesk();
-		log.addLog("There are " + delayFlights + " delayed and desks is " + freeThread, "checkin1");
-		if(delayFlights > 0 && freeThread > 0) {
-			Iterator<Flight> delayFlightsIt = allFlights.getFlightCollection().iterator();
-			while(delayFlightsIt.hasNext()) {
-				Flight aFlight = delayFlightsIt.next();
-				String status = aFlight.getFlightStatus();
-				log.addLog("Processing flight " + aFlight.getFlightCode() + " which is " + status, "checkin1");
-				if(freeThread > 0 && status.compareTo("delay") == 0) {
-					aFlight.setHasCheckInDesk();
-					aFlight.setDelayedToBoarding();
-					addDesk(new Thread(new CheckInDesk(aFlight, allBookings, freeThread)), freeThread);
-					log.addLog("Added desk " + freeThread, "checkin1");
-					log.addLog("Opened Check In Desk for flight " + aFlight.getFlightCode(), "checkin1");
-				}
-				
-			}
-		}*/
 		removeDepartedCheckInDesk();
 	}
 
 	private synchronized int getFreeDesk() {
-		//takeInUse();
-
 		int free = -1;
 		if(checkInDesks.size() < totalCheckInDesks) {
 			free = checkInDesks.size();
 		}
-	
-		//freeInUse();
 		return free;
 	}
 	
@@ -88,8 +61,8 @@ public class CheckInDeskCollection implements Runnable {
 		
 		int count = 0;
 		while(count < checkInDesks.size()) {
-			Thread aDesk = checkInDesks.get(count);
-			if(aDesk.getState() == Thread.State.TERMINATED) {
+			CheckInDesk aDesk = checkInDesks.get(count);
+			if(aDesk.getThreadState() == Thread.State.TERMINATED) {
 				checkInDesks.remove(count);
 			}
 			count++;
@@ -98,15 +71,10 @@ public class CheckInDeskCollection implements Runnable {
 		freeInUse();
 	}
 
-	private synchronized void addDesk(Thread newDesk) {
-		//takeInUse();
-		
+	private synchronized void addDesk(CheckInDesk newDesk) {
 		if(checkInDesks.size() < totalCheckInDesks) {
 			checkInDesks.add(newDesk);
-			checkInDesks.get(checkInDesks.size() - 1).start();
 		}
-		
-		//freeInUse();
 	}
 	
 	private synchronized void takeInUse() {
@@ -123,5 +91,9 @@ public class CheckInDeskCollection implements Runnable {
 	public synchronized void freeInUse() {
 		inUse = false;
 		notifyAll();
+	}
+	
+	public ArrayList<CheckInDesk> getCheckInDesks() {
+		return checkInDesks;
 	}
 }

@@ -34,7 +34,7 @@ public class RandomBookingGenerator {
 	 * Flight collection and booking collection to process and add bookings to.
 	 */
 	private FlightCollection flights;
-	private BookingCollection bookings;
+	private volatile BookingCollection bookings;
 	
 	/**
 	 * RandomBookingGenerator
