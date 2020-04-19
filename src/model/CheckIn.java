@@ -11,8 +11,6 @@ import CheckIn.Booking;
 import CheckIn.BookingCollection;
 import CheckIn.BookingException;
 import CheckIn.CheckInIOException;
-//import CheckIn.ThreadNewPassenger;
-import CheckIn.FakeTime;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.FlightException;
@@ -48,7 +46,7 @@ public class CheckIn extends Observable implements Runnable {
 
 		Date flightCheckInClosed = aFlight.checkInClosingTime();
 
-		if (simTime.getCurrentTime().getTime() > flightCheckInClosed.getTime()) {
+		if (simTime.getCurrentSimTime().getTime() > flightCheckInClosed.getTime()) {
 			return true;
 		}
 
@@ -138,7 +136,7 @@ public class CheckIn extends Observable implements Runnable {
 		RandomBookingGenerator bookingGen = new RandomBookingGenerator(flightCollection, bookingCollection);
 		while(this.getSimulationRunning()) {
 			log.addLog("Main control loop", "checkin");
-			this.setSimulationDateTime(simTime.getCurrentTime().toGMTString());
+			this.setSimulationDateTime(simTime.getCurrentSimTime().toGMTString());
 			flightCollection.generateFlights();
 			bookingGen.generateBookings();
 			try {
@@ -151,11 +149,11 @@ public class CheckIn extends Observable implements Runnable {
 			new Thread(checkInDeskCollection).start();
 			
 			try {
-				Thread.sleep(FakeTime.getSpeedDelay(simTime.getSpeed()));
+				Thread.sleep(SimulationTimeSingleton.getSpeedDelay(simTime.getSpeed()));
 			} catch (InterruptedException e) {
 				log.addLog("Thread sleep interrupted.", "log");
 			}
-			simTime.setCurrentTime(FakeTime.getCurrentTime());
+			simTime.setCurrentSimTime(SimulationTimeSingleton.getCurrentTime());
 		}
 	}
 }

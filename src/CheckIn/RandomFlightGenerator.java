@@ -45,7 +45,7 @@ public class RandomFlightGenerator {
 	
 	private static Date getDepartureDate() {
 		SimulationTimeSingleton simTime = SimulationTimeSingleton.getInstance();
-		long depatureTime = simTime.getCurrentTime().getTime() + (ThreadLocalRandom.current().nextInt(7, 15) * 3600000);
+		long depatureTime = simTime.getCurrentSimTime().getTime() + (ThreadLocalRandom.current().nextInt(7, 15) * 3600000);
 		Calendar departureDate = Calendar.getInstance();
 		departureDate.setTimeInMillis(depatureTime);
 		return departureDate.getTime();

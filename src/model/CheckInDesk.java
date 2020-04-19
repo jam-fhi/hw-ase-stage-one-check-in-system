@@ -5,7 +5,6 @@ import java.util.Iterator;
 import CheckIn.Bag;
 import CheckIn.Booking;
 import CheckIn.BookingCollection;
-import CheckIn.FakeTime;
 import CheckIn.Flight;
 import CheckIn.FlightCollection;
 import CheckIn.LoggingSingleton;
@@ -61,7 +60,7 @@ public class CheckInDesk implements Runnable {
 			}
 
 			try {
-				Thread.sleep(FakeTime.getSpeedDelay(simTime.getSpeed()));
+				Thread.sleep(SimulationTimeSingleton.getSpeedDelay(simTime.getSpeed()));
 			} catch (InterruptedException e) {
 				log.addLog("Thread sleep interrupted.", "log");
 			}

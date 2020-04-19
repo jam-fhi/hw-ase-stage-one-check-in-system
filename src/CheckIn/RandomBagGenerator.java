@@ -20,7 +20,7 @@ public class RandomBagGenerator {
 	 * @param illegalbagchange
 	 */
 	public static Bag getRandomBag(double weightLimit, int volumeLimit) {
-		long time = FakeTime.getCurrentTime().getTime();
+		long time = SimulationTimeSingleton.getCurrentTime().getTime();
 		boolean excessBag = time % 23 == 0 ? true : false;
 		System.out.println(volumeLimit + " bound at " + (volumeLimit * 2));
 		int width = excessBag ? ThreadLocalRandom.current().nextInt(volumeLimit, volumeLimit * 2) : ThreadLocalRandom.current().nextInt(0, volumeLimit);

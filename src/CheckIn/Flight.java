@@ -176,17 +176,17 @@ public class Flight {
 			long departureTime = getDepartureDate().getTime() + delayFlight;
 			long boardingStarts = departureTime - sixHrInMs;
 			long checkinClosed = departureTime - hourInMs;
-			if (FakeTime.getCurrentTime().getTime() > departureTime) {
+			if (SimulationTimeSingleton.getCurrentTime().getTime() > departureTime) {
 				log.addLog("Flight " + getFlightCode() + " has departed", "log");
 				isDeparted = true;
 				return "departed";
 			} else {
 			
-				if (FakeTime.getCurrentTime().getTime() > checkinClosed) {
+				if (SimulationTimeSingleton.getCurrentTime().getTime() > checkinClosed) {
 					log.addLog("Flight " + getFlightCode() + " has boarding closed", "log");
 					return "closed";
 				} else {
-					if(FakeTime.getCurrentTime().getTime() > boardingStarts) {
+					if(SimulationTimeSingleton.getCurrentTime().getTime() > boardingStarts) {
 						
 						if(hasCheckInDesk == false) {
 							log.addLog("Flight " + getFlightCode() + " is ready for boarding", "log");
@@ -214,7 +214,7 @@ public class Flight {
 	}
 	
 	public void setDelayedToBoarding() {
-		long currentTime = FakeTime.getCurrentTime().getTime();
+		long currentTime = SimulationTimeSingleton.getCurrentTime().getTime();
 		long departureTime = getDepartureDate().getTime();		
 		long newDepartureTime = currentTime + (hourInMs * 5);
 		delayFlight = newDepartureTime - departureTime;

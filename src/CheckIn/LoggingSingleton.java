@@ -62,7 +62,7 @@ public class LoggingSingleton {
 	 * @param logType TODO
 	 */
 	public void addLog(String message, String logType) {
-		Date currentTime = FakeTime.getCurrentTime();
+		Date currentTime = SimulationTimeSingleton.getCurrentTime();
 		if(logType.compareTo("checkin13") == 0) {
 			System.out.println(currentTime.toGMTString() + ": " + message);
 		}
