@@ -11,8 +11,9 @@ import javax.swing.JPanel;
  */
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
-
+/**
+ * Import our packages to use our model data.
+ */
 import checkInModel.Booking;
 
 /**
