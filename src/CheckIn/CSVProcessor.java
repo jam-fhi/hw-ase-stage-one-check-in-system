@@ -1,5 +1,8 @@
 package CheckIn;
 
+/**
+ * Import packages to manage data structures.
+ */
 import java.util.ArrayList;
 import java.util.Iterator;
 
