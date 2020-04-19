@@ -17,6 +17,7 @@ public class SimulationTimeSingleton {
 	private Date currentTime = new Date();
 	private int simSpeed = 1;
 	private boolean simRunning = false;
+	public static long hourInMs = 3600000;
 	/**
 	 * Constant delay value in milliseconds,
 	 * setting this higher will make the 

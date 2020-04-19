@@ -1,5 +1,8 @@
 package CheckIn;
 
+/**
+ * Import classes to manage data and time.
+ */
 import java.util.Date;
 import java.util.Calendar;
 
@@ -13,6 +16,9 @@ import java.util.Calendar;
  *
  */
 public class Flight {
+	/**
+	 * Individual flight details
+	 */
 	private String flightCode;
 	private String destinationAirport;
 	private String carrier;
@@ -21,11 +27,24 @@ public class Flight {
 	private double maximumBaggageVolume;
 	private double excessCharge;
 	private Date departureDate;
+	
+	/**
+	 * Simulation conditions for each flight
+	 */
 	private boolean isDeparted = false;
-	private LoggingSingleton log;
 	private boolean hasCheckInDesk = false;
 	private long delayFlight = 0;
-	private long hourInMs = 3600000;
+	
+	/**
+	 * Logging singleton to collect event logs
+	 * while simulation progresses.
+	 */
+	private LoggingSingleton log;
+
+	/**
+	 * Simulation Time Singleton
+	 */
+	private SimulationTimeSingleton simTime;
 	
 	/**
 	 * Flight Creating constructor
@@ -39,9 +58,20 @@ public class Flight {
 	 * @param excessCharge
 	 * 
 	 */
-	public Flight(String flightCode, String destinationAirport, String carrier, int maximumPassengers,
-			double maximumBaggageWeight, double maximumBaggageVolume, double excessCharge,String departureTime, String departureDate) {
+	public Flight(String flightCode, String destinationAirport, String carrier, int maximumPassengers, double maximumBaggageWeight, double maximumBaggageVolume, double excessCharge,String departureTime, String departureDate) {
+		/**
+		 * Get the instance of our logging singleton.
+		 */
 		log = LoggingSingleton.getInstance();
+
+		/**
+		 * Get the instance of our simulation time.
+		 */
+		simTime = SimulationTimeSingleton.getInstance();
+		
+		/**
+		 * Load flight details.
+		 */
 		this.flightCode = flightCode;
 		this.destinationAirport = destinationAirport;
 		this.carrier = carrier;
@@ -147,10 +177,25 @@ public class Flight {
 		return departureDate;
 	}
 	
+	/**
+	 * getHasCheckInDesk
+	 * Returns true if the flight is being processed
+	 * on a check in desk.
+	 * @return boolean
+	 */
 	public boolean getHasCheckInDesk() {
 		return hasCheckInDesk;
 	}
 	
+	/**
+	 * setHasCheckInDesk
+	 * Sets true if the flight is being
+	 * processed on a check in desk. We
+	 * do not take a parameter here as
+	 * flights only depart after check in
+	 * and do not go back to waiting for
+	 * boarding status.
+	 */
 	public void setHasCheckInDesk() {
 		hasCheckInDesk = true;
 	}
@@ -159,35 +204,84 @@ public class Flight {
 	 * checkInClosingTime
 	 * Returns the flight departure time minus one hour
 	 * as this is when a check in desk will close.
-	 * @return
+	 * @return Date
 	 */
 	public Date checkInClosingTime() {
-		long closingTime = departureDate.getTime() - hourInMs;
+		long closingTime = departureDate.getTime() - SimulationTimeSingleton.hourInMs;
 		return new Date(closingTime);
 	}
 	
+	/**
+	 * addDelay
+	 * Adds one hour in milliseconds to
+	 * the delay value for the flight.
+	 */
 	public void addDelay() {
-		delayFlight += hourInMs;
+		delayFlight += SimulationTimeSingleton.hourInMs;
 	}
 	 
+	/**
+	 * getFlightStatus
+	 * Returns a string representing the status of
+	 * a flight based on a series of time calculations.
+	 * When the departure time is > 6 hr in the future, the flight is waiting.
+	 * When the departure time is <= 6hr in the future, the flight is ready.
+	 * When the depature time is <= 6hr in the future and it has a check in desk, is it boarding.
+	 * When the delay time value is set then the flight is delayed
+	 * When the depature time + delay time is <= 1hr in the future boarding is closed.
+	 * @return String
+	 */
 	public String getFlightStatus() {
+		/**
+		 * If the flight is departed, then we 
+		 * do not need to repeat any calculations
+		 * so we use a flag to return a default
+		 * departed status.
+		 */
 		if(isDeparted == false) {
-			long sixHrInMs = hourInMs * 6;
+			/**
+			 * Calculate the times, in milliseconds, that affect a flights status.
+			 */
+			long sixHrInMs = SimulationTimeSingleton.hourInMs * 6;
+			/**
+			 * Add the delay time in milliseconds to the depature time
+			 * so that all status take into account any delay a flight may
+			 * have encountered.
+			 */
 			long departureTime = getDepartureDate().getTime() + delayFlight;
 			long boardingStarts = departureTime - sixHrInMs;
-			long checkinClosed = departureTime - hourInMs;
-			if (SimulationTimeSingleton.getCurrentTime().getTime() > departureTime) {
+			long checkinClosed = departureTime - SimulationTimeSingleton.hourInMs;
+			long currentSimTime = simTime.getCurrentSimTime().getTime();
+			/**
+			 * If the current simulation time is after the departure
+			 * time, then set the departure status.
+			 */
+			if (currentSimTime > departureTime) {
 				log.addLog("Flight " + getFlightCode() + " has departed", "log");
 				isDeparted = true;
 				return "departed";
 			} else {
 			
-				if (SimulationTimeSingleton.getCurrentTime().getTime() > checkinClosed) {
+				/**
+				 * If the current simulation time is after
+				 * the check in closed time, set the closed status.
+				 */
+				if (currentSimTime > checkinClosed) {
 					log.addLog("Flight " + getFlightCode() + " has boarding closed", "log");
 					return "closed";
 				} else {
-					if(SimulationTimeSingleton.getCurrentTime().getTime() > boardingStarts) {
+					
+					/**
+					 * If the current simulation time is after
+					 * the boarding status time...
+					 */
+					if(currentSimTime > boardingStarts) {
 						
+						/**
+						 * If the flight has a check in desk then its
+						 *  status will be boarding, other wise it is
+						 *  ready to begin boarding.
+						 */
 						if(hasCheckInDesk == false) {
 							log.addLog("Flight " + getFlightCode() + " is ready for boarding", "log");
 							return "ready";
@@ -198,11 +292,19 @@ public class Flight {
 					
 					
 					} else {
+						
+						/**
+						 * If there is a delay value then the flight status
+						 * will be delayed. The delay time is added to the departure
+						 * time so all other status take into account any delay
+						 * added in. If there is no delay then the flight is waiting
+						 * for check in to open.
+						 */
 						if(delayFlight == 0) {
 							log.addLog("Flight " + getFlightCode() + " is waiting for check in to open", "log");
 							return "waiting";
 						} else {
-							log.addLog("Flight " + getFlightCode() + " is delayed by " + (delayFlight / hourInMs) + " hours", "log");
+							log.addLog("Flight " + getFlightCode() + " is delayed by " + (delayFlight / SimulationTimeSingleton.hourInMs) + " hours", "log");
 							return "delay";
 						}
 					}
@@ -213,10 +315,17 @@ public class Flight {
 		}
 	}
 	
-	public void setDelayedToBoarding() {
-		long currentTime = SimulationTimeSingleton.getCurrentTime().getTime();
+	/**
+	 * setSTatusFromDelayToBoarding
+	 * Calculate a new departure time as 5 hr from
+	 * the current simulation time. Set the delay flight
+	 * time to be the difference between the original 
+	 * departure time and the new departure time.
+	 */
+	public void setStatusFromDelayedToBoarding() {
+		long currentTime = simTime.getCurrentSimTime().getTime();
 		long departureTime = getDepartureDate().getTime();		
-		long newDepartureTime = currentTime + (hourInMs * 5);
+		long newDepartureTime = currentTime + (SimulationTimeSingleton.hourInMs * 5);
 		delayFlight = newDepartureTime - departureTime;
 	}
 }
