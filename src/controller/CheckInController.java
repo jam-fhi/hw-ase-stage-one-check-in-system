@@ -4,12 +4,8 @@ import model.CheckIn;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
-
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-import CheckIn.FakeTime;
 import checkInGUI.CheckInSimulation;
 
 public class CheckInController {

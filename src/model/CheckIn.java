@@ -106,14 +106,10 @@ public class CheckIn extends Observable implements Runnable {
 	}
 	
 	private void resetCheckInSimulation() {
-		try {
-			flightCollection = new FlightCollection();
-			bookingCollection = new BookingCollection();
-			checkInDeskCollection = new CheckInDeskCollection(flightCollection, bookingCollection);
-			this.updateView();
-		} catch (CheckInIOException e) {
-			log.addLog("Failed to reset flight collection", "log");
-		}
+		flightCollection = new FlightCollection();
+		bookingCollection = new BookingCollection();
+		checkInDeskCollection = new CheckInDeskCollection(flightCollection, bookingCollection);
+		this.updateView();
 	}
 
 	private void setSimulationStartDateTime() {
