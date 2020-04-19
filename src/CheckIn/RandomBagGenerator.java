@@ -1,6 +1,10 @@
 package CheckIn;
 
+/**
+ * Import random number packages.
+ */
 import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * 
  * RandomBagGenerator
