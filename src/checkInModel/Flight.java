@@ -257,7 +257,7 @@ public class Flight {
 			 * time, then set the departure status.
 			 */
 			if (currentSimTime > departureTime) {
-				log.addLog("Flight " + getFlightCode() + " has departed", "log");
+				log.addLog("Flight " + getFlightCode() + " has departed", "Flight");
 				isDeparted = true;
 				return "departed";
 			} else {
@@ -267,7 +267,7 @@ public class Flight {
 				 * the check in closed time, set the closed status.
 				 */
 				if (currentSimTime > checkinClosed) {
-					log.addLog("Flight " + getFlightCode() + " has boarding closed", "log");
+					log.addLog("Flight " + getFlightCode() + " has boarding closed", "Flight");
 					return "closed";
 				} else {
 					
@@ -283,10 +283,10 @@ public class Flight {
 						 *  ready to begin boarding.
 						 */
 						if(hasCheckInDesk == false) {
-							log.addLog("Flight " + getFlightCode() + " is ready for boarding", "log");
+							log.addLog("Flight " + getFlightCode() + " is ready for boarding", "Flight");
 							return "ready";
 						} else {
-							log.addLog("Flight " + getFlightCode() + " is boarding", "log");
+							log.addLog("Flight " + getFlightCode() + " is boarding", "Flight");
 							return "boarding";
 						}
 					
@@ -301,10 +301,10 @@ public class Flight {
 						 * for check in to open.
 						 */
 						if(delayFlight == 0) {
-							log.addLog("Flight " + getFlightCode() + " is waiting for check in to open", "log");
+							log.addLog("Flight " + getFlightCode() + " is waiting for check in to open", "Flight");
 							return "waiting";
 						} else {
-							log.addLog("Flight " + getFlightCode() + " is delayed by " + (delayFlight / SimulationTimeSingleton.hourInMs) + " hours", "log");
+							log.addLog("Flight " + getFlightCode() + " is delayed by " + (delayFlight / SimulationTimeSingleton.hourInMs) + " hours", "Flight");
 							return "delay";
 						}
 					}

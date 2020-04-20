@@ -164,7 +164,7 @@ public class CheckInDesk implements Runnable {
 		 */
 		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has opened.", "CheckInDesk" + deskNumber);
 		while(boardingFlight.getFlightStatus().compareTo("boarding") == 0 && simTime.isSimRunning()) {
-			log.addLog("Processing passengers on Desk " + deskNumber, "checkin");
+			log.addLog("Processing passengers on Desk " + deskNumber, "CheckInDesk" + deskNumber);
 			
 			/**
 			 * Get any business class passengers first.

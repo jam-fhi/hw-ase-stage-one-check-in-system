@@ -91,6 +91,7 @@ public class BookingCollection {
 				 * passenger for this booking will join.
 				 */
 				String queue = bookingClass == true ? "Business" : "Economy";
+				log.addLog("Progressed Passenger to " + queue + " Queue", "BookingCollection");
 				aBooking.getValue().getPassenger().setInQueue(queue);
 				break;
 			}
@@ -143,6 +144,7 @@ public class BookingCollection {
 		for(Map.Entry<String, Booking> aBooking: allBookings.entrySet()) {
 			if(aBooking.getValue().getPassenger().getInQueue().compareTo("") == 0) {
 				aBooking.getValue().getPassenger().setInQueue("Security");
+				log.addLog("Added passenger " + aBooking.getValue().getPassenger().getFirstName() + " " + aBooking.getValue().getPassenger().getLastName() + " to security queue", "BookingCollection");
 				/**
 				 * We don't want to add all our bookings to the
 				 * security queue in one go, so break out of the

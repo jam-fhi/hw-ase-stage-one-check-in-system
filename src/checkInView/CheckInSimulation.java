@@ -128,7 +128,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 			leftSide.add(economyQueue, BorderLayout.CENTER);
 			leftSide.add(securityQueue, BorderLayout.SOUTH);
 		} catch (Exception e) {
-			log.addLog("Failed to create passenger queue views due to " + e.getMessage(), "error");
+			log.addLog("Failed to create passenger queue views due to " + e.getMessage(), "Error");
 		}
 
 		/**
@@ -223,7 +223,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 			economyQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Economy"));
 			businessQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Business"));
 		} catch (Exception e) {
-			log.addLog("There was an error updating the queues " + e.getMessage(), "error");
+			log.addLog("There was an error updating the queues " + e.getMessage(), "Error");
 		}
 		
 		/**
