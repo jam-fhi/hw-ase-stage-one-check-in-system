@@ -1,12 +1,11 @@
 package controller;
 
-import model.CheckIn;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 
 import checkInGUI.CheckInSimulation;
+import checkInModel.CheckIn;
 
 public class CheckInController {
 
@@ -70,7 +69,7 @@ public class CheckInController {
 		public void actionPerformed(ActionEvent e) {
 			JComboBox<String> speedList = (JComboBox<String>) e.getSource();
 			String selectedValue = (String) speedList.getSelectedItem();
-			checkInModel.setSimulationTime(selectedValue);
+			checkInModel.setSimulationSpeed(selectedValue);
 		}
 	}
 }

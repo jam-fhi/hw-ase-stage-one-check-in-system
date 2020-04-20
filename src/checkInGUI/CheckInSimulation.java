@@ -11,6 +11,7 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import checkInModel.CheckIn;
 import checkInModel.LoggingSingleton;
 
 /**
@@ -19,8 +20,6 @@ import checkInModel.LoggingSingleton;
  */
 import java.util.Observable;
 import java.util.Observer;
-
-import model.CheckIn;
 
 /**
  * 
@@ -139,7 +138,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		/**
 		 * Simulation Controls
 		 */
-		simControl = new SimControl(checkInDesk.getSimulationTime() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
+		simControl = new SimControl(checkInDesk.getSimulationSpeed() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
 		rightSide.add(simControl, BorderLayout.NORTH);
 		
 		/**
@@ -228,7 +227,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		/**
 		 * Simulation controls
 		 */
-		simControl.updateSimControl(checkInDesk.getSimulationTime() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
+		simControl.updateSimControl(checkInDesk.getSimulationSpeed() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
 		
 		/**
 		 * Check In Desk Summary

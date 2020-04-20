@@ -6,17 +6,13 @@ package checkInGUI;
 import javax.swing.JOptionPane;
 
 import checkInModel.BookingException;
+import checkInModel.CheckIn;
 import checkInModel.CheckInIOException;
 import checkInModel.FlightException;
 /**
  * Import our controller.
  */
 import controller.CheckInController;
-
-/**
- * Import our model.
- */
-import model.CheckIn;
 
 /**
  * CheckInApp
