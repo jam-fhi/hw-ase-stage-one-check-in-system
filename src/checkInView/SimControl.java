@@ -1,4 +1,4 @@
-package checkInGUI;
+package checkInView;
 
 /**
  * Import packages needed to display our simulation controls.

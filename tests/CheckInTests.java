@@ -11,13 +11,13 @@ import checkInModel.Bag;
 import checkInModel.Booking;
 import checkInModel.BookingCollection;
 import checkInModel.BookingException;
+import checkInModel.CheckIn;
 import checkInModel.CheckInIOException;
 import checkInModel.Flight;
 import checkInModel.FlightCollection;
 import checkInModel.FlightException;
 import checkInModel.Passenger;
-import checkInModel.RandomFlightGenerator;
-import model.CheckIn;
+import checkInModel.ThreadNewPassenger;
 
 
 public class CheckInTests {
