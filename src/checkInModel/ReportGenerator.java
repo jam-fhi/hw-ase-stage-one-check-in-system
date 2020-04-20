@@ -1,5 +1,9 @@
 package checkInModel;
 
+import java.text.DecimalFormat;
+/**
+ * Import data structure packages
+ */
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -13,36 +17,45 @@ import java.util.Iterator;
 public class ReportGenerator {
 	
 	/**
+	 * Round to 2 decimal places.
+	 */
+	private static DecimalFormat decPlace = new DecimalFormat("#.##");
+	
+	/**
 	 *  Flight and booking collection variables.
 	 */
 	private BookingCollection bookings;
-	private FlightCollection flights;
+	private Flight aFlight;
 	
 	/**
-	 * CSV output headers
+	 * Logging Singleton
 	 */
-	private String[] reportHeader = {"Checked In Passengers", "Total Baggage Weight", "Total Baggage Volume", "Total Excess Charge", "Flight Capacity Remaining"};
+	private LoggingSingleton log;
 	
 	/**
 	 * ReportGenerator
-	 * Constructor, it will take in a collection of bookings and flights
-	 * before generating the the statistics per flight before writing
-	 * the report to the specified filename.
+	 * Constructor, it will take in a collection of bookings and a flight
+	 * before generating the the statistics for that flight and outputting
+	 * a log entry.
 	 * @param bookings
-	 * @param flights
-	 * @param reportFileName
+	 * @param aFlight
 	 * @throws CheckInIOException
 	 */
-	public ReportGenerator(BookingCollection bookings, FlightCollection flights, String reportFileName) throws CheckInIOException {
+	public ReportGenerator(BookingCollection bookings, Flight aFlight) {
+		/**
+		 * Get the logging singleton instance.
+		 */
+		log = LoggingSingleton.getInstance();
+
 		/**
 		 *  Store the booking and flights collections in class variables.
 		 */
 		this.bookings = bookings;
-		this.flights = flights;
+		this.aFlight = aFlight;
 		/**
 		 *  Generate the report with the specified file name.
 		 */
-		generateReport(reportFileName);
+		generateReport();
 	}
 	
 	/**
@@ -54,85 +67,48 @@ public class ReportGenerator {
 	 * @param reportFileName
 	 * @throws CheckInIOException
 	 */
-	private void generateReport(String reportFileName) throws CheckInIOException {
+	private void generateReport() {
 		/**
-		 *  Create an iterator to loop through all the flights.
+		 *  Find all bookings for this flight.
 		 */
-		Iterator<Flight> flightsIt = flights.getFlightCollection().iterator();
+		ArrayList<Booking> flightBookings = bookings.getBookingsByFlightCode(aFlight.getFlightCode());
 		/**
-		 *  Create an array list of string arrays to store the CSV report output.
+		 *  If there are bookings then we want to process them.
 		 */
-		ArrayList<String[]> flightReport = new ArrayList<String[]>();
-		/**
-		 * Add the file header to the output.
-		 */
-		flightReport.add(reportHeader);
-		/**
-		 *  Loop through all the flights.
-		 */
-		while(flightsIt.hasNext()) {
+		if(flightBookings.size() > 0) {
 			/**
-			 *  Get the next flight.
+			 *  Get the number of passengers who are checked into a flight.
 			 */
-			Flight aFlight = flightsIt.next();
+			int passengersCheckedIn = getPassengersCheckedIn(flightBookings);
 			/**
-			 *  Find all bookings for this flight.
+			 *  Get the total baggage weight from the passengers who are checked in to the flight.
 			 */
-			ArrayList<Booking> flightBookings = bookings.getBookingsByFlightCode(aFlight.getFlightCode());
+			double totalBaggageWeight = getPassengersTotalBaggageWeight(flightBookings);
 			/**
-			 *  Temporary storage for one line of the report.
+			 *  Get the total baggage volume from the passengers who are checked into the flight.
 			 */
-			String[] flightReportLine = new String[5];
+			double totalBaggageVolume = getPassengersTotalBaggageVolume(flightBookings);
 			/**
-			 *  If there are bookings then we want to process them.
+			 *  Get the total excess baggage weight charge from the passengers who are checked into the flight.
 			 */
-			if(flightBookings.size() > 0) {
-				/**
-				 *  Get the number of passengers who are checked into a flight.
-				 */
-				int passengersCheckedIn = getPassengersCheckedIn(flightBookings);
-				/**
-				 *  Get the total baggage weight from the passengers who are checked in to the flight.
-				 */
-				double totalBaggageWeight = getPassengersTotalBaggageWeight(flightBookings);
-				/**
-				 *  Get the total baggage volume from the passengers who are checked into the flight.
-				 */
-				double totalBaggageVolume = getPassengersTotalBaggageVolume(flightBookings);
-				/**
-				 *  Get the total excess baggage weight charge from the passengers who are checked into the flight.
-				 */
-				double totalExcessCharge = getPassengersTotalExcessCharge(flightBookings);
-				/**
-				 *  Get the flights remaining capacity by subtracting the checked in passenger count from the maximum passengers allowed.
-				 */
-				int flightCapacityRemaining = aFlight.getMaximumPassengers() - passengersCheckedIn;
-				/**
-				 *  Added the generated report data to the temporary line string array.
-				 */
-				flightReportLine[0] = String.valueOf(passengersCheckedIn);
-				flightReportLine[1] = String.valueOf(totalBaggageWeight);
-				flightReportLine[2] = String.valueOf(totalBaggageVolume);
-				flightReportLine[3] = String.valueOf(totalExcessCharge);
-				flightReportLine[4] = String.valueOf(flightCapacityRemaining);
-				/**
-				 *  Add the line to the flight report.
-				 */
-				flightReport.add(flightReportLine);
-			}
-		}
-		/**
-		 *  If there are entries in the flight report, write it to file.
-		 */
-		if(flightReport.size() > 0) {
+			double totalExcessCharge = getPassengersTotalExcessCharge(flightBookings);
 			/**
-			 *  Create a new CSV processor object.
+			 *  Get the flights remaining capacity by subtracting the checked in passenger count from the maximum passengers allowed.
 			 */
-			CSVProcessor csvProc = new CSVProcessor();
+			int flightCapacityRemaining = aFlight.getMaximumPassengers() - passengersCheckedIn;
 			/**
-			 *  Give it the report file name and the flight report contents to write it to file.
+			 * Log a flight report
 			 */
-			csvProc.parseStringArrayToCSV(reportFileName, flightReport);
+			String intro = "Flight " + aFlight.getFlightCode();
+			String maxCapacity = " has a passenger capacity of " + aFlight.getMaximumPassengers();
+			String bookingsMade = " with " + flightBookings.size() + " bookings ";
+			String checkedInPassengers = "and " + passengersCheckedIn + " passengers checked in ";
+			String capacityRemaining = "leaving " + flightCapacityRemaining + " seats unbooked.";
+			String totalWeightVolume = " The flight has " + decPlace.format(totalBaggageWeight) + "kg of baggage taking a volume of " + decPlace.format(totalBaggageVolume) + "m3. ";
+			String excessCharge = "Generating £" + decPlace.format(totalExcessCharge) + " in excess charges.";
+			log.addLog(intro + maxCapacity + bookingsMade + checkedInPassengers + capacityRemaining + totalWeightVolume + excessCharge, "FlightReport");
+		} else {
+			log.addLog("There are no bookings on flight " + aFlight.getFlightCode(), "FlightReport");
 		}
 	}
 	
@@ -263,7 +239,7 @@ public class ReportGenerator {
 	 * for all passengers who have an excess
 	 * charge on a given flight.
 	 * @param flightBookings
-	 * @return
+	 * @return double total excess charge
 	 */
 	private double getPassengersTotalExcessCharge(ArrayList<Booking> flightBookings) {
 		/**
@@ -292,6 +268,7 @@ public class ReportGenerator {
 				totalExcessCharge += aBooking.getPassenger().getBaggage().getExcessCharge();
 			}
 		}
+		
 		/**
 		 *  Return the total excess charge for the flight.
 		 */

@@ -8,6 +8,7 @@ import checkInModel.BookingCollection;
 import checkInModel.Flight;
 import checkInModel.LoggingSingleton;
 import checkInModel.RandomBagGenerator;
+import checkInModel.ReportGenerator;
 import checkInModel.SimulationTimeSingleton;
 
 public class CheckInDesk implements Runnable {
@@ -80,6 +81,7 @@ public class CheckInDesk implements Runnable {
 			}
 		}
 		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has closed.", "checkin13");
+		new ReportGenerator(allBookings, boardingFlight);
 	}
 
 	public String getBookingCode() {
