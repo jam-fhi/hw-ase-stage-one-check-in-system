@@ -169,13 +169,13 @@ public class CheckInDesk implements Runnable {
 			/**
 			 * Get any business class passengers first.
 			 */
-			Booking nextPassenger = allBookings.getNextBooking(boardingFlight.getFlightCode(), "Business");
+			Booking nextPassenger = allBookings.getNextBooking(boardingFlight.getFlightCode(), PassengerQueues.BUSINESS);
 			if(nextPassenger == null) {
 
 				/**
 				 * If there are no business class pasengers, get an economy class passenger.
 				 */
-				nextPassenger = allBookings.getNextBooking(boardingFlight.getFlightCode(), "Economy");
+				nextPassenger = allBookings.getNextBooking(boardingFlight.getFlightCode(), PassengerQueues.ECONOMY);
 			}
 			
 			/**

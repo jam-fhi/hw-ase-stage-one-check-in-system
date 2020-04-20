@@ -13,7 +13,7 @@ public class Passenger {
 	private Bag baggage;
 	private String firstName;
 	private String lastName;
-	private String inQueueName = "";
+	private PassengerQueues inQueueName = PassengerQueues.NONE;
 
 	/**
 	 * Passenger creating constructor
@@ -96,18 +96,18 @@ public class Passenger {
 	/**
 	 * getInQueue
 	 * Gets the name of the queue this booking is in.
-	 * @return String
+	 * @return PassengerQueues
 	 */
-	public String getInQueue() {
+	public PassengerQueues getInQueue() {
 		return inQueueName;
 	}
 
 	/**
 	 * setInQueue
 	 * Sets the name of the queue that this booking is in.
-	 * @param name
+	 * @param queue
 	 */
-	public void setInQueue(String name) {
-		inQueueName = name;
+	public void setInQueue(PassengerQueues queue) {
+		inQueueName = queue;
 	}
 }

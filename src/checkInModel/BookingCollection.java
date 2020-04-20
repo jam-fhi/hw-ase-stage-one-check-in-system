@@ -85,12 +85,12 @@ public class BookingCollection {
 		 */
 		takeInUse();
 		for(Map.Entry<String, Booking> aBooking: allBookings.entrySet()) {
-			if(aBooking.getValue().isBusinessClass() == bookingClass && aBooking.getValue().getPassenger().getInQueue().compareTo("Security") == 0) {
+			if(aBooking.getValue().isBusinessClass() == bookingClass && aBooking.getValue().getPassenger().getInQueue().compareTo(PassengerQueues.SECURITY) == 0) {
 				/**
 				 * Set the name of the queue that the
 				 * passenger for this booking will join.
 				 */
-				String queue = bookingClass == true ? "Business" : "Economy";
+				PassengerQueues queue = bookingClass == true ? PassengerQueues.BUSINESS : PassengerQueues.ECONOMY;
 				log.addLog("Progressed Passenger to " + queue + " Queue", "BookingCollection");
 				aBooking.getValue().getPassenger().setInQueue(queue);
 				break;
@@ -142,8 +142,8 @@ public class BookingCollection {
 		 */
 		takeInUse();
 		for(Map.Entry<String, Booking> aBooking: allBookings.entrySet()) {
-			if(aBooking.getValue().getPassenger().getInQueue().compareTo("") == 0) {
-				aBooking.getValue().getPassenger().setInQueue("Security");
+			if(aBooking.getValue().getPassenger().getInQueue().compareTo(PassengerQueues.NONE) == 0) {
+				aBooking.getValue().getPassenger().setInQueue(PassengerQueues.SECURITY);
 				log.addLog("Added passenger " + aBooking.getValue().getPassenger().getFirstName() + " " + aBooking.getValue().getPassenger().getLastName() + " to security queue", "BookingCollection");
 				/**
 				 * We don't want to add all our bookings to the
@@ -168,7 +168,7 @@ public class BookingCollection {
 	 * @param queueName
 	 * @return ArrayList Bookings
 	 */
-	public synchronized ArrayList<Booking> getBookingsInQueue(String queueName) {
+	public synchronized ArrayList<Booking> getBookingsInQueue(PassengerQueues queueName) {
 		/**
 		 * Get exclusive access to the booking hash map, so
 		 * that no other thread modifies it during this operation.
@@ -201,7 +201,7 @@ public class BookingCollection {
 	 * @param queueName
 	 * @return Booking object
 	 */
-	public synchronized Booking getNextBooking(String flightCode, String queueName) {
+	public synchronized Booking getNextBooking(String flightCode, PassengerQueues queueName) {
 		ArrayList<Booking> allBookings = getBookingsByFlightCode(flightCode);
 		Iterator<Booking> allBookingsIt = allBookings.iterator();
 		while(allBookingsIt.hasNext()) {
@@ -213,7 +213,7 @@ public class BookingCollection {
 				 * matches the specified queue, move them to
 				 * the check in queue.
 				 */
-				aBooking.getPassenger().setInQueue("checkin");
+				aBooking.getPassenger().setInQueue(PassengerQueues.CHECKIN);
 				log.addLog("Passenger " + aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has moved to Check In.", "BookingCollection");
 				/**
 				 * Release access to the booking hash map.
