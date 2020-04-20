@@ -1,5 +1,6 @@
 package checkInView;
 
+import java.awt.BorderLayout;
 /**
  * Import packages that are used to make our User Interface work.
  */
@@ -33,7 +34,13 @@ public class FlightSummary extends JPanel {
 	/**
 	 * JLabel for total number of flights.
 	 */
-	private JLabel flightTotal = new JLabel();
+	private JLabel flightTotal = new JLabel("There are 0 flights.");
+	private JLabel flightHeader = new JLabel("Flight Code, Destination, Status, Bookings / Total Capacity");
+
+	/**
+	 * Flight info display panel
+	 */
+	private JPanel flightInfo = new JPanel();
 
 	/**
 	 * Count of how many flights are displayed. Initialises flight count to 0.
@@ -52,19 +59,21 @@ public class FlightSummary extends JPanel {
 	public FlightSummary(FlightCollection allFlights, BookingCollection allBookings) {
 
 		/**
-		 * Create grid layout with 1 column and 1 more row than the flight count.
+		 * Set grid layout for 3 rows and 1 column
 		 */
-		this.setLayout(new GridLayout(flightCount + 1, 1));
-
+		this.setLayout(new BorderLayout());
+		
 		/**
 		 * Pads the panel with a 10 pixel border.
 		 */
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		/**
-		 * Adds flight total label to JPanel.
+		 * Adds flight total and header label to JPanel, as well as flight info panel.
 		 */
-		this.add(flightTotal);
+		this.add(flightTotal, BorderLayout.NORTH);
+		this.add(flightHeader, BorderLayout.CENTER);
+		this.add(flightInfo, BorderLayout.SOUTH);
 
 		/**
 		 * Adds the initial flight information to the flight summary.
@@ -108,7 +117,7 @@ public class FlightSummary extends JPanel {
 		/**
 		 * Adds label to JPanel.
 		 */
-		this.add(aFlightPanel);
+		flightInfo.add(aFlightPanel);
 	}
 	
 	/**
@@ -122,24 +131,19 @@ public class FlightSummary extends JPanel {
 	private FlightInformation getFlightPanel(String name) {
 
 		/**
-		 * Only look for flight information panels 
-		 * if there's more than one component,
-		 * as flight total will always be there.
+		 * Only look for flight information panels.
 		 */
-		if(this.getComponents().length > 1) {
-			/**
-			 * Loop from 1 to the total number of components.
-			 */
-			int panelCount = 1;
-			while(panelCount < this.getComponents().length) {
+		if(flightInfo.getComponents().length > 0) {
+			int panelCount = 0;
+			while(panelCount < flightInfo.getComponents().length) {
 
 				/**
 				 * Return a flight information panel if a 
 				 * component's name matches the name that
 				 * is specified in the method parameter.
 				 */
-				if(this.getComponent(panelCount).getName().compareTo(name) == 0) {
-					return (FlightInformation)this.getComponent(panelCount);
+				if(flightInfo.getComponent(panelCount).getName().compareTo(name) == 0) {
+					return (FlightInformation)flightInfo.getComponent(panelCount);
 				}
 				panelCount++;
 			}
@@ -159,16 +163,15 @@ public class FlightSummary extends JPanel {
 	 */
 	public void updateSummary(FlightCollection allFlights, BookingCollection allBookings) {
 		
-		if((allFlights.getFlightCollection().size() + 1) < flightCount) {
+		if(allFlights.getFlightCollection().size() < flightCount) {
 			/**
 			 * Assume less flights means the simulation 
 			 * has been reset. Remove everything and add 
 			 * flight total again.
 			 */
-			this.removeAll();
-			this.revalidate();
-			this.repaint();
-			this.add(flightTotal);
+			flightInfo.removeAll();
+			flightInfo.revalidate();
+			flightInfo.repaint();
 			flightCount = 0;
 		}
 
@@ -189,7 +192,7 @@ public class FlightSummary extends JPanel {
 				 */
 				if(aFlight.getFlightStatus().compareTo("departed") == 0) {
 					flightCount--;
-					this.remove(flightDisplay);
+					flightInfo.remove(flightDisplay);
 				} else {
 					flightDisplay.updateFlightInformation(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingsByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
 				}
@@ -206,6 +209,6 @@ public class FlightSummary extends JPanel {
 		/**
 		 * Update number of rows to display.
 		 */
-		this.setLayout(new GridLayout(flightCount + 1, 1));
+		flightInfo.setLayout(new GridLayout(flightCount, 1));
 	}
 }

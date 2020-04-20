@@ -152,16 +152,6 @@ public class CheckInDesk implements Runnable {
 	}
 
 	/**
-	 * getCheckInDeskNumber
-	 * Returns the id number of this
-	 * check in desk.
-	 * @return int
-	 */
-	public int getCheckInDeskNumber() {
-		return deskNumber;
-	}
-
-	/**
 	 * run
 	 * Runs a thread to process passengers
 	 * for check in to the flight specified

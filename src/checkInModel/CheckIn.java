@@ -142,6 +142,16 @@ public class CheckIn extends Observable implements Runnable {
 	}
 	
 	/**
+	 * getTotalDesks
+	 * Returns the total number of check in desks
+	 * the system is using.
+	 * @return int
+	 */
+	public int getTotalDesks() {
+		return checkInDeskCollection.getTotalDesks();
+	}
+
+	/**
 	 * resetCheckInSimulation
 	 * Resets the flight, booking and check in desk 
 	 * collections so that the simualation begings from

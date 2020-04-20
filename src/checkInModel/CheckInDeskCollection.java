@@ -60,6 +60,16 @@ public class CheckInDeskCollection implements Runnable {
 	}
 
 	/**
+	 * getTotalDesks
+	 * Returns the total number of check in desks
+	 * the system is using.
+	 * @return int
+	 */
+	public int getTotalDesks() {
+		return totalCheckInDesks;
+	}
+
+	/**
 	 * run
 	 * Runs the check in desk collection thread which
 	 * starts new check in desks if there are flights

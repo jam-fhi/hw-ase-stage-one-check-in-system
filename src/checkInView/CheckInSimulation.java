@@ -146,7 +146,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		/**
 		 * Check In Desks
 		 */
-		checkInDeskSummary = new CheckInDeskSummary(checkInDesk.getCheckInDesks());
+		checkInDeskSummary = new CheckInDeskSummary(checkInDesk.getCheckInDesks(), checkInDesk.getTotalDesks());
 		rightSide.add(checkInDeskSummary, BorderLayout.CENTER);
 
 		/**
