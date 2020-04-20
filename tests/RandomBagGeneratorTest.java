@@ -1,49 +1,46 @@
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
 import checkInModel.Bag;
 import checkInModel.RandomBagGenerator;
 
 /**
  * 
- * RandomBagGeneratorTest
- * Test suite for the RandomBagGeneratorTest class
+ * RandomBagGeneratorTest Test suite for the RandomBagGeneratorTest class
+ * 
  * @author christophermuir
  *
  */
 public class RandomBagGeneratorTest {
 
+	private double validWeightLimit = 10;
+	private double invalidWeightLimit = 0;
+	private int invalidVolumeLimit = 0;
+	private int validVolumeLimit = 7;
+	private double validWeight = 1;
+	private double validVolume = 1;
+
 	@Test
-	public void testgetRandomBag() {
-		double weightlimit  = 10.0;
-		int volumelimit = 7;
-		String message1 = "bags are identical";
-		double illegalbagchance = 0.5;
-		Bag bag1 = RandomBagGenerator.getRandomBag(weightlimit, volumelimit);
-		Bag bag2 = RandomBagGenerator.getRandomBag(weightlimit, volumelimit);
-		assertNotEquals(message1, bag1, bag2);		
+	public void testValidWeight() {
+		Bag bag = RandomBagGenerator.getRandomBag(validWeightLimit, validVolumeLimit);
+		assertTrue(bag.getWeight() >= validWeight);
 	}
-	/**
-	 *  test an illegal bag can be produced
-	 */
+
 	@Test
-	public void testillegalBag() {
-		double weightlimit  = 10.0;
-		int volumelimit = 7;
-		double illegalbagchance = 1;
-		Bag bag1 = RandomBagGenerator.getRandomBag(weightlimit, volumelimit);
-		assertFalse(bag1.getVolume()<volumelimit && bag1.getWeight()<weightlimit);
+	public void testInvalidWeight() {
+		Bag bag = RandomBagGenerator.getRandomBag(invalidWeightLimit, validVolumeLimit);
+		assertTrue(bag.getWeight() == validWeight);
 	}
-	/**
-	 *  test if  a legal bag can be produced
-	 */
+
 	@Test
-	public void getlegalbag() {
-		double weightlimit  = 10.0;
-		int volumelimit = 7;
-		double illegalbagchance = 0;
-		Bag bag1 = RandomBagGenerator.getRandomBag(weightlimit, volumelimit);
-		assertTrue(bag1.getVolume()<volumelimit && bag1.getWeight()<weightlimit);
+	public void testInvalidVolume() {
+		Bag bag = RandomBagGenerator.getRandomBag(invalidWeightLimit, invalidVolumeLimit);
+		assertTrue(bag.getVolume() >= validVolume);
 	}
+
+	@Test
+	public void testValidVolume() {
+		Bag bag = RandomBagGenerator.getRandomBag(invalidWeightLimit, validVolumeLimit);
+		assertTrue(bag.getVolume() == validVolume);
+	}
+
 }
