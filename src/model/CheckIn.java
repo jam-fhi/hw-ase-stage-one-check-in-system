@@ -11,6 +11,7 @@ import checkInModel.Booking;
 import checkInModel.BookingCollection;
 import checkInModel.BookingException;
 import checkInModel.CheckInDesk;
+import checkInModel.CheckInDeskCollection;
 import checkInModel.CheckInIOException;
 import checkInModel.Flight;
 import checkInModel.FlightCollection;
