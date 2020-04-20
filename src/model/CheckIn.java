@@ -10,6 +10,7 @@ import checkInModel.Bag;
 import checkInModel.Booking;
 import checkInModel.BookingCollection;
 import checkInModel.BookingException;
+import checkInModel.CheckInDesk;
 import checkInModel.CheckInIOException;
 import checkInModel.Flight;
 import checkInModel.FlightCollection;

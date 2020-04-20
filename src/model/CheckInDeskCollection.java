@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import checkInModel.BookingCollection;
+import checkInModel.CheckInDesk;
 import checkInModel.Flight;
 import checkInModel.FlightCollection;
 import checkInModel.LoggingSingleton;

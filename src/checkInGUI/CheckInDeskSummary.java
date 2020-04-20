@@ -10,7 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.CheckInDesk;
+import checkInModel.CheckInDesk;
 
 public class CheckInDeskSummary extends JPanel {
 
