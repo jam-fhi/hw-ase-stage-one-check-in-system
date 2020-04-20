@@ -60,7 +60,7 @@ public class CheckInInformation extends JPanel {
 		passengerName.setText(aDesk.getPassengerName());
 		bagWeight.setText(aDesk.getBaggageWeight());
 		excessFee.setText(aDesk.getExcessFee());
-		String statusText = aDesk.isClosed() ? "Open" : "Close";
+		String statusText = "Close";
 		close.setText(statusText);
 	}
 
