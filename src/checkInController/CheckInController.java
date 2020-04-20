@@ -8,9 +8,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 
 /**
+ * Import packages to manipulate date
+ */
+import java.util.Date;
+
+/**
  * Import our model and view classes
  */
 import checkInModel.CheckIn;
+import checkInModel.CheckInIOException;
+import checkInModel.LoggingSingleton;
 import checkInView.CheckInSimulation;
 
 /**
@@ -39,12 +46,22 @@ public class CheckInController {
 	private Thread checkInSimulation;
 
 	/**
+	 * Logging Singleton Instance
+	 */
+	private LoggingSingleton log;
+	
+	/**
 	 * CheckInController
 	 * Constructor that creates the controller object
 	 * @param view
 	 * @param model
 	 */
 	public CheckInController(CheckInSimulation view, CheckIn model) {
+		/**
+		 * Get out logging singleton instance
+		 */
+		log = LoggingSingleton.getInstance();
+
 		/**
 		 * Store the view and model.
 		 */
@@ -110,7 +127,13 @@ public class CheckInController {
 		public void actionPerformed(ActionEvent e) {
 			if(checkInModel.getSimulationRunning() == true) {
 				checkInSimulation.stop();
-				// write log file
+			}
+			Date rightNow = new Date();
+			String currentTimeStamp = rightNow.toLocaleString().replaceAll(":", ".").replaceAll(",", "");
+			try {
+				log.writelog("Simulation Log " + currentTimeStamp + ".txt");
+			} catch (CheckInIOException e1) {
+				System.out.println("Failed to write simulation log to file.");
 			}
 		}
 	}
