@@ -163,7 +163,7 @@ public class CheckInDesk implements Runnable {
 		 * While the flight status is boarding, find passengers to check in.
 		 */
 		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has opened.", "CheckInDesk" + deskNumber);
-		while(boardingFlight.getFlightStatus().compareTo("boarding") == 0 && simTime.isSimRunning()) {
+		while(boardingFlight.getFlightStatus().compareTo(FlightStatus.BOARDING) == 0 && simTime.isSimRunning()) {
 			log.addLog("Processing passengers on Desk " + deskNumber, "CheckInDesk" + deskNumber);
 			
 			/**

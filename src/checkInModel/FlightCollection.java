@@ -99,7 +99,7 @@ public class FlightCollection {
 		int waitingFlights = 0;
 		while(iterator.hasNext()) {
 			Flight aFlight = iterator.next();
-			if (aFlight.getFlightStatus().compareTo("waiting") == 0) {
+			if (aFlight.getFlightStatus().compareTo(FlightStatus.WAITING) == 0) {
 				waitingFlights++;
 			}
 		}

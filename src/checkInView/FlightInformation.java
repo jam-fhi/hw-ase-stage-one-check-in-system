@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import checkInModel.FlightStatus;
+
 /**
  * This class displays the flight information.
  * @author jamiehill
@@ -37,7 +39,7 @@ class FlightInformation extends JPanel {
 	 * @param bookings    - number of bookings
 	 * @param capacity    - total flight passenger capacity
 	 */
-	public FlightInformation(String flightCode, String destination, String status, int bookings, int capacity) {
+	public FlightInformation(String flightCode, String destination, FlightStatus status, int bookings, int capacity) {
 		/**
 		 * Create grid layout with 4 columns and 1 row.
 		 */
@@ -72,9 +74,9 @@ class FlightInformation extends JPanel {
 	 * @param bookings
 	 * @param capacity
 	 */
-	public void updateFlightInformation(String flightCode, String destination, String status, int bookings, int capacity) {
+	public void updateFlightInformation(String flightCode, String destination, FlightStatus status, int bookings, int capacity) {
 		flightCodeLbl.setText(flightCode);
-		flightStatus.setText(status);
+		flightStatus.setText(String.valueOf(status).toLowerCase());
 		destinationLbl.setText(destination);
 		flightCapacity.setText(bookings + " / " + capacity);
 	}

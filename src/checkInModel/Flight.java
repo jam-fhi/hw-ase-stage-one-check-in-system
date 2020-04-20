@@ -229,9 +229,9 @@ public class Flight {
 	 * When the depature time is <= 6hr in the future and it has a check in desk, is it boarding.
 	 * When the delay time value is set then the flight is delayed
 	 * When the depature time + delay time is <= 1hr in the future boarding is closed.
-	 * @return String
+	 * @return FlightStatus
 	 */
-	public String getFlightStatus() {
+	public FlightStatus getFlightStatus() {
 		/**
 		 * If the flight is departed, then we 
 		 * do not need to repeat any calculations
@@ -259,7 +259,7 @@ public class Flight {
 			if (currentSimTime > departureTime) {
 				log.addLog("Flight " + getFlightCode() + " has departed", "Flight");
 				isDeparted = true;
-				return "departed";
+				return FlightStatus.DEPARTED;
 			} else {
 			
 				/**
@@ -268,7 +268,7 @@ public class Flight {
 				 */
 				if (currentSimTime > checkinClosed) {
 					log.addLog("Flight " + getFlightCode() + " has boarding closed", "Flight");
-					return "closed";
+					return FlightStatus.CLOSED;
 				} else {
 					
 					/**
@@ -284,10 +284,10 @@ public class Flight {
 						 */
 						if(hasCheckInDesk == false) {
 							log.addLog("Flight " + getFlightCode() + " is ready for boarding", "Flight");
-							return "ready";
+							return FlightStatus.DEPARTED;
 						} else {
 							log.addLog("Flight " + getFlightCode() + " is boarding", "Flight");
-							return "boarding";
+							return FlightStatus.BOARDING;
 						}
 					
 					
@@ -302,16 +302,16 @@ public class Flight {
 						 */
 						if(delayFlight == 0) {
 							log.addLog("Flight " + getFlightCode() + " is waiting for check in to open", "Flight");
-							return "waiting";
+							return FlightStatus.WAITING;
 						} else {
 							log.addLog("Flight " + getFlightCode() + " is delayed by " + (delayFlight / SimulationTimeSingleton.hourInMs) + " hours", "Flight");
-							return "delay";
+							return FlightStatus.DELAY;
 						}
 					}
 				}
 			}
 		} else {
-			return "departed";
+			return FlightStatus.DEPARTED;
 		}
 	}
 	

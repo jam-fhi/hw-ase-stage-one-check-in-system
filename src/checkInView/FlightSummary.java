@@ -17,6 +17,7 @@ import java.util.Iterator;
 import checkInModel.BookingCollection;
 import checkInModel.Flight;
 import checkInModel.FlightCollection;
+import checkInModel.FlightStatus;
 
 /**
  * This class displays the flight summary.
@@ -91,7 +92,7 @@ public class FlightSummary extends JPanel {
 	 * @param bookings
 	 * @param capacity
 	 */
-	private void addFlightPanel(String flightCode, String destination, String status, int bookings, int capacity) {
+	private void addFlightPanel(String flightCode, String destination, FlightStatus status, int bookings, int capacity) {
 		FlightInformation aFlightPanel = new FlightInformation(flightCode, destination, status, bookings, capacity);
 
 		/**
@@ -190,7 +191,7 @@ public class FlightSummary extends JPanel {
 				 * If flight found and not departed, update the flight 
 				 * information. Otherwise, remove the flight from the view.
 				 */
-				if(aFlight.getFlightStatus().compareTo("departed") == 0) {
+				if(aFlight.getFlightStatus().compareTo(FlightStatus.DEPARTED) == 0) {
 					flightCount--;
 					flightInfo.remove(flightDisplay);
 				} else {
@@ -200,7 +201,7 @@ public class FlightSummary extends JPanel {
 				/**
 				 * Flight not found. If it's not departed, add it to the view.
 				 */
-				if(aFlight.getFlightStatus().compareTo("departed") != 0) {
+				if(aFlight.getFlightStatus().compareTo(FlightStatus.DEPARTED) != 0) {
 					addFlightPanel(aFlight.getFlightCode(), aFlight.getDestinationAirport(), aFlight.getFlightStatus(), allBookings.getBookingsByFlightCode(aFlight.getFlightCode()).size(), aFlight.getMaximumPassengers());
 				}
 			}

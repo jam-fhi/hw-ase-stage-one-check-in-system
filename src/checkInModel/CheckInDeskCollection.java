@@ -90,9 +90,9 @@ public class CheckInDeskCollection implements Runnable {
 		takeInUse();
  		while(allFlightsIt.hasNext()) {
 			Flight aFlight = allFlightsIt.next();
-			String status = aFlight.getFlightStatus();
+			FlightStatus status = aFlight.getFlightStatus();
 			log.addLog("Processing flight " + aFlight.getFlightCode() + " which is " + status, "CheckInDeskCollection");
-			if(status.compareTo("ready") == 0) {
+			if(status.compareTo(FlightStatus.READY) == 0) {
 				int freeThread = getFreeDesk();
 				if(freeThread > -1) {
 					/**
