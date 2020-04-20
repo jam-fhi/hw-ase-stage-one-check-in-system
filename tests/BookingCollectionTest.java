@@ -8,10 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.junit.Test;
-import CheckIn.Booking;
-import CheckIn.BookingCollection;
-import CheckIn.BookingException;
-import CheckIn.CheckInIOException;
+
+import checkInModel.Booking;
+import checkInModel.BookingCollection;
+import checkInModel.BookingException;
+import checkInModel.CheckInIOException;
 
 /**
  * BookingCollectionTest
@@ -100,7 +101,7 @@ public class BookingCollectionTest {
 	@Test
 	public void testgetbookingbyflightcode() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
-		ArrayList<Booking> testarray = TestCollection.getBookingByFlightCode("BA123");
+		ArrayList<Booking> testarray = TestCollection.getBookingsByFlightCode("BA123");
 		Booking test1 = testarray.get(1);
 		assertEquals( "Jamie" , test1.getPassenger().getFirstName() );
 		assertEquals(test1.getFlightCode(), "BA123" );
@@ -116,7 +117,7 @@ public class BookingCollectionTest {
 	@Test
 	public void testgetbookingbyflightcodeinvalid() throws FileNotFoundException, IOException, BookingException, CheckInIOException {
 		BookingCollection TestCollection = new BookingCollection("bookings.csv");
-		ArrayList<Booking> testarray = TestCollection.getBookingByFlightCode("BA1235454654654");
+		ArrayList<Booking> testarray = TestCollection.getBookingsByFlightCode("BA1235454654654");
 		assertEquals(testarray.size() , 0);	
 	}
 	

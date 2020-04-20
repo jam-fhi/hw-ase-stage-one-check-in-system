@@ -6,10 +6,10 @@ import java.util.TreeSet;
 import org.junit.Before;
 import org.junit.Test;
 
-import CheckIn.CheckInIOException;
-import CheckIn.Flight;
-import CheckIn.FlightCollection;
-import CheckIn.FlightException;
+import checkInModel.CheckInIOException;
+import checkInModel.Flight;
+import checkInModel.FlightCollection;
+import checkInModel.FlightException;
 
 public class FlightCollectionTests {
 

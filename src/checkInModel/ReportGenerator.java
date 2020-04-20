@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInModel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -78,7 +78,7 @@ public class ReportGenerator {
 			/**
 			 *  Find all bookings for this flight.
 			 */
-			ArrayList<Booking> flightBookings = bookings.getBookingByFlightCode(aFlight.getFlightCode());
+			ArrayList<Booking> flightBookings = bookings.getBookingsByFlightCode(aFlight.getFlightCode());
 			/**
 			 *  Temporary storage for one line of the report.
 			 */

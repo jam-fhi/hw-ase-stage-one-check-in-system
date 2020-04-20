@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInModel;
 
 /**
  * Passenger
@@ -13,7 +13,8 @@ public class Passenger {
 	private Bag baggage;
 	private String firstName;
 	private String lastName;
-	private boolean securityComplete = false;
+	private String inQueueName = "";
+
 	/**
 	 * Passenger creating constructor
 	 * 
@@ -91,12 +92,22 @@ public class Passenger {
 	public Bag getBaggage() {
 		return baggage;
 	}
-	
-	public void setSecurityComplete () {
-		securityComplete = true;
+
+	/**
+	 * getInQueue
+	 * Gets the name of the queue this booking is in.
+	 * @return String
+	 */
+	public String getInQueue() {
+		return inQueueName;
 	}
-	
-	public boolean getSecurityComplete() {
-		return securityComplete;
+
+	/**
+	 * setInQueue
+	 * Sets the name of the queue that this booking is in.
+	 * @param name
+	 */
+	public void setInQueue(String name) {
+		inQueueName = name;
 	}
 }

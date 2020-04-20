@@ -4,8 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
-import CheckIn.CSVProcessor;
-import CheckIn.CheckInIOException;
+
+import checkInModel.CSVProcessor;
+import checkInModel.CheckInIOException;
 
 /**
  * CSVProcessorTest

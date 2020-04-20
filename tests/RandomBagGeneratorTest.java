@@ -2,8 +2,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import CheckIn.Bag;
-import CheckIn.RandomBagGenerator;
+import checkInModel.Bag;
+import checkInModel.RandomBagGenerator;
 
 /**
  * 

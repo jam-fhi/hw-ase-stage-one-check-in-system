@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInModel;
 
 /**
  * 
@@ -10,22 +10,21 @@ package CheckIn;
 public class Booking {
 
 	/**
-	 * Initialise local variables
+	 * Initialise local variables for booking.
+	 * Booking code is <FlightCode>-<BookingNumber> e.g. BA-123-123
+	 * Passenger object holds passenger name, bag, etc
+	 * Flight Code that this booking is for.
+	 * businessClass boolean marks if this is a business class flight
 	 */
 	private String bookingCode;
 	private Passenger passenger;
 	private String flightCode;
-	private boolean inQueue = false;
-	private boolean inSecurity = false;
-	private boolean firstClass = false;
-
-	
-
-
+	private boolean businessClass = false;
 
 	/**
 	 * Booking
-	 * The constructor checks if the booking code format is correct and then creates a booking and passenger with the supplied variables.
+	 * The constructor checks if the booking code format is correct 
+	 * and then creates a booking and passenger with the supplied variables.
 	 * @param bookingCode
 	 * @param firstName
 	 * @param lastName
@@ -81,27 +80,23 @@ public class Booking {
 		return passenger;
 	}
 	
-	public void setInQueue() {
-		inQueue = true;
-	}
-	
-	public boolean getInQueue() {
-		return inQueue;
-	}
-	
-	public boolean isInSecurity() {
-		return inSecurity;
+	/**
+	 * isBusinessClass
+	 * Returns true if this booking is business class.
+	 * @return boolean
+	 */
+	public boolean isBusinessClass() {
+		return businessClass;
 	}
 
-	public void setInSecurity() {
-		this.inSecurity = true;
-	}
-	
-	public boolean isFirstClass() {
-		return firstClass;
-	}
-
-	public void setFirstClass() {
-		this.firstClass = true;
+	/**
+	 * setBusinessClass
+	 * Sets true to mark this booking as business class.
+	 * No parameters as default means it is not business
+	 * class and we don't downgrade passengers. We're nice
+	 * that way ;)
+	 */
+	public void setBusinessClass() {
+		this.businessClass = true;
 	}
 }

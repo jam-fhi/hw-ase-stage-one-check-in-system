@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.CheckInDesk;
+
 /**
  * @author amymcfarland
  *
@@ -15,9 +17,14 @@ import javax.swing.JPanel;
 public class CheckInInformation extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	JButton close;
-	int count = 0;
-
+	private JButton close = new JButton();
+	private JLabel flightCode = new JLabel();
+	private JLabel bookingCode = new JLabel();;
+	private JLabel passengerName = new JLabel();;
+	private JLabel bagWeight = new JLabel();;
+	private JLabel excessFee = new JLabel();;
+	private int myId = 0;
+	
 	/**
 	 * creating the layout using GridLayout with 7 rows and 1 column, adding in a close button
 	 * and if the closeStatus equals false then set the text to "Close" and add the new labels
@@ -28,38 +35,39 @@ public class CheckInInformation extends JPanel {
 	 * @param excessfee adding the excess fee for baggage
 	 * @param baggagedimensions adding the dimensions of the bag 
 	 */
-	public CheckInInformation(String flightCode, String bookingCode, String passengerName, String bagWeight,
-			String excessFee, String index, boolean closeStatus, boolean checkInStatus) {
+	public CheckInInformation(CheckInDesk aDesk) {
 
-		this.setLayout(new GridLayout(7, 1));
-
+		this.setLayout(new GridLayout(6, 1));
+		
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		String statusText = "Open";
-
-		close = new JButton();
-		close.setName(index);
+		
+		this.add(flightCode);
+		this.add(bookingCode);
+		this.add(passengerName);
+		this.add(bagWeight);
+		this.add(excessFee);
 		this.add(close);
-		if (closeStatus == false) {
-			statusText = "Close";
-			this.add(new JLabel(flightCode));
-			this.add(new JLabel(bookingCode));
-			this.add(new JLabel(passengerName));
-			this.add(new JLabel(bagWeight));
-			this.add(new JLabel(String.valueOf(checkInStatus)));
-			this.add(new JLabel(excessFee));
-		}
-		close.setText(statusText);
 		this.setVisible(true);
 		this.setName("checkindesk");
-
+		myId = aDesk.getCheckInDeskNumber();
+		updateCheckInDesk(aDesk);
 	}
 
-	/**
-	 * Method to add the ActionListener to the close button
-	 * @param e
-	 */
-	public void setCloseButtonAction(ActionListener e) {
+	public int getDeskInfoNumber() {
+		return myId;
+	}
+
+	public void updateCheckInDesk(CheckInDesk aDesk) {
+		flightCode.setText(aDesk.getFlightCode());
+		bookingCode.setText(aDesk.getBookingCode());
+		passengerName.setText(aDesk.getPassengerName());
+		bagWeight.setText(aDesk.getBaggageWeight());
+		excessFee.setText(aDesk.getExcessFee());
+		String statusText = aDesk.isClosed() ? "Open" : "Close";
+		close.setText(statusText);
+	}
+
+	public void setCloseButtonAction (ActionListener e) {
 		close.addActionListener(e);
 	}
-
 }

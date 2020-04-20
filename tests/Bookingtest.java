@@ -3,8 +3,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import CheckIn.Booking;
-import CheckIn.BookingException;
+import checkInModel.Booking;
+import checkInModel.BookingException;
 
 /**
  * 

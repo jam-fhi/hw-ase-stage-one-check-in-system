@@ -37,29 +37,70 @@ public class CheckInDeskSummary extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.add(new JLabel("Check In Desks"), BorderLayout.NORTH);
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-		desks.setLayout(new GridLayout(1, allDesks.size() + 1));
-
-		Iterator<CheckInDesk> checkInDeskIt = allDesks.iterator();
-		int index = 0;
-		while (checkInDeskIt.hasNext()) {
-			CheckInDesk aDesk = checkInDeskIt.next();
-			desks.add(new CheckInInformation(aDesk.getFlightCode(), aDesk.getBookingCode(), aDesk.getPassengerName(),
-					String.valueOf(aDesk.getBaggageWeight()), aDesk.getExcessFee(), String.valueOf(index),
-					aDesk.isClosestatus(), aDesk.getCheckInStatus()));
-			index++;
-		}
 		this.add(desks, BorderLayout.SOUTH);
 	}
 
+	public void updateCheckInDesks(ArrayList<CheckInDesk> allDesks) {
+		desks.setLayout(new GridLayout(1, allDesks.size() + 1));
+		removeUnusedDesks(allDesks);
+		Iterator<CheckInDesk> checkInDeskIt = allDesks.iterator();
+		while(checkInDeskIt.hasNext()) {
+			CheckInDesk aDesk = checkInDeskIt.next();
+			CheckInInformation deskPanel = getCheckInDeskPanel(aDesk.getCheckInDeskNumber());
+			if(deskPanel != null) {
+				deskPanel.updateCheckInDesk(aDesk);
+			} else {
+				desks.add(new CheckInInformation(aDesk));
+			}
+		}
+	}
+
 	/**
-	 * Method that checks while there the number of desk components is more than 0
-	 * and if the name of the component is equal to checkindesk it will equal 0 and
-	 * set the button to close
+	 * getCheckInDeskPanel 
+	 * Finds a Check In Desk JPanel 
+	 * using the get desk number method.
 	 * 
-	 * @param e add ActionListener
+	 * @param number
+	 * @return CheckInInformation object
 	 */
-	public void setDeskStatusActionListener(ActionListener e) {
+	private CheckInInformation getCheckInDeskPanel(int number) {
+
+		if(desks.getComponents().length > 0) {
+			int panelCount = 0;
+			while(panelCount < desks.getComponents().length) {
+				if(((CheckInInformation)desks.getComponent(panelCount)).getDeskInfoNumber() == number) {
+					return (CheckInInformation)desks.getComponent(panelCount);
+				}
+				panelCount++;
+			}
+		}
+		/**
+		 * If nothing found, return null.
+		 */
+		return null;
+	}
+
+	private void removeUnusedDesks(ArrayList<CheckInDesk> allDesks) {
+		if(desks.getComponents().length > 0) {
+			int panelCount = 0;
+			while(panelCount < desks.getComponents().length) {
+				Iterator<CheckInDesk> desksIt = allDesks.iterator();
+				boolean found = false;
+				while(desksIt.hasNext()) {
+					CheckInDesk aDesk = desksIt.next();
+					if(aDesk.getCheckInDeskNumber() == ((CheckInInformation)desks.getComponent(panelCount)).getDeskInfoNumber()) {
+						found = true;
+					}
+				}
+				if(found == false) {
+					desks.remove(panelCount);
+				}
+			panelCount++;
+			}
+		}
+	}
+
+	public void setDeskStatusActionListener (ActionListener e) {
 		int compCounter = 0;
 		while (compCounter < desks.getComponentCount()) {
 			if (desks.getComponent(compCounter).getName().compareTo("checkindesk") == 0) {
