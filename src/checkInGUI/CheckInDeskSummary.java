@@ -12,17 +12,28 @@ import javax.swing.JPanel;
 
 import checkInModel.CheckInDesk;
 
+/**
+ * 
+ *
+ */
 public class CheckInDeskSummary extends JPanel {
 
 	/**
-	 * 
+	 * add new JPanel called desks
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel desks = new JPanel();
-	
-	
+
+	/**
+	 * adding in labels and positioning them using borderlayout using the iterator
+	 * to iterate through the CheckInDesks and while there is a checkindesk, return
+	 * the next checkindesk in the iteration and add new CheckInInformation add the
+	 * desks to the south of the panel
+	 * 
+	 * @param allDesks to iterate through the ArrayList of CheckInDesks
+	 */
 	public CheckInDeskSummary(ArrayList<CheckInDesk> allDesks) {
-		
+
 		this.setLayout(new BorderLayout());
 		this.add(new JLabel("Check In Desks"), BorderLayout.NORTH);
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -91,9 +102,9 @@ public class CheckInDeskSummary extends JPanel {
 
 	public void setDeskStatusActionListener (ActionListener e) {
 		int compCounter = 0;
-		while(compCounter < desks.getComponentCount()) {
-			if(desks.getComponent(compCounter).getName().compareTo("checkindesk") == 0) {
-				((CheckInInformation)desks.getComponent(compCounter)).setCloseButtonAction(e);
+		while (compCounter < desks.getComponentCount()) {
+			if (desks.getComponent(compCounter).getName().compareTo("checkindesk") == 0) {
+				((CheckInInformation) desks.getComponent(compCounter)).setCloseButtonAction(e);
 			}
 			compCounter++;
 		}
