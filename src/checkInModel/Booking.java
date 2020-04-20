@@ -61,6 +61,7 @@ public class Booking {
 	public String getBookingCode() {
 		return bookingCode;
 	}
+	
 
 	/**
 	 * getFlightCode
