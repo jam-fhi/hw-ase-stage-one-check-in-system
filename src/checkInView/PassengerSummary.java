@@ -1,4 +1,4 @@
-package checkInGUI;
+package checkInView;
 
 /**
  * Import UI display component packages
@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+/**
+ * Import our booking class.
+ */
 import checkInModel.Booking;
 
 /**

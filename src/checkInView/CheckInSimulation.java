@@ -1,4 +1,4 @@
-package checkInGUI;
+package checkInView;
 
 /**
  * Import packages that are used to make our User Interface work.
@@ -11,6 +11,10 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Import our check in and logging singleton classes.
+ */
+import checkInModel.CheckIn;
 import checkInModel.LoggingSingleton;
 
 /**
@@ -19,8 +23,6 @@ import checkInModel.LoggingSingleton;
  */
 import java.util.Observable;
 import java.util.Observer;
-
-import model.CheckIn;
 
 /**
  * 
@@ -32,11 +34,7 @@ import model.CheckIn;
 public class CheckInSimulation extends JFrame implements Observer, WindowListener  {
 	
 	/**
-<<<<<<< HEAD
-	 * Adding in instance variables
-=======
 	 * Required by Java for compatibility.
->>>>>>> master
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -86,17 +84,11 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 	private LoggingSingleton log;
 
 	/**
-<<<<<<< HEAD
 	 * The view takes the model as a constructor parameter and adds itself as the observer on the observable model
 	 * adding in a right side and left side panel
 	 * adding in security, priority and checkin queue using the passengerqueue type and adding them all to the left side
 	 * panel
 	 * @param checkInDesk adding in the model
-=======
-	 * 
-	 * Constructor, creates the object
-	 * @param checkInDesk the model that the view uses.
->>>>>>> master
 	 */
 	public CheckInSimulation(CheckIn checkInDesk) {
 		/**
@@ -137,7 +129,6 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 			leftSide.add(securityQueue, BorderLayout.SOUTH);
 		} catch (Exception e) {
 			log.addLog("Failed to create passenger queue views due to " + e.getMessage(), "error");
-			// Exit application.
 		}
 
 		/**
@@ -149,7 +140,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		/**
 		 * Simulation Controls
 		 */
-		simControl = new SimControl(checkInDesk.getSimulationTime() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
+		simControl = new SimControl(checkInDesk.getSimulationSpeed() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
 		rightSide.add(simControl, BorderLayout.NORTH);
 		
 		/**
@@ -163,14 +154,6 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		 */
 		flightOverview = new FlightSummary(checkInDesk.getFlightCollection(), checkInDesk.getBookingCollection());
 		rightSide.add(flightOverview, BorderLayout.SOUTH);
-<<<<<<< HEAD
-		
-		flightSummary.setLayout(new BorderLayout());
-		flightSummary.setName("flightSummary");
-		flightSummary.add(rightSide, BorderLayout.EAST);
-		flightSummary.add(leftSide, BorderLayout.WEST);
-		flightSummary.setVisible(true);
-=======
 
 		/**
 		 * Setup our simulation UI with right and left hand sides.
@@ -180,7 +163,6 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		simulationUI.add(rightSide, BorderLayout.EAST);
 		simulationUI.add(leftSide, BorderLayout.WEST);
 		simulationUI.setVisible(true);
->>>>>>> master
 		
 		/**
 		 * Add our simulation UI to our JFrame.
@@ -198,20 +180,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		pack();
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
-	}
-<<<<<<< HEAD
-
-	/**
-	 * adding ActionListener to the close button
-	 * @param e
-	 */
-	public void setCheckInDeskAction(ActionListener e) {
-		this.closeStatusButton = e;
-	}
-	
-	/**
-	 * adding ActionListener to the simulation speeds
-=======
+	}	
 	
 	/**
 	 * setSimSpeedAction
@@ -219,7 +188,6 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 	 * from a drop down list to the model which allows
 	 * the model to adjust the speed it simulates the
 	 * system at.
->>>>>>> master
 	 * @param e
 	 */
 	public void setSimSpeedAction(ActionListener e) {
@@ -227,13 +195,9 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * adding ActionListener to the start simulation button
-=======
 	 * setStartSimulationAction
 	 * Action listener that sends a signal to start or
 	 * stop our simulation within the model.
->>>>>>> master
 	 * @param e
 	 */
 	public void setStartSimulationAction(ActionListener e) {
@@ -265,7 +229,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		/**
 		 * Simulation controls
 		 */
-		simControl.updateSimControl(checkInDesk.getSimulationTime() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
+		simControl.updateSimControl(checkInDesk.getSimulationSpeed() + "x", checkInDesk.getSimulationRunning(), checkInDesk.getSimulationDateTime());
 		
 		/**
 		 * Check In Desk Summary
@@ -276,15 +240,6 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		 * Flight Summary
 		 */
 		flightOverview.updateSummary(checkInDesk.getFlightCollection(), checkInDesk.getBookingCollection());
-		
-		
-		/**
-		 * Check In Desk Updates
-		 *
-		checkInDeskSummary = new CheckInDeskSummary(checkinmodel.getCheckInDesk());
-		checkInDeskSummary.setDeskStatusActionListener(closeStatusButton);
-		rightSide.add(checkInDeskSummary, BorderLayout.CENTER);
-		*/
 
 		/**
 		 * Pack changes, which updates the visible components to look right.

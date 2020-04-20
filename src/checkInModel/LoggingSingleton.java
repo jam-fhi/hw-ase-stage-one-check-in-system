@@ -1,6 +1,13 @@
 package checkInModel;
 
+/**
+ * Import packages to manipulate data structures.
+ */
 import java.util.ArrayList;
+
+/**
+ * Import packages to manipulate dates/times.
+ */
 import java.util.Date;
 
 /**

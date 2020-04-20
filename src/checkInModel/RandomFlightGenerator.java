@@ -1,7 +1,14 @@
 package checkInModel;
 
+/**
+ * Import packages to manipulate the date/time.
+ */
 import java.util.Calendar;
 import java.util.Date;
+
+/**
+ * Import packages for random numbers.
+ */
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomFlightGenerator {
