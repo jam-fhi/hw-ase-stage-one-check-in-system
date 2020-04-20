@@ -21,7 +21,7 @@ import model.CheckIn;
 public class CheckInSimulation extends JFrame implements Observer, WindowListener  {
 	
 	/**
-	 * 
+	 * Adding in instance variables
 	 */
 	private static final long serialVersionUID = 1L;
 	private CheckInDeskSummary checkInDeskSummary;
@@ -35,6 +35,13 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 	private PassengerQueue checkInQueue;
 	private PassengerQueue priorityQueue;
 
+	/**
+	 * The view takes the model as a constructor parameter and adds itself as the observer on the observable model
+	 * adding in a right side and left side panel
+	 * adding in security, priority and checkin queue using the passengerqueue type and adding them all to the left side
+	 * panel
+	 * @param checkInDesk adding in the model
+	 */
 	public CheckInSimulation(CheckIn checkInDesk) {
 		this.checkInDesk = checkInDesk;
 		this.checkInDesk.addObserver(this);
@@ -58,7 +65,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		
 		flightOverview = new FlightSummary(checkInDesk.getFlightCollection(), checkInDesk.getBookingCollection());
 		rightSide.add(flightOverview, BorderLayout.SOUTH);
-
+		
 		flightSummary.setLayout(new BorderLayout());
 		flightSummary.setName("flightSummary");
 		flightSummary.add(rightSide, BorderLayout.EAST);
@@ -73,14 +80,26 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 	    this.setLocationRelativeTo(null);
 	}
 
+	/**
+	 * adding ActionListener to the close button
+	 * @param e
+	 */
 	public void setCheckInDeskAction(ActionListener e) {
 		this.closeStatusButton = e;
 	}
 	
+	/**
+	 * adding ActionListener to the simulation speeds
+	 * @param e
+	 */
 	public void setSimSpeedAction(ActionListener e) {
 		simControl.setSimSpeedAction(e);
 	}
 	
+	/**
+	 * adding ActionListener to the start simulation button
+	 * @param e
+	 */
 	public void setStartSimulationAction(ActionListener e) {
 		simControl.setSimRunningAction(e);
 	}
