@@ -110,6 +110,16 @@ public class CheckInDeskCollection implements Runnable {
 					log.addLog("Added delay to flight " + aFlight.getFlightCode(), "CheckInDeskCollection");
 					aFlight.addDelay();
 				}
+			} else if(status.compareTo(FlightStatus.DEPARTED) == 0) {
+				ArrayList<Booking> missedFlight = allBookings.getBookingsByFlightCode(aFlight.getFlightCode());
+				if(missedFlight.size() > 0) {
+					Iterator<Booking> missedFlightIt = missedFlight.iterator();
+					while(missedFlightIt.hasNext()) {
+						Booking aBooking = missedFlightIt.next();
+						log.addLog("Passenger " + aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has missed flight " + aFlight.getFlightCode(), "CheckInDeskCollection");
+						aBooking.getPassenger().setInQueue(PassengerQueues.MISSED_FLIGHT);
+					}
+				}
 			}
 		}
 		/**
