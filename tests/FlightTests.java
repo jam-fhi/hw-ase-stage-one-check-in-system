@@ -22,6 +22,7 @@ public class FlightTests {
 	private String validTimeCheckInClose = "13:00";
 	private String validDate =  "2020-03-01";
 	private double deltaPrecisionLoss = 0.01;
+	private boolean hasCheckedIn = false;
 
 	@Before
 	public void beforeEach() {
@@ -83,6 +84,12 @@ public class FlightTests {
 	public void testAllowedBaggageVolumePerPassenger() {
 		double resultAllowedBaggageVolumePerPassenger = myFlight.getAllowedBaggageVolumePerPassenger();
 		assertEquals(validMaximumBaggageVolume / validMaximumPassengers, resultAllowedBaggageVolumePerPassenger, deltaPrecisionLoss);
+	}
+	
+	@Test
+	public void testhasCheckIn() {		
+		boolean resultcheckIn = myFlight.getHasCheckInDesk();
+		assertEquals(hasCheckedIn, resultcheckIn);
 	}
 	
 	@Test
