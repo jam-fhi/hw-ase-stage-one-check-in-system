@@ -9,6 +9,7 @@ import checkInModel.BookingCollection;
 import checkInModel.BookingException;
 import checkInModel.CSVProcessor;
 import checkInModel.CheckInIOException;
+import checkInModel.Flight;
 import checkInModel.FlightCollection;
 import checkInModel.ReportGenerator;
 
@@ -101,34 +102,34 @@ public class ReportGeneratorTest {
 		/**
 		 *  Create a new booking collection and load bookings
 		 */
-		BookingCollection Bookings = new BookingCollection(bookingFile);
+		BookingCollection Bookings = new BookingCollection();
 		/**
 		 *  Add a bag to one passenger
 		 */
-		Bookings.getBooking("BA123-121", "Hill").getPassenger().addBaggage(aBag);
+		Bookings.getNextBooking("BA123-121", "Hill").getPassenger().addBaggage(aBag);
 		/**
 		 *  Set the passenger as checked in
 		 */
-		Bookings.getBooking("BA123-121", "Hill").getPassenger().setCheckIn();
+		Bookings.getNextBooking("BA123-121", "Hill").getPassenger().setCheckIn();
 		/**
 		 *  Calculate the excess charge
 		 */
-		Bookings.getBooking("BA123-121", "Hill").getPassenger().getBaggage().setExcessCharge(validAllowedBaggageWeight, validExcessCharge);
+		Bookings.getNextBooking("BA123-121", "Hill").getPassenger().getBaggage().setExcessCharge(validAllowedBaggageWeight, validExcessCharge);
 		/**
 		 *  Add bags to the other passengers
 		 */
-		Bookings.getBooking("BA124-122", "Abulhawa").getPassenger().addBaggage(aBag);
-		Bookings.getBooking("BA123-123", "Ghoghari").getPassenger().addBaggage(aBag);
-		Bookings.getBooking("BA124-124", "McFarland").getPassenger().addBaggage(aBag);
-		Bookings.getBooking("BA125-125", "Muir").getPassenger().addBaggage(aBag);
+		Bookings.getNextBooking("BA124-122", "Abulhawa").getPassenger().addBaggage(aBag);
+		Bookings.getNextBooking("BA123-123", "Ghoghari").getPassenger().addBaggage(aBag);
+		Bookings.getNextBooking("BA124-124", "McFarland").getPassenger().addBaggage(aBag);
+		Bookings.getNextBooking("BA125-125", "Muir").getPassenger().addBaggage(aBag);
 		/**
 		 *  Create a flight collection from the flight collection file
 		 */
-		FlightCollection Flights = new FlightCollection(flightFile);
+		Flight Flights = new Flight(bookingFile, bookingFile, bookingFile, expectedCheckedIn, deltaPrecisionLoss, deltaPrecisionLoss, deltaPrecisionLoss, bookingFile, bookingFile);
 		/**
 		 *  Create a report generator object, taking the test data to output in a report file
 		 */
-		new ReportGenerator(Bookings, Flights, reportFile);
+		new ReportGenerator(Bookings, Flights);
 		/**
 		 *  Create a new CSV processor object
 		 */
@@ -173,5 +174,7 @@ public class ReportGeneratorTest {
 		 *  Assert that the remaining capacity checked in is as expected
 		 */
 		assertEquals(expectedRemainingCapacity, Integer.parseInt(reportLine[4]), deltaPrecisionLoss);
+		
 	}
+	
 }

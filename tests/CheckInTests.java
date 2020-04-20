@@ -16,7 +16,7 @@ import checkInModel.Flight;
 import checkInModel.FlightCollection;
 import checkInModel.FlightException;
 import checkInModel.Passenger;
-import checkInModel.ThreadNewPassenger;
+import checkInModel.RandomFlightGenerator;
 import model.CheckIn;
 
 
@@ -24,12 +24,14 @@ public class CheckInTests {
 	
 	private BookingCollection booking;
 	private FlightCollection flight;
+	private RandomFlightGenerator flightgenerator;
 	private String  validbookingfile = "bookings.csv";
 	private String validflightfile = "flights.csv";
 	private CheckIn myCheckin = null;
 	private String validFlightCode = "BA123";
 	private String validBookingCode = "BA123-121";
 	private String validLastName = "Hill";
+	private String validFirstName = "Jamie";
 	private String validDestinationAirport = "Barcelona";
 	private String validCarrier = "EasyJet";
 	private int validMaximumPassengers = 40;
@@ -41,13 +43,15 @@ public class CheckInTests {
 	private String validDepartureDate = "2020-03-01";
 	private String validOpenDepartureDate = "2020-03-03";
 	private String checkInClosedException = "The check in desk is closed.";
+	private volatile String simulationDateTime = "";
+	private String simulationRunning = "1";
 	
 	@Before
 	public void beforeEach() throws CheckInIOException, BookingException {
-		ThreadNewPassenger so = new ThreadNewPassenger();
-		myCheckin = new CheckIn(validflightfile, validbookingfile, so);
-		flight = new FlightCollection(validflightfile);
-		booking = new BookingCollection(validbookingfile);
+		Passenger so = new Passenger(validFirstName,validLastName);
+		myCheckin = new CheckIn();
+		flight = new FlightCollection();
+		booking = new BookingCollection();
 	}
 	
 	@Test
@@ -71,11 +75,11 @@ public class CheckInTests {
 
 	@Test
 	public void testDoCheckInSuccess() throws BookingException, FlightException {
-		Booking aBooking = booking.getBooking(validBookingCode, validLastName);
+		Booking aBooking = booking.getNextBooking(validBookingCode, validLastName);
 		Passenger aPassenger = aBooking.getPassenger();
 		Bag baggage = new Bag(10, 10, 10, 1000.0);
 		myCheckin.doCheckIn(validBookingCode, aPassenger, baggage);
-		boolean isCheckedIn = myCheckin.getBookingCollection().getBooking(validBookingCode, validLastName).getPassenger().isCheckIn();
+		boolean isCheckedIn = myCheckin.getBookingCollection().getNextBooking(validBookingCode, validLastName).getPassenger().isCheckIn();
 		assertEquals(true, isCheckedIn);
 	}
 	
@@ -89,7 +93,7 @@ public class CheckInTests {
 	
 	@Test
 	public void testDoCheckInFail() throws BookingException, FlightException {
-		Booking aBooking = booking.getBooking(validBookingCode, validLastName);
+		Booking aBooking = booking.getNextBooking(validBookingCode, validLastName);
 		Passenger aPassenger = aBooking.getPassenger();
 		Bag baggage = new Bag(10, 10, 10, 1000.0);
 		waitForMilliseconds(1000);
@@ -112,6 +116,12 @@ public class CheckInTests {
 		FlightCollection resultFlightCollection = myCheckin.getFlightCollection();
 		assertNotEquals(flight, resultFlightCollection);
 	}
+	@Test
+	public void testSimulationDateTime() {
+		String resultDateTime = myCheckin.getSimulationDateTime();
+		assertEquals(simulationDateTime, resultDateTime);
+	}
+	
 	
 	
 }
