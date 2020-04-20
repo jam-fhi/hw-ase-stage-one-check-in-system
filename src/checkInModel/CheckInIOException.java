@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInModel;
 
 /**
  * CheckInIOException

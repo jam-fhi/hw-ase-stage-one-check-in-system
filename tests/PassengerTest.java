@@ -1,8 +1,9 @@
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import CheckIn.Bag;
-import CheckIn.Passenger;
+
+import checkInModel.Bag;
+import checkInModel.Passenger;
 	
 public class PassengerTest{
 

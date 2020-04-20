@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInModel;
 
 /**
  * Bag creating width, length, height, weight, and excessCharge.
@@ -88,7 +88,6 @@ public class Bag {
 			this.excessCharge = excessWeight * excessCharge;
 		}
 	}
-	
 
 	/**
 	 * getExcessCharge

@@ -1,4 +1,4 @@
-package CheckIn;
+package checkInModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,7 +17,7 @@ public class LoggingSingleton {
 	/**
 	 * The single instance of the logging class to use.
 	 */
-	private static LoggingSingleton loggingsingleton_instance = null;
+	private volatile static LoggingSingleton loggingsingleton_instance = null;
 	/**
 	 * Log messages Array List.
 	 */
@@ -59,18 +59,32 @@ public class LoggingSingleton {
 	 * Initial add log method, it takes a string
 	 * log message and adds it to the log messages
 	 * Array List.
+	 * @param logType
 	 */
-	public void addLog(String message) {
-		Date currentTime = FakeTime.getCurrentTime();
-		System.out.println(currentTime.toGMTString() + ": " + message);
-		logMessages.add(currentTime.toGMTString() + ": " + message);
+	@SuppressWarnings("deprecation")
+	public void addLog(String message, String logType) {
+		Date currentTime = SimulationTimeSingleton.getCurrentTime();
+		/**
+		 * Create log entry.
+		 */
+		String logEntry = currentTime.toGMTString() + ": [" + logType + "] " + message;
+		/**
+		 * Add log entry to console and data structure.
+		 */
+		System.out.println(logEntry);
+		logMessages.add(logEntry);
 	}
 
-	public void writelog(String filename) throws CheckInIOException {
+	/**
+	 * writeLog
+	 * Saves log data structure to file.
+	 * @param fileName
+	 * @throws CheckInIOException
+	 */
+	public void writelog(String fileName) throws CheckInIOException {
 		if(logMessages.size() > 0) {
 			FileIO fileIO = new FileIO();
-			fileIO.writeFile(filename, logMessages);
-		}
-		
+			fileIO.writeFile(fileName, logMessages);
+		}	
 	}
 }
