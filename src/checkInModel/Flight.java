@@ -284,7 +284,7 @@ public class Flight {
 						 */
 						if(hasCheckInDesk == false) {
 							log.addLog("Flight " + getFlightCode() + " is ready for boarding", "Flight");
-							return FlightStatus.DEPARTED;
+							return FlightStatus.READY;
 						} else {
 							log.addLog("Flight " + getFlightCode() + " is boarding", "Flight");
 							return FlightStatus.BOARDING;
