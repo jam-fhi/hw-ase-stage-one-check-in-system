@@ -12,8 +12,8 @@ public class CheckInGUITest {
 
 	@Test
 	public void testCheckInGUI() throws CheckInIOException, BookingException {
-		BookingCollection bookings = new BookingCollection("bookings.csv");
-		FlightCollection flights = new FlightCollection("flights.csv");
+		BookingCollection bookings = new BookingCollection();
+		FlightCollection flights = new FlightCollection();
 		CheckInGUI checkInGUI = new CheckInGUI(bookings, flights);
 		assertNotNull(checkInGUI);
 	}
