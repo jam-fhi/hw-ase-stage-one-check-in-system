@@ -16,10 +16,8 @@ public class CheckInApp {
     /**
 	 * Method to run GUI and the whole application.
 	 * @param arg
-     * @throws Exception 
-     * @throws FlightException 
 	 */
-    public static void main (String arg[]) throws FlightException, Exception  {
+    public static void main (String arg[]) {
 		/**
 		 * Create the model that our system uses.
 		 */
