@@ -112,6 +112,11 @@ public class CheckInDeskCollection implements Runnable {
 		removeDepartedCheckInDesk();
 	}
 
+	/**
+	 * getFreeDesk
+	 * Returns the index of the next free desk.
+	 * @return
+	 */
 	private synchronized int getFreeDesk() {
 		int free = -1;
 		if(checkInDesks.size() < totalCheckInDesks) {
@@ -128,6 +133,11 @@ public class CheckInDeskCollection implements Runnable {
 		return free;
 	}
 	
+	/**
+	 * removeDepartedCheckInDesk
+	 * Removes any check in desk that has a
+	 * thread state of Terminated.
+	 */
 	private synchronized void removeDepartedCheckInDesk() {
 		/**
 		 * Get exclusive access to the check in desk array list, so

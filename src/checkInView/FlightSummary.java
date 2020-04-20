@@ -1,4 +1,4 @@
-package checkInGUI;
+package checkInView;
 
 /**
  * Import packages that are used to make our User Interface work.

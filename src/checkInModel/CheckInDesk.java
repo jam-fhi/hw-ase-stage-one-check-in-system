@@ -233,6 +233,9 @@ public class CheckInDesk implements Runnable {
 			}
 		}
 		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has closed.", "CheckInDesk" + deskNumber);
+		/**
+		 * Log the summary, as per stage one requirements, of total excess charge, passengers checked in, etc
+		 */
 		new ReportGenerator(allBookings, boardingFlight);
 	}
 }

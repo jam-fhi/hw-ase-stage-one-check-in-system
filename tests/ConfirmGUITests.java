@@ -2,13 +2,13 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import checkInGUI.ConfirmGUI;
 import checkInModel.Booking;
 import checkInModel.BookingCollection;
 import checkInModel.BookingException;
 import checkInModel.CheckInIOException;
 import checkInModel.Flight;
 import checkInModel.FlightCollection;
+import checkInView.ConfirmGUI;
 
 public class ConfirmGUITests {
 

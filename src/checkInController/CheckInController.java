@@ -8,10 +8,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 
 /**
- * Import our view and model packages.
+ * Import our model and view classes
  */
-import checkInGUI.CheckInSimulation;
 import checkInModel.CheckIn;
+import checkInView.CheckInSimulation;
 
 /**
  * CheckInController

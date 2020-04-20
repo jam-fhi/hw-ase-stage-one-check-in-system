@@ -1,11 +1,10 @@
-package checkInGUI;
+package checkInView;
 
 /**
  * Import Model and Controller packages.
  */
 import checkInController.CheckInController;
 import checkInModel.CheckIn;
-import checkInModel.FlightException;
 
 /**
  * CheckInApp

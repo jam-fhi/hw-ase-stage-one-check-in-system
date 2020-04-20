@@ -1,4 +1,4 @@
-package checkInGUI;
+package checkInView;
 
 /**
  * Import packages that are used to make our User Interface work.
@@ -11,6 +11,9 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Import our check in and logging singleton classes.
+ */
 import checkInModel.CheckIn;
 import checkInModel.LoggingSingleton;
 
@@ -126,7 +129,6 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 			leftSide.add(securityQueue, BorderLayout.SOUTH);
 		} catch (Exception e) {
 			log.addLog("Failed to create passenger queue views due to " + e.getMessage(), "error");
-			// Exit application.
 		}
 
 		/**
@@ -238,15 +240,6 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		 * Flight Summary
 		 */
 		flightOverview.updateSummary(checkInDesk.getFlightCollection(), checkInDesk.getBookingCollection());
-		
-		
-		/**
-		 * Check In Desk Updates
-		 *
-		checkInDeskSummary = new CheckInDeskSummary(checkinmodel.getCheckInDesk());
-		checkInDeskSummary.setDeskStatusActionListener(closeStatusButton);
-		rightSide.add(checkInDeskSummary, BorderLayout.CENTER);
-		*/
 
 		/**
 		 * Pack changes, which updates the visible components to look right.
