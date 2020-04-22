@@ -99,7 +99,7 @@ public class FlightCollection {
 		int waitingFlights = 0;
 		while(iterator.hasNext()) {
 			Flight aFlight = iterator.next();
-			if (aFlight.getFlightStatus().compareTo("waiting") == 0) {
+			if (aFlight.getFlightStatus().compareTo(FlightStatus.WAITING) == 0) {
 				waitingFlights++;
 			}
 		}
@@ -108,7 +108,7 @@ public class FlightCollection {
 		 */
 		if(waitingFlights < 4) {
 			Flight newFlight = RandomFlightGenerator.getRandomFlight();
-			log.addLog("Added new flight " + newFlight.getFlightCode() + " departs at " + newFlight.getDepartureDate().toGMTString(), "log");
+			log.addLog("Added new flight " + newFlight.getFlightCode() + " departs at " + newFlight.getDepartureDate().toGMTString(), "FlightCollection");
 			flightCollection.add(newFlight);
 		}
 		/**
@@ -126,7 +126,7 @@ public class FlightCollection {
 	private synchronized void takeInUse() {
 		while (inUse) {
 			try {
-				log.addLog("Wait for flights to be free", "log");
+				log.addLog("Wait for flights to be free", "FlightCollection");
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();

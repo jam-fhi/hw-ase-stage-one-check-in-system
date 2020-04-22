@@ -16,6 +16,7 @@ import javax.swing.JPanel;
  */
 import checkInModel.CheckIn;
 import checkInModel.LoggingSingleton;
+import checkInModel.PassengerQueues;
 
 /**
  * Import the Observer pattern classes that allows our UI to
@@ -121,14 +122,14 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		leftSide.setLayout(new BorderLayout());
 	
 		try {
-			securityQueue = new PassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Security"), "Security");
-			economyQueue = new PassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Economy"), "Economy");
-			businessQueue = new PassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Business"), "Business");
+			securityQueue = new PassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue(PassengerQueues.SECURITY), "Security");
+			economyQueue = new PassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue(PassengerQueues.ECONOMY), "Economy");
+			businessQueue = new PassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue(PassengerQueues.BUSINESS), "Business");
 			leftSide.add(businessQueue, BorderLayout.NORTH);
 			leftSide.add(economyQueue, BorderLayout.CENTER);
 			leftSide.add(securityQueue, BorderLayout.SOUTH);
 		} catch (Exception e) {
-			log.addLog("Failed to create passenger queue views due to " + e.getMessage(), "error");
+			log.addLog("Failed to create passenger queue views due to " + e.getMessage(), "Error");
 		}
 
 		/**
@@ -146,7 +147,7 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		/**
 		 * Check In Desks
 		 */
-		checkInDeskSummary = new CheckInDeskSummary(checkInDesk.getCheckInDesks());
+		checkInDeskSummary = new CheckInDeskSummary(checkInDesk.getCheckInDesks(), checkInDesk.getTotalDesks());
 		rightSide.add(checkInDeskSummary, BorderLayout.CENTER);
 
 		/**
@@ -219,11 +220,11 @@ public class CheckInSimulation extends JFrame implements Observer, WindowListene
 		 * Passenger queue updates.
 		 */
 		try {
-			securityQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Security"));
-			economyQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Economy"));
-			businessQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue("Business"));
+			securityQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue(PassengerQueues.SECURITY));
+			economyQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue(PassengerQueues.ECONOMY));
+			businessQueue.updatePassengerQueue(checkInDesk.getBookingCollection().getBookingsInQueue(PassengerQueues.BUSINESS));
 		} catch (Exception e) {
-			log.addLog("There was an error updating the queues " + e.getMessage(), "error");
+			log.addLog("There was an error updating the queues " + e.getMessage(), "Error");
 		}
 		
 		/**

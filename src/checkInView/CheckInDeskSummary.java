@@ -3,7 +3,6 @@ package checkInView;
 /**
  * Import packages to display UI components
  */
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -36,6 +35,16 @@ public class CheckInDeskSummary extends JPanel {
 	 * Panel to hold check in desks.
 	 */
 	private JPanel desks = new JPanel();
+	
+	/**
+	 * Information label
+	 */
+	private JLabel info = new JLabel("Check In Desks: 0/0");
+	
+	/**
+	 * The total number of desks in the system.
+	 */
+	private int totalDesks = 0;
 
 	/**
 	 * CheckInDeskSummary
@@ -44,18 +53,20 @@ public class CheckInDeskSummary extends JPanel {
 	 * 
 	 * @param allDesks to iterate through the ArrayList of CheckInDesks
 	 */
-	public CheckInDeskSummary(ArrayList<CheckInDesk> allDesks) {
+	public CheckInDeskSummary(ArrayList<CheckInDesk> allDesks, int totalDesks) {
 		/**
 		 * Set up panel layout.
 		 */
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridLayout(2, 1));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		/**
 		 * Add panel title label and desks container.
 		 */
-		this.add(new JLabel("Check In Desks"), BorderLayout.NORTH);
-		this.add(desks, BorderLayout.SOUTH);
+		this.add(info);
+		this.add(desks);
+		
+		this.totalDesks = totalDesks;
 		
 		/**
 		 * Update the check in desk information display.
@@ -80,13 +91,17 @@ public class CheckInDeskSummary extends JPanel {
 		 */
 		removeUnusedDesks(allDesks);
 		/**
+		 * Update check in desk information.
+		 */
+		info.setText("Check In Desks: " + allDesks.size() + "/" + totalDesks);
+		/**
 		 * Loop through all the desks and add any that do not yet
 		 * exist on the view or update ones that do exist.
 		 */
 		Iterator<CheckInDesk> checkInDeskIt = allDesks.iterator();
 		while(checkInDeskIt.hasNext()) {
 			CheckInDesk aDesk = checkInDeskIt.next();
-			CheckInInformation deskPanel = getCheckInDeskPanel(aDesk.getCheckInDeskNumber());
+			CheckInInformation deskPanel = getCheckInDeskPanel(aDesk.getFlightCode());
 			if(deskPanel != null) {
 				deskPanel.updateCheckInDesk(aDesk);
 			} else {
@@ -102,11 +117,11 @@ public class CheckInDeskSummary extends JPanel {
 	 * @param number
 	 * @return CheckInInformation object
 	 */
-	private CheckInInformation getCheckInDeskPanel(int number) {
+	private CheckInInformation getCheckInDeskPanel(String deskNumber) {
 		if(desks.getComponents().length > 0) {
 			int panelCount = 0;
 			while(panelCount < desks.getComponents().length) {
-				if(((CheckInInformation)desks.getComponent(panelCount)).getDeskInfoNumber() == number) {
+				if(((CheckInInformation)desks.getComponent(panelCount)).getDeskInfoNumber().compareTo(deskNumber) == 0) {
 					return (CheckInInformation)desks.getComponent(panelCount);
 				}
 				panelCount++;
@@ -138,7 +153,7 @@ public class CheckInDeskSummary extends JPanel {
 				boolean found = false;
 				while(desksIt.hasNext()) {
 					CheckInDesk aDesk = desksIt.next();
-					if(aDesk.getCheckInDeskNumber() == ((CheckInInformation)desks.getComponent(panelCount)).getDeskInfoNumber()) {
+					if(aDesk.getFlightCode().compareTo(((CheckInInformation)desks.getComponent(panelCount)).getDeskInfoNumber()) == 0) {
 						found = true;
 					}
 				}

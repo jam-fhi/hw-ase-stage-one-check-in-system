@@ -60,6 +60,16 @@ public class CheckInDeskCollection implements Runnable {
 	}
 
 	/**
+	 * getTotalDesks
+	 * Returns the total number of check in desks
+	 * the system is using.
+	 * @return int
+	 */
+	public int getTotalDesks() {
+		return totalCheckInDesks;
+	}
+
+	/**
 	 * run
 	 * Runs the check in desk collection thread which
 	 * starts new check in desks if there are flights
@@ -72,7 +82,7 @@ public class CheckInDeskCollection implements Runnable {
 		 * Get all the flights to iterate through.
 		 */
  		Iterator<Flight> allFlightsIt = allFlights.getFlightCollection().iterator();
- 		log.addLog("Processing " + allFlights.getFlightCollection().size() + " flights for check in", "checkin");
+ 		log.addLog("Processing " + allFlights.getFlightCollection().size() + " flights for check in", "CheckInDeskCollection");
 		/**
 		 * Get exclusive access to the check in desk array list, so
 		 * that no other thread modifies it during this operation.
@@ -80,9 +90,9 @@ public class CheckInDeskCollection implements Runnable {
 		takeInUse();
  		while(allFlightsIt.hasNext()) {
 			Flight aFlight = allFlightsIt.next();
-			String status = aFlight.getFlightStatus();
-			log.addLog("Processing flight " + aFlight.getFlightCode() + " which is " + status, "checkin");
-			if(status.compareTo("ready") == 0) {
+			FlightStatus status = aFlight.getFlightStatus();
+			log.addLog("Processing flight " + aFlight.getFlightCode() + " which is " + status, "CheckInDeskCollection");
+			if(status.compareTo(FlightStatus.READY) == 0) {
 				int freeThread = getFreeDesk();
 				if(freeThread > -1) {
 					/**
@@ -92,13 +102,23 @@ public class CheckInDeskCollection implements Runnable {
 					 */
 					aFlight.setHasCheckInDesk();
 					checkInDesks.add(new CheckInDesk(aFlight, allBookings, freeThread));
-					log.addLog("Opened Check In Desk for flight " + aFlight.getFlightCode() + " at " + freeThread, "checkin13");
+					log.addLog("Opened Check In Desk for flight " + aFlight.getFlightCode() + " at " + freeThread, "CheckInDeskCollection");
 				} else {
 					/**
 					 * If not delay the flights departure.
 					 */
-					log.addLog("Added delay to flight " + aFlight.getFlightCode(), "checkin1");
+					log.addLog("Added delay to flight " + aFlight.getFlightCode(), "CheckInDeskCollection");
 					aFlight.addDelay();
+				}
+			} else if(status.compareTo(FlightStatus.DEPARTED) == 0) {
+				ArrayList<Booking> missedFlight = allBookings.getBookingsByFlightCode(aFlight.getFlightCode());
+				if(missedFlight.size() > 0) {
+					Iterator<Booking> missedFlightIt = missedFlight.iterator();
+					while(missedFlightIt.hasNext()) {
+						Booking aBooking = missedFlightIt.next();
+						log.addLog("Passenger " + aBooking.getPassenger().getFirstName() + " " + aBooking.getPassenger().getLastName() + " has missed flight " + aFlight.getFlightCode(), "CheckInDeskCollection");
+						aBooking.getPassenger().setInQueue(PassengerQueues.MISSED_FLIGHT);
+					}
 				}
 			}
 		}

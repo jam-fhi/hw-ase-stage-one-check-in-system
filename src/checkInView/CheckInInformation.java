@@ -37,7 +37,7 @@ public class CheckInInformation extends JPanel {
 	/**
 	 * Check In Desk ID number.
 	 */
-	private int myId = 0;
+	private String myId;
 	
 	/**
 	 * CheckInInformation
@@ -73,7 +73,7 @@ public class CheckInInformation extends JPanel {
 		/**
 		 * Store the ID number.
 		 */
-		myId = aDesk.getCheckInDeskNumber();
+		myId = aDesk.getFlightCode();
 		
 		/**
 		 * Update the information display.
@@ -84,9 +84,9 @@ public class CheckInInformation extends JPanel {
 	/**
 	 * getDeskInfoNumber
 	 * Returns the Id number of this check in desk.
-	 * @return
+	 * @return String
 	 */
-	public int getDeskInfoNumber() {
+	public String getDeskInfoNumber() {
 		return myId;
 	}
 
@@ -99,10 +99,10 @@ public class CheckInInformation extends JPanel {
 		/**
 		 * Update the display of check in desk information.
 		 */
-		flightCode.setText(aDesk.getFlightCode());
-		bookingCode.setText(aDesk.getBookingCode());
-		passengerName.setText(aDesk.getPassengerName());
-		bagWeight.setText(aDesk.getBaggageWeight());
-		excessFee.setText(aDesk.getExcessFee());
+		flightCode.setText("Flight code: " + aDesk.getFlightCode());
+		bookingCode.setText("Booking code: " + aDesk.getBookingCode());
+		passengerName.setText("Passenger: " + aDesk.getPassengerName());
+		bagWeight.setText("Bag Weight: " + aDesk.getBaggageWeight());
+		excessFee.setText("Fee: £" + aDesk.getExcessFee());
 	}
 }

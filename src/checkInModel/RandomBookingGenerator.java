@@ -130,7 +130,7 @@ public class RandomBookingGenerator {
 			 * Get the bookings on that flight already.
 			 */
 			ArrayList<Booking> allBookings = bookings.getBookingsByFlightCode(aFlight.getFlightCode());
-			log.addLog("Flight " + aFlight.getFlightCode() + " has " + allBookings.size() + " bookings with a total capacity of " + aFlight.getMaximumPassengers(), "log");
+			log.addLog("Flight " + aFlight.getFlightCode() + " has " + allBookings.size() + " bookings with a total capacity of " + aFlight.getMaximumPassengers(), "BookingGenerator");
 			if(allBookings.size() <= 0) {
 				/**
 				 * When there are no bookings on a flight, pick a number between 

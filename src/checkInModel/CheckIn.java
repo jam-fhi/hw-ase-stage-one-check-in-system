@@ -107,7 +107,7 @@ public class CheckIn extends Observable implements Runnable {
 	 */
 	public synchronized void toggleSimulationRunning() {
 		simTime.toggleSimRunning();
-		log.addLog("Simulation has " + (simTime.isSimRunning() ? "started" : "ended"), "log");
+		log.addLog("Simulation has " + (simTime.isSimRunning() ? "started" : "ended"), "CheckIn");
 		this.updateView();
 	}
 
@@ -141,6 +141,16 @@ public class CheckIn extends Observable implements Runnable {
 		this.updateView();
 	}
 	
+	/**
+	 * getTotalDesks
+	 * Returns the total number of check in desks
+	 * the system is using.
+	 * @return int
+	 */
+	public int getTotalDesks() {
+		return checkInDeskCollection.getTotalDesks();
+	}
+
 	/**
 	 * resetCheckInSimulation
 	 * Resets the flight, booking and check in desk 
@@ -230,7 +240,7 @@ public class CheckIn extends Observable implements Runnable {
 			try {
 				Thread.sleep(SimulationTimeSingleton.getSpeedDelay(simTime.getSpeed()));
 			} catch (InterruptedException e) {
-				log.addLog("Thread sleep interrupted.", "log");
+				log.addLog("Thread sleep interrupted.", "CheckIn");
 			}
 			
 			/**

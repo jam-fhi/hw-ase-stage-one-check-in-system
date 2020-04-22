@@ -152,16 +152,6 @@ public class CheckInDesk implements Runnable {
 	}
 
 	/**
-	 * getCheckInDeskNumber
-	 * Returns the id number of this
-	 * check in desk.
-	 * @return int
-	 */
-	public int getCheckInDeskNumber() {
-		return deskNumber;
-	}
-
-	/**
 	 * run
 	 * Runs a thread to process passengers
 	 * for check in to the flight specified
@@ -173,19 +163,19 @@ public class CheckInDesk implements Runnable {
 		 * While the flight status is boarding, find passengers to check in.
 		 */
 		log.addLog("Check In Desk " + deskNumber + " for flight " + boardingFlight.getFlightCode() + " has opened.", "CheckInDesk" + deskNumber);
-		while(boardingFlight.getFlightStatus().compareTo("boarding") == 0 && simTime.isSimRunning()) {
-			log.addLog("Processing passengers on Desk " + deskNumber, "checkin");
+		while(boardingFlight.getFlightStatus().compareTo(FlightStatus.BOARDING) == 0 && simTime.isSimRunning()) {
+			log.addLog("Processing passengers on Desk " + deskNumber, "CheckInDesk" + deskNumber);
 			
 			/**
 			 * Get any business class passengers first.
 			 */
-			Booking nextPassenger = allBookings.getNextBooking(boardingFlight.getFlightCode(), "Business");
+			Booking nextPassenger = allBookings.getNextBooking(boardingFlight.getFlightCode(), PassengerQueues.BUSINESS);
 			if(nextPassenger == null) {
 
 				/**
 				 * If there are no business class pasengers, get an economy class passenger.
 				 */
-				nextPassenger = allBookings.getNextBooking(boardingFlight.getFlightCode(), "Economy");
+				nextPassenger = allBookings.getNextBooking(boardingFlight.getFlightCode(), PassengerQueues.ECONOMY);
 			}
 			
 			/**
