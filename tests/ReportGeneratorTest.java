@@ -131,14 +131,6 @@ public class ReportGeneratorTest {
 		 */
 		new ReportGenerator(Bookings, Flights);
 		/**
-		 *  Create a new CSV processor object
-		 */
-		CSVProcessor csvProc = new CSVProcessor();
-		/**
-		 *  Read in the report that was generated
-		 */
-		ArrayList<String[]> report = csvProc.parseCSVToStringArray(reportFile);
-		/**
 		 *  Get a file handle for the test report file
 		 */
 		File file = new File(reportFile); 
