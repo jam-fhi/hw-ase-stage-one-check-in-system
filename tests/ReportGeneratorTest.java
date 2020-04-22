@@ -130,6 +130,8 @@ public class ReportGeneratorTest {
 		 *  Create a report generator object, taking the test data to output in a report file
 		 */
 		new ReportGenerator(Bookings, Flights);
+<<<<<<< HEAD
+=======
 		/**
 		 *  Create a new CSV processor object
 		 */
@@ -138,6 +140,7 @@ public class ReportGeneratorTest {
 		 *  Read in the report that was generated
 		 */
 		ArrayList<String[]> report = csvProc.parseCSVToStringArray(reportFile);
+>>>>>>> master
 		/**
 		 *  Get a file handle for the test report file
 		 */
