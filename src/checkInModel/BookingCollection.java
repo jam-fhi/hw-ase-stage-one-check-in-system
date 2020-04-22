@@ -141,6 +141,7 @@ public class BookingCollection {
 		 * that no other thread modifies it during this operation.
 		 */
 		takeInUse();
+		int count = 0;
 		for(Map.Entry<String, Booking> aBooking: allBookings.entrySet()) {
 			if(aBooking.getValue().getPassenger().getInQueue().compareTo(PassengerQueues.NONE) == 0) {
 				aBooking.getValue().getPassenger().setInQueue(PassengerQueues.SECURITY);
@@ -150,7 +151,9 @@ public class BookingCollection {
 				 * security queue in one go, so break out of the
 				 * loop and end after one.
 				 */
-				break;
+				if(count == 10) {
+					break;
+				}
 			}
 		}
 		/**
